@@ -1,0 +1,137 @@
+﻿
+
+let currentMode = 'mothers';
+let selectedChip = null;
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+}
+function modeLabel() { return currentMode === 'mothers' ? '母貓' : '公貓'; }
+function partnerLabel() { return currentMode === 'mothers' ? '父貓' : '母貓'; }
+function rowsForMode() { return currentMode === 'mothers' ? DATA.mothers : DATA.fathers; }
+function groupOtherChildren(children, thresholdDays) {
+  const sorted = [...children].sort((a,b) => String(a.dateValue).localeCompare(String(b.dateValue)));
+  const groups = [];
+  for (const child of sorted) {
+    const childTime = child.dateValue ? new Date(child.dateValue).getTime() : 0;
+    const lastGroup = groups[groups.length - 1];
+    if (!lastGroup || !childTime) { groups.push({ startDate: child.dateValue || '', endDate: child.dateValue || '', children:[child] }); continue; }
+    const lastTime = new Date(lastGroup.endDate).getTime();
+    const diffDays = Math.abs(childTime - lastTime) / 86400000;
+    if (diffDays <= thresholdDays) { lastGroup.children.push(child); lastGroup.endDate = child.dateValue || lastGroup.endDate; }
+    else { groups.push({ startDate: child.dateValue || '', endDate: child.dateValue || '', children:[child] }); }
+  }
+  return groups;
+}
+function parentStats(parent) {
+  const pdfLitterCount = parent.pdfLitters.length;
+  const pdfKittenCount = parent.pdfLitters.reduce((sum,litter)=>sum+litter.kittens.length,0);
+  const otherKittenCount = parent.otherChildren.length;
+  return { pdfLitterCount, pdfKittenCount, otherKittenCount, totalKittenCount: pdfKittenCount + otherKittenCount };
+}
+function collectBreeds() {
+  const breedSet = new Set();
+  [...DATA.mothers, ...DATA.fathers].forEach(parent => {
+    if (parent.breed) breedSet.add(parent.breed.trim());
+    parent.pdfLitters.forEach(litter => litter.kittens.forEach(child => { if (child.breed) breedSet.add(child.breed.trim()); }));
+    parent.otherChildren.forEach(child => { if (child.breed) breedSet.add(child.breed.trim()); });
+  });
+  return [...breedSet].filter(Boolean).sort((a,b)=>a.localeCompare(b, 'zh-Hant'));
+}
+function parentMatchesBreed(parent, breed) {
+  if (!breed) return true;
+  if ((parent.breed || '').trim() === breed) return true;
+  return parent.pdfLitters.some(litter => litter.kittens.some(child => (child.breed || '').trim() === breed)) || parent.otherChildren.some(child => (child.breed || '').trim() === breed);
+}
+function getFilteredParents() {
+  const keyword = document.getElementById('keyword').value.trim().toLowerCase();
+  const breed = document.getElementById('breedFilter').value;
+  const sortMode = document.getElementById('sortMode').value;
+  let rows = rowsForMode().filter(parent => {
+    if (!parentMatchesBreed(parent, breed)) return false;
+    if (!keyword) return true;
+    return JSON.stringify(parent).toLowerCase().includes(keyword);
+  });
+  rows.sort((a,b) => {
+    const sa = parentStats(a), sb = parentStats(b);
+    if (sortMode === 'pdfDesc') return sb.pdfLitterCount - sa.pdfLitterCount || sb.totalKittenCount - sa.totalKittenCount;
+    if (sortMode === 'chipAsc') return a.chipId.localeCompare(b.chipId);
+    return sb.totalKittenCount - sa.totalKittenCount || sb.pdfLitterCount - sa.pdfLitterCount;
+  });
+  return rows;
+}
+function renderStats() {
+  const summary = DATA.summary;
+  const cards = [
+    ['母貓總數', summary.motherCount], ['公貓總數', summary.fatherCount], ['PDF母貓', summary.pdfMotherCount], ['PDF公貓', summary.pdfFatherCount],
+    ['PDF確定子代', summary.pdfConfirmedKittenCount], ['其他推定子代', summary.catFamilyOtherKittenCount], ['轉入排除', summary.excludedByFirstRecordRuleCount]
+  ];
+  document.getElementById('stats').innerHTML = cards.map(([label,value]) => `<div class="stat"><b>${escapeHtml(value)}</b><span>${escapeHtml(label)}</span></div>`).join('');
+}
+function renderBreedFilter() {
+  const select = document.getElementById('breedFilter');
+  const currentValue = select.value;
+  select.innerHTML = '<option value="">全部品種</option>' + collectBreeds().map(breed => `<option value="${escapeHtml(breed)}">${escapeHtml(breed)}</option>`).join('');
+  select.value = currentValue;
+}
+function renderList() {
+  const rows = getFilteredParents();
+  document.getElementById('sideTitle').textContent = modeLabel() + '清單';
+  document.getElementById('visibleCount').textContent = `目前 ${rows.length} 筆`;
+  if (!selectedChip && rows[0]) selectedChip = rows[0].chipId;
+  if (!rows.some(parent => parent.chipId === selectedChip)) selectedChip = rows[0] ? rows[0].chipId : null;
+  document.getElementById('parentList').innerHTML = rows.map(parent => {
+    const stat = parentStats(parent);
+    return `<div class="parentItem ${parent.chipId===selectedChip?'active':''}" onclick="selectParent('${escapeHtml(parent.chipId)}')">
+      <div class="chip">${escapeHtml(parent.chipId)}</div>
+      <div class="small">${escapeHtml(parent.breed || '品種未填')} ${parent.birthDate ? '｜生日 '+escapeHtml(parent.birthDate) : ''}</div>
+      <div class="badges"><span class="badge ok">PDF胎次 ${stat.pdfLitterCount}</span><span class="badge ok">PDF子代 ${stat.pdfKittenCount}</span><span class="badge warn">其他 ${stat.otherKittenCount}</span><span class="badge">總子代 ${stat.totalKittenCount}</span></div>
+    </div>`;
+  }).join('') || '<div class="empty">查無資料</div>';
+  renderDetail();
+}
+function selectParent(chip) { selectedChip = chip; renderList(); }
+function renderKitten(child, extra='') {
+  return `<div class="kitten"><b>${escapeHtml(child.chipId || '無晶片')}</b><div>${child.name ? '名字：'+escapeHtml(child.name) : ''}</div><div class="meta">${child.sex ? '性別：'+escapeHtml(child.sex)+'｜' : ''}${escapeHtml(child.breed || '')}<br/>母：${escapeHtml(child.motherChipId || '未提供')}<br/>父：${escapeHtml(child.fatherChipId || '未提供')}${extra}</div></div>`;
+}
+function renderDetail() {
+  const parent = rowsForMode().find(row => row.chipId === selectedChip);
+  const detail = document.getElementById('detail');
+  if (!parent) { detail.innerHTML = `<div class="empty">請選擇一隻${modeLabel()}</div>`; return; }
+  const thresholdDays = Number(document.getElementById('dayRange').value);
+  const stat = parentStats(parent);
+  const otherGroups = groupOtherChildren(parent.otherChildren, thresholdDays);
+  const pdfHtml = parent.pdfLitters.length ? parent.pdfLitters.map(litter => `<div class="litter">
+    <div class="litterHead"><div><b>第 ${escapeHtml(litter.litterNo)} 胎</b> <span class="badge ok">PDF確定</span></div><div class="small">生產：${escapeHtml(litter.productionDate || '未填')}｜配種：${escapeHtml(litter.matingDate || '未填')}｜${partnerLabel()}：${escapeHtml(litter.partnerChipId || '未填')}｜子代：${litter.kittens.length}</div></div>
+    <div class="kittenGrid">${litter.kittens.map(child => renderKitten(child, `<br/>寵登狀態：${escapeHtml(child.registrationStatus || '')}${child.status ? '<br/>cat_family狀態：'+escapeHtml(child.status) : ''}${child.firstRecordDate ? '<br/>第一筆異動：'+escapeHtml(child.firstRecordDate) : ''}`)).join('')}</div>
+  </div>`).join('') : `<div class="empty">此${modeLabel()}沒有 PDF 確定胎次。</div>`;
+  const otherHtml = otherGroups.length ? otherGroups.map((group, index) => `<div class="litter">
+    <div class="litterHead"><div><b>其他推定第 ${index+1} 組</b> <span class="badge warn">cat_family</span></div><div class="small">區間：${escapeHtml(group.startDate || '未知')} ～ ${escapeHtml(group.endDate || '未知')}｜子代：${group.children.length}｜分組閾值：${thresholdDays}天</div></div>
+    <div class="kittenGrid">${group.children.map(child => renderKitten(child, `<br/>轉出日：${escapeHtml(child.date || '')}｜第一筆：轉出 ${escapeHtml(child.firstRecordDate || '')}<br/>狀態：${escapeHtml(child.status || '')}`)).join('')}</div>
+  </div>`).join('') : `<div class="empty">PDF 外沒有符合「第一筆為轉出」的其他推定子代。</div>`;
+  detail.innerHTML = `<div class="panelTitle"><div><h2>${modeLabel()} ${escapeHtml(parent.chipId)}</h2><div class="small">${escapeHtml(parent.breed || '品種未填')} ${parent.birthDate ? '｜生日 '+escapeHtml(parent.birthDate) : ''}</div></div><div class="badges"><span class="badge ok">PDF胎次 ${stat.pdfLitterCount}</span><span class="badge ok">PDF子代 ${stat.pdfKittenCount}</span><span class="badge warn">其他 ${stat.otherKittenCount}</span><span class="badge">總子代 ${stat.totalKittenCount}</span></div></div>
+  <div class="section"><h3>PDF 確定胎次</h3>${pdfHtml}</div>
+  <div class="section"><h3>其他推定子代（含多晶片、紙本作業或系統未完整登記資料）</h3>${otherHtml}</div>`;
+}
+function exportCurrentJson() {
+  const rows = getFilteredParents();
+  const key = currentMode;
+  const blob = new Blob([JSON.stringify({...DATA, [key]: rows, currentMode}, null, 2)], {type:'application/json;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = currentMode === 'mothers' ? 'mother-breeding-filtered.json' : 'father-breeding-filtered.json'; a.click(); URL.revokeObjectURL(url);
+}
+function switchMode(nextMode) {
+  currentMode = nextMode;
+  selectedChip = null;
+  document.getElementById('motherTab').classList.toggle('active', currentMode === 'mothers');
+  document.getElementById('fatherTab').classList.toggle('active', currentMode === 'fathers');
+  renderList();
+}
+document.getElementById('motherTab').addEventListener('click', () => switchMode('mothers'));
+document.getElementById('fatherTab').addEventListener('click', () => switchMode('fathers'));
+document.getElementById('keyword').addEventListener('input', renderList);
+document.getElementById('breedFilter').addEventListener('change', renderList);
+document.getElementById('sortMode').addEventListener('change', renderList);
+document.getElementById('dayRange').addEventListener('input', event => { document.getElementById('dayText').textContent = event.target.value + '天'; renderDetail(); });
+document.getElementById('exportBtn').addEventListener('click', exportCurrentJson);
+renderStats(); renderBreedFilter(); renderList();

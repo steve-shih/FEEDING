@@ -1,0 +1,14 @@
+{
+  "name": "feeding-breeding",
+  "version": "1.0.0",
+  "description": "寵物繁殖紀錄前後端分離版",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "ngrok": "^5.0.0-beta.2"
+  }
+}

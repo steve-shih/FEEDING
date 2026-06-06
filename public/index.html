@@ -1,0 +1,1240 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>寵物繁殖紀錄總覽</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+<style>
+:root { --bg:#f6f7fb; --card:#fff; --text:#1f2937; --muted:#6b7280; --line:#e5e7eb; --brand:#2563eb; --ok:#059669; --warn:#d97706; --bad:#dc2626; --soft:#eff6ff; --tag:#7c3aed; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",Arial,sans-serif; background:var(--bg); color:var(--text); }
+header { position:sticky; top:0; z-index:10; background:rgba(255,255,255,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); padding:16px 22px; display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+.header-left { flex:1; min-width:0; }
+.header-right { flex-shrink:0; display:flex; align-items:center; gap:10px; padding-top:2px; }
+h1 { margin:0 0 6px; font-size:22px; }
+.sub { color:var(--muted); font-size:13px; }
+.wrap { padding:20px; max-width:1480px; margin:auto; }
+.stats { display:grid; grid-template-columns:repeat(7,minmax(120px,1fr)); gap:12px; margin-bottom:16px; }
+.stat { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow:0 6px 16px rgba(15,23,42,.04); }
+.stat b { display:block; font-size:24px; margin-bottom:3px; }
+.stat span { color:var(--muted); font-size:12px; }
+.toolbar { display:grid; grid-template-columns:240px 1fr 200px 180px 130px 140px 110px; gap:10px; align-items:center; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:16px; }
+input, select, button { border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:14px; background:#fff; }
+button { cursor:pointer; background:var(--brand); color:#fff; border-color:var(--brand); }
+.tabs { display:flex; gap:8px; }
+.tabButton { background:#fff; color:var(--text); border-color:var(--line); }
+.tabButton.active { background:var(--brand); color:#fff; border-color:var(--brand); }
+.rangeBox { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:13px; }
+.rangeBox input { width:100%; }
+.grid { display:grid; grid-template-columns:370px 1fr; gap:16px; align-items:start; }
+.side { background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; position:sticky; top:94px; max-height:calc(100vh - 120px); }
+.sideHead { padding:12px 14px; border-bottom:1px solid var(--line); font-weight:700; }
+.list { overflow:auto; max-height:calc(100vh - 170px); }
+.parentItem { padding:12px 14px; border-bottom:1px solid var(--line); cursor:pointer; }
+.parentItem:hover, .parentItem.active { background:var(--soft); }
+.parentItem .chip { font-weight:800; }
+.badges { margin-top:7px; display:flex; flex-wrap:wrap; gap:6px; }
+.badge { display:inline-flex; align-items:center; gap:4px; border-radius:999px; padding:4px 8px; font-size:12px; background:#f3f4f6; color:#374151; }
+.badge.ok { background:#ecfdf5; color:var(--ok); }
+.badge.warn { background:#fffbeb; color:var(--warn); }
+.badge.bad { background:#fef2f2; color:var(--bad); }
+.badge.tag { background:#f5f3ff; color:var(--tag); font-weight:700; }
+.badge.manual { background:#fdf4ff; color:#9333ea; }
+.panel { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; min-height:500px; }
+.panelTitle { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom:14px; }
+.panelTitle h2 { margin:0; font-size:22px; }
+.section { margin-top:18px; }
+.section h3 { margin:0 0 10px; font-size:17px; }
+.litter { border:1px solid var(--line); border-radius:12px; margin-bottom:12px; overflow:hidden; }
+.litter.manual-litter { border-color:#c4b5fd; }
+.litterHead { display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between; padding:12px 14px; background:#f9fafb; border-bottom:1px solid var(--line); }
+.litter.manual-litter .litterHead { background:#faf5ff; border-bottom-color:#c4b5fd; }
+.kittenGrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:8px; padding:12px; }
+.kitten { border:1px solid var(--line); border-radius:10px; padding:9px; background:#fff; font-size:13px; }
+.kitten b { display:block; font-size:14px; margin-bottom:4px; }
+.meta { color:var(--muted); font-size:12px; line-height:1.55; }
+.empty { padding:18px; color:var(--muted); border:1px dashed var(--line); border-radius:12px; background:#fafafa; }
+.note { background:#fff7ed; border:1px solid #fed7aa; color:#9a3412; padding:12px; border-radius:12px; margin-bottom:14px; font-size:13px; line-height:1.6; }
+.small { font-size:12px; color:var(--muted); }
+.loading { padding:40px; text-align:center; color:var(--muted); font-size:16px; }
+
+/* 近三年切換按鈕 */
+.recent-toggle { display:inline-flex; align-items:center; gap:7px; padding:8px 14px; border-radius:20px; border:1.5px solid #fb923c; background:#fff7ed; color:#c2410c; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; white-space:nowrap; }
+.recent-toggle:hover { background:#ffedd5; }
+.recent-toggle.on { background:#f97316; border-color:#f97316; color:#fff; box-shadow:0 0 0 4px rgba(249,115,22,.2); animation:pulse-orange 2s infinite; }
+.recent-toggle .dot { width:8px; height:8px; border-radius:50%; background:currentColor; opacity:.7; }
+@keyframes pulse-orange { 0%,100%{box-shadow:0 0 0 4px rgba(249,115,22,.2)} 50%{box-shadow:0 0 0 8px rgba(249,115,22,.05)} }
+
+/* TAG 輸入欄 */
+.tag-row { margin-top:7px; display:flex; align-items:center; gap:6px; }
+.tag-input { border:1px dashed #c4b5fd; border-radius:8px; padding:4px 8px; font-size:12px; color:var(--tag); width:100%; background:#faf5ff; outline:none; }
+.tag-input:focus { border-style:solid; border-color:#7c3aed; }
+.tag-input::placeholder { color:#c4b5fd; }
+
+/* 品種編輯 */
+.breed-edit-btn { background:none; border:none; cursor:pointer; color:var(--muted); font-size:13px; padding:2px 4px; border-radius:6px; }
+.breed-edit-btn:hover { background:var(--soft); color:var(--brand); }
+.breed-inline { display:inline-flex; align-items:center; gap:6px; }
+.breed-inline input { padding:3px 8px; font-size:13px; width:140px; border-radius:8px; }
+.breed-inline button { padding:3px 8px; font-size:12px; border-radius:8px; }
+.breed-inline .cancel-btn { background:#fff; color:var(--muted); border-color:var(--line); }
+
+/* 同胎出生日期 */
+.litter-date-row { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+.litter-date-label { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:#92400e; font-weight:600; white-space:nowrap; }
+.litter-date-input { border:1px solid #fcd34d; border-radius:8px; padding:4px 8px; font-size:12px; background:#fffbeb; color:#92400e; cursor:pointer; }
+.litter-date-input:focus { outline:none; border-color:#f59e0b; box-shadow:0 0 0 3px rgba(245,158,11,.15); }
+.litter.manual-litter .litter-date-label { color:#6d28d9; }
+.litter.manual-litter .litter-date-input { border-color:#c4b5fd; background:#faf5ff; color:#6d28d9; }
+
+/* 同日出生紅框 */
+.litter.samedate-litter { border-color: #ef4444; border-width: 2px; }
+.litter.samedate-litter .litterHead { background: #fef2f2; border-bottom-color: #ef4444; }
+.litter.samedate-litter .litter-date-label { color: #991b1b; }
+.litter.samedate-litter .litter-date-input { border-color: #fca5a5; background: #fee2e2; color: #991b1b; }
+
+/* 多選品種 Dropdown */
+.multi-select-wrap { position:relative; }
+.multi-select-box { display:flex; flex-wrap:wrap; gap:5px; align-items:center; min-height:42px; border:1px solid var(--line); border-radius:10px; padding:6px 10px; cursor:pointer; background:#fff; user-select:none; }
+.multi-select-box:hover { border-color:#93c5fd; }
+.multi-select-box .placeholder { color:var(--muted); font-size:14px; }
+.ms-badge { display:inline-flex; align-items:center; gap:4px; background:#eff6ff; color:var(--brand); border-radius:999px; padding:2px 8px; font-size:12px; font-weight:600; }
+.ms-badge .rm { cursor:pointer; color:#93c5fd; font-weight:900; line-height:1; }
+.ms-badge .rm:hover { color:var(--bad); }
+.ms-arrow { margin-left:auto; color:var(--muted); font-size:12px; flex-shrink:0; }
+.ms-dropdown { display:none; position:absolute; top:calc(100% + 4px); left:0; right:0; background:#fff; border:1px solid var(--line); border-radius:12px; box-shadow:0 8px 24px rgba(15,23,42,.12); z-index:100; max-height:280px; overflow-y:auto; }
+.ms-dropdown.open { display:block; }
+.ms-option { display:flex; align-items:center; gap:10px; padding:9px 14px; cursor:pointer; font-size:14px; }
+.ms-option:hover { background:var(--soft); }
+.ms-option input[type=checkbox] { accent-color:var(--brand); width:15px; height:15px; cursor:pointer; }
+.ms-search { padding:8px 12px; border-bottom:1px solid var(--line); }
+.ms-search input { width:100%; border:1px solid var(--line); border-radius:8px; padding:6px 10px; font-size:13px; }
+
+@media (max-width:1180px) { .stats { grid-template-columns:repeat(2,1fr); } .toolbar { grid-template-columns:1fr; } .grid { grid-template-columns:1fr; } .side { position:static; max-height:none; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <h1>寵物繁殖紀錄總覽</h1>
+    <div class="sub">資料來源：<b>PDF</b> 為特寵登記站系統資料（較後期使用，部分欄位可能填寫有誤）；<b>cat_family</b> 為紙本來源補充，用於補入 PDF 未涵蓋的子代資訊。支援母貓與公貓查詢。</div>
+  </div>
+  <div class="header-right">
+    <button class="recent-toggle" id="recentToggle">&#128337; 近三年</button>
+  </div>
+</header>
+<div class="wrap">
+  <div class="stats" id="stats"><div class="loading">資料載入中...</div></div>
+  <div class="toolbar">
+    <div class="tabs"><button id="motherTab" class="tabButton active">母貓查詢</button><button id="fatherTab" class="tabButton">公貓查詢</button></div>
+    <input id="keyword" placeholder="搜尋親代晶片、子代晶片、品種、名字..." />
+    <!-- 多選品種 -->
+    <div class="multi-select-wrap" id="breedFilterWrap">
+      <div class="multi-select-box" id="breedFilterBox">
+        <span class="placeholder" id="breedPlaceholder">全部品種</span>
+        <span class="ms-arrow">▼</span>
+      </div>
+      <div class="ms-dropdown" id="breedDropdown">
+        <div class="ms-search"><input id="breedSearch" placeholder="搜尋品種..." /></div>
+        <div id="breedOptionList"></div>
+      </div>
+    </div>
+    <div class="rangeBox">分胎天數 <input id="dayRange" type="range" min="1" max="120" value="30" /> <b id="dayText">30天</b></div>
+    <select id="sortMode"><option value="totalDesc">子代多到少</option><option value="pdfDesc">PDF胎多到少</option><option value="chipAsc">晶片小到大</option></select>
+    <button id="exportBtn">匯出 JSON</button>
+    <button onclick="openSettingsModal()" style="background:#f3f4f6; color:#374151; border-color:#d1d5db; font-weight:bold; padding:10px 8px;">⚙️ 設定</button>
+  </div>
+  <div class="note">
+    <b>📋 資料說明：</b>
+    <b>PDF（特寵登記站）</b> — 系統較後期才使用，部分欄位可能有填寫錯誤，胎次與子代以此為優先但非絕對正確。
+    <b>cat_family（紙本來源）</b> — 補充 PDF 未完整登記的子代；判斷規則：子代第一筆異動為「轉出（type=0）」才視為自己生；第一筆為「轉入（type=1）」則排除。
+    公貓查詢以 PDF 公貓資料為主，cat_family 補充同晶片來源下 PDF 未涵蓋且第一筆轉出的子代。
+  </div>
+  <div class="grid">
+    <aside class="side"><div class="sideHead"><span id="sideTitle">母貓清單</span> <span id="visibleCount" class="small"></span></div><div class="list" id="parentList"><div class="loading">資料載入中...</div></div></aside>
+    <main class="panel" id="detail"><div class="loading">資料載入中...</div></main>
+  </div>
+</div>
+<script>
+let DATA = null;
+let OVERRIDES = { breedOverrides: {}, litterTags: {}, kittenBirthDates: {}, kittenExtraChips: {}, customKittens: {}, kittenMatingInfo: {}, companyStamp: null, personalStamp: null, footerText: '本紀錄為創軟產出如有異常請通知', footerTextSize: 14, companyStampSize: 90, personalStampSize: 70, companyStampPos: 'top-right', personalStampPos: 'top-left' };
+let currentMode = 'mothers';
+let selectedChip = null;
+let selectedCats = new Set();
+let selectedBreeds = []; // 多選品種
+let recentOnly = false;  // 近三年篩選
+
+const THREE_YEARS_MS = 3 * 365 * 24 * 3600 * 1000;
+
+// ── 工具函式 ──────────────────────────────────────────────
+function escapeHtml(v) {
+  return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function modeLabel() { return currentMode === 'mothers' ? '母貓' : '公貓'; }
+function partnerLabel() { return currentMode === 'mothers' ? '父貓' : '母貓'; }
+function rowsForMode() { return currentMode === 'mothers' ? DATA.mothers : DATA.fathers; }
+
+// 取得有效品種（原始 or 覆寫）
+function getBreed(parent) {
+  return parent.breed || OVERRIDES.breedOverrides[parent.chipId] || '';
+}
+
+// ── 覆寫儲存 ──────────────────────────────────────────────
+async function saveOverrides() {
+  await fetch('/api/overrides', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(OVERRIDES)
+  });
+}
+
+// ── 多選品種 Dropdown ─────────────────────────────────────
+function collectBreeds() {
+  const set = new Set();
+  [...DATA.mothers, ...DATA.fathers].forEach(p => {
+    const b = getBreed(p);
+    if (b) set.add(b.trim());
+    p.pdfLitters.forEach(l => l.kittens.forEach(k => { if (k.breed) set.add(k.breed.trim()); }));
+    p.otherChildren.forEach(k => { if (k.breed) set.add(k.breed.trim()); });
+  });
+  return [...set].filter(Boolean).sort((a,b) => a.localeCompare(b, 'zh-Hant'));
+}
+
+function renderBreedFilter() {
+  const all = collectBreeds();
+  const search = document.getElementById('breedSearch').value.toLowerCase();
+  const filtered = search ? all.filter(b => b.toLowerCase().includes(search)) : all;
+  document.getElementById('breedOptionList').innerHTML = filtered.map(b =>
+    `<label class="ms-option"><input type="checkbox" value="${escapeHtml(b)}" ${selectedBreeds.includes(b)?'checked':''} onchange="toggleBreed('${escapeHtml(b)}')" />${escapeHtml(b)}</label>`
+  ).join('');
+  // 更新 badge
+  const box = document.getElementById('breedFilterBox');
+  const placeholder = document.getElementById('breedPlaceholder');
+  const arrow = box.querySelector('.ms-arrow');
+  // 移除舊 badge
+  box.querySelectorAll('.ms-badge').forEach(el => el.remove());
+  if (selectedBreeds.length === 0) {
+    placeholder.style.display = '';
+  } else {
+    placeholder.style.display = 'none';
+    selectedBreeds.forEach(b => {
+      const el = document.createElement('span');
+      el.className = 'ms-badge';
+      el.innerHTML = `${escapeHtml(b)} <span class="rm" onclick="event.stopPropagation();toggleBreed('${escapeHtml(b)}')">×</span>`;
+      box.insertBefore(el, arrow);
+    });
+  }
+}
+
+function toggleBreed(breed) {
+  const idx = selectedBreeds.indexOf(breed);
+  if (idx >= 0) selectedBreeds.splice(idx, 1);
+  else selectedBreeds.push(breed);
+  renderBreedFilter();
+  renderList();
+}
+
+// Dropdown 開關
+document.addEventListener('click', e => {
+  const wrap = document.getElementById('breedFilterWrap');
+  const dd = document.getElementById('breedDropdown');
+  if (wrap.contains(e.target)) {
+    if (!e.target.closest('.ms-option') && !e.target.closest('.ms-search')) {
+      dd.classList.toggle('open');
+    }
+  } else {
+    dd.classList.remove('open');
+  }
+});
+
+// ── 篩選邏輯 ──────────────────────────────────────────────
+function parentMatchesBreed(parent) {
+  if (selectedBreeds.length === 0) return true;
+  const pb = getBreed(parent).trim();
+  if (selectedBreeds.includes(pb)) return true;
+  return parent.pdfLitters.some(l => l.kittens.some(k => selectedBreeds.includes((k.breed||'').trim()))) ||
+    parent.otherChildren.some(k => selectedBreeds.includes((k.breed||'').trim()));
+}
+
+function getFilteredParents() {
+  const keyword = document.getElementById('keyword').value.trim().toLowerCase();
+  const sortMode = document.getElementById('sortMode').value;
+  const now = Date.now();
+  let rows = rowsForMode().filter(p => {
+    if (!p.chipId) return false; // 過濾無晶片（身分不明）
+    if (!parentMatchesBreed(p)) return false;
+    // 近三年篩選：所有子代最新日期必須在三年內
+    if (recentOnly) {
+      const allDates = [
+        ...p.pdfLitters.map(l => l.productionDate),
+        ...p.pdfLitters.flatMap(l => l.kittens.map(k => k.dateValue)),
+        ...p.otherChildren.map(k => k.dateValue)
+      ].filter(Boolean).map(d => new Date(d).getTime()).filter(t => !isNaN(t));
+      if (!allDates.length) return false;
+      if (now - Math.max(...allDates) > THREE_YEARS_MS) return false;
+    }
+    if (!keyword) return true;
+    return JSON.stringify(p).toLowerCase().includes(keyword) ||
+      (OVERRIDES.breedOverrides[p.chipId]||'').toLowerCase().includes(keyword);
+  });
+  rows.sort((a,b) => {
+    const sa = parentStats(a), sb = parentStats(b);
+    if (sortMode === 'pdfDesc') return sb.pdfLitterCount - sa.pdfLitterCount || sb.totalKittenCount - sa.totalKittenCount;
+    if (sortMode === 'chipAsc') return a.chipId.localeCompare(b.chipId);
+    return sb.totalKittenCount - sa.totalKittenCount || sb.pdfLitterCount - sa.pdfLitterCount;
+  });
+  return rows;
+}
+
+// ── 統計 ──────────────────────────────────────────────────
+function parentStats(parent) {
+  const pdfLitterCount = parent.pdfLitters.length;
+  const pdfKittenCount = parent.pdfLitters.reduce((s,l)=>s+l.kittens.length,0);
+  const otherKittenCount = parent.otherChildren.length;
+  return { pdfLitterCount, pdfKittenCount, otherKittenCount, totalKittenCount: pdfKittenCount+otherKittenCount };
+}
+
+function renderStats() {
+  const s = DATA.summary;
+  const cards = [['母貓總數',s.motherCount],['公貓總數',s.fatherCount],['PDF母貓',s.pdfMotherCount],['PDF公貓',s.pdfFatherCount],['PDF確定子代',s.pdfConfirmedKittenCount],['其他推定子代',s.catFamilyOtherKittenCount],['轉入排除',s.excludedByFirstRecordRuleCount]];
+  document.getElementById('stats').innerHTML = cards.map(([l,v]) => `<div class="stat"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
+}
+
+// ── 清單渲染 ──────────────────────────────────────────────
+function renderList() {
+  const rows = getFilteredParents();
+  const allSelected = rows.length > 0 && rows.every(r => selectedCats.has(r.chipId));
+  
+  document.getElementById('sideTitle').innerHTML = `
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+      <span><label style="cursor:pointer; font-size:14px;"><input type="checkbox" id="selectAllCats" ${allSelected?'checked':''} onchange="toggleSelectAllCats()" style="margin-right:4px;" />全選${modeLabel()}</label></span>
+      <button style="background:#10b981; border-color:#10b981; font-size:12px; padding:4px 8px; border-radius:6px; color:#fff;" onclick="exportBatchCatsExcel()">📊 批次匯出 (${selectedCats.size})</button>
+    </div>
+  `;
+  document.getElementById('visibleCount').textContent = `目前 ${rows.length} 筆`;
+
+  if (!selectedChip && rows[0]) selectedChip = rows[0].chipId;
+  if (!rows.some(p => p.chipId === selectedChip)) selectedChip = rows[0] ? rows[0].chipId : null;
+  document.getElementById('parentList').innerHTML = rows.map(parent => {
+    const stat = parentStats(parent);
+    const breed = getBreed(parent);
+    const isChecked = selectedCats.has(parent.chipId);
+    return `<div class="parentItem ${parent.chipId===selectedChip?'active':''}" onclick="selectParent('${escapeHtml(parent.chipId)}')">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <input type="checkbox" class="cat-checkbox" value="${escapeHtml(parent.chipId)}" ${isChecked?'checked':''} onclick="event.stopPropagation(); toggleCatSelection('${escapeHtml(parent.chipId)}')" style="width:16px;height:16px; cursor:pointer; margin:0;" />
+        <div class="chip">${escapeHtml(parent.chipId)}</div>
+      </div>
+      <div class="small" style="margin-left:24px;">${escapeHtml(breed || '品種未填')} ${parent.birthDate?'｜生日 '+escapeHtml(parent.birthDate):''}</div>
+      <div class="badges" style="margin-left:24px;"><span class="badge ok">PDF胎次 ${stat.pdfLitterCount}</span><span class="badge ok">PDF子代 ${stat.pdfKittenCount}</span><span class="badge warn">其他 ${stat.otherKittenCount}</span><span class="badge">總子代 ${stat.totalKittenCount}</span></div>
+    </div>`;
+  }).join('') || '<div class="empty">查無資料</div>';
+  renderDetail();
+}
+
+function toggleCatSelection(chipId) {
+  if (selectedCats.has(chipId)) selectedCats.delete(chipId);
+  else selectedCats.add(chipId);
+  renderList();
+}
+
+function toggleSelectAllCats() {
+  const rows = getFilteredParents();
+  const allSelected = rows.length > 0 && rows.every(r => selectedCats.has(r.chipId));
+  if (allSelected) {
+    rows.forEach(r => selectedCats.delete(r.chipId));
+  } else {
+    rows.forEach(r => selectedCats.add(r.chipId));
+  }
+  renderList();
+}
+
+function selectParent(chip) { selectedChip = chip; renderList(); }
+
+// ── 品種編輯 UI ───────────────────────────────────────────
+function breedEditHtml(parent) {
+  if (parent.breed) return ''; // 原始有品種，不可編輯
+  const override = OVERRIDES.breedOverrides[parent.chipId] || '';
+  return `<span class="breed-inline" id="breedEditArea_${escapeHtml(parent.chipId)}">
+    ${override ? `<span class="badge warn" style="font-size:12px">已補填：${escapeHtml(override)}</span>` : ''}
+    <button class="breed-edit-btn" onclick="showBreedEdit('${escapeHtml(parent.chipId)}')" title="補填品種">✏️ 補填品種</button>
+  </span>`;
+}
+
+function showBreedEdit(chipId) {
+  const area = document.getElementById('breedEditArea_' + chipId);
+  if (!area) return;
+  const cur = OVERRIDES.breedOverrides[chipId] || '';
+  area.innerHTML = `<input id="breedEditInput_${escapeHtml(chipId)}" value="${escapeHtml(cur)}" placeholder="輸入品種名稱" style="width:150px" />
+    <button onclick="saveBreedEdit('${escapeHtml(chipId)}')">✔ 確認</button>
+    <button class="cancel-btn" onclick="renderDetail()">取消</button>`;
+  document.getElementById('breedEditInput_' + chipId)?.focus();
+}
+
+async function saveBreedEdit(chipId) {
+  const input = document.getElementById('breedEditInput_' + chipId);
+  if (!input) return;
+  const val = input.value.trim();
+  if (val) OVERRIDES.breedOverrides[chipId] = val;
+  else delete OVERRIDES.breedOverrides[chipId];
+  await saveOverrides();
+  renderBreedFilter();
+  renderList();
+}
+
+// ── 幼貓渲染（PDF 確定）────────────────────────────────────
+function renderKitten(child, extra='') {
+  const extraChip = OVERRIDES.kittenExtraChips[child.chipId] || '';
+  return `<div class="kitten"><b>${escapeHtml(child.chipId||'無晶片')}</b>
+    <div>${child.name?'名字：'+escapeHtml(child.name):''}</div>
+    <div class="meta">${child.sex?'性別：'+escapeHtml(child.sex)+'｜':''}${escapeHtml(child.breed||'')}
+    <br/>母：${escapeHtml(child.motherChipId||'未提供')}<br/>父：${escapeHtml(child.fatherChipId||'未提供')}${extra}</div>
+    <div class="tag-row" style="margin-top:6px;">
+      <input class="tag-input" style="border-color:#93c5fd; background:#eff6ff; color:#2563eb;" placeholder="多晶片/備註"
+        value="${escapeHtml(extraChip)}"
+        data-chip="${escapeHtml(child.chipId)}"
+        onchange="saveExtraChip(this)"
+        onkeydown="if(event.key==='Enter')this.blur()"
+      />
+    </div>
+  </div>`;
+}
+
+// ── 幼貓渲染（其他推定，含 TAG 輸入）────────────────────────
+function renderOtherKitten(child) {
+  const tag = OVERRIDES.litterTags[child.chipId] || '';
+  const extraChip = OVERRIDES.kittenExtraChips[child.chipId] || '';
+  const deleteBtn = child.isCustom ? `<button style="background:var(--bad); border:none; padding:2px 6px; font-size:12px; float:right;" onclick="deleteCustomKitten('${escapeHtml(child.chipId)}')">刪除</button>` : '';
+  return `<div class="kitten">
+    ${deleteBtn}
+    <b>${escapeHtml(child.chipId||'無晶片')}</b>
+    <div>${child.name?'名字：'+escapeHtml(child.name):''}</div>
+    <div class="meta">${child.sex?'性別：'+escapeHtml(child.sex)+'｜':''}${escapeHtml(child.breed||'')}
+    <br/>出生日：<b>${escapeHtml(OVERRIDES.kittenBirthDates[child.chipId] || child.date || '未知')}</b>${OVERRIDES.kittenBirthDates[child.chipId]?' <span class="badge warn" style="font-size:10px">已編輯</span>':''}
+    <br/>第一筆異動：${escapeHtml(child.firstRecordDate||'')}
+    <br/>狀態：${escapeHtml(child.status||'')}</div>
+    <div class="tag-row">
+      <input class="tag-input" placeholder="貼胎次TAG（同TAG=同一胎）"
+        value="${escapeHtml(tag)}"
+        data-chip="${escapeHtml(child.chipId)}"
+        onchange="saveLitterTag(this)"
+        onkeydown="if(event.key==='Enter')this.blur()"
+      />
+    </div>
+    <div class="tag-row">
+      <input class="tag-input" style="border-color:#93c5fd; background:#eff6ff; color:#2563eb;" placeholder="多晶片/備註"
+        value="${escapeHtml(extraChip)}"
+        data-chip="${escapeHtml(child.chipId)}"
+        onchange="saveExtraChip(this)"
+        onkeydown="if(event.key==='Enter')this.blur()"
+      />
+    </div>
+  </div>`;
+}
+
+async function saveExtraChip(input) {
+  const chip = input.dataset.chip;
+  const val = input.value.trim();
+  if (val) OVERRIDES.kittenExtraChips[chip] = val;
+  else delete OVERRIDES.kittenExtraChips[chip];
+  await saveOverrides();
+}
+
+async function saveLitterTag(input) {
+  const chip = input.dataset.chip;
+  const val = input.value.trim();
+  if (val) OVERRIDES.litterTags[chip] = val;
+  else delete OVERRIDES.litterTags[chip];
+  await saveOverrides();
+  renderDetail(); // 重新分組
+}
+
+// ── 同胎出生日期（非PDF群組）────────────────────────────────
+async function saveLitterGroupDate(input, chipIds) {
+  const val = input.value.trim();
+  const ids = JSON.parse(chipIds);
+  ids.forEach(chip => {
+    if (val) OVERRIDES.kittenBirthDates[chip] = val;
+    else delete OVERRIDES.kittenBirthDates[chip];
+  });
+  await saveOverrides();
+  renderDetail();
+}
+
+function getGroupDate(children) {
+  // 若群組內所有幼貓都有相同覆寫日期，顯示該日期；否則顯示空
+  const dates = children.map(c => OVERRIDES.kittenBirthDates[c.chipId]).filter(Boolean);
+  if (!dates.length) return '';
+  const allSame = dates.every(d => d === dates[0]);
+  return allSame ? dates[0] : '';
+}
+
+// ── 推定子代分組（TAG 優先）──────────────────────────────
+function groupOtherChildren(children, thresholdDays) {
+  // 分成有TAG和無TAG兩批
+  const tagged = {}, noTag = [];
+  children.forEach(child => {
+    const tag = OVERRIDES.litterTags[child.chipId];
+    if (tag) {
+      if (!tagged[tag]) tagged[tag] = [];
+      tagged[tag].push(child);
+    } else {
+      noTag.push(child);
+    }
+  });
+
+  const manualGroups = [];
+  // 1. 手動 TAG 群組（排前面）
+  Object.entries(tagged).forEach(([tag, kids]) => {
+    const dates = kids.map(k=>k.dateValue).filter(Boolean).sort();
+    manualGroups.push({ isManual:true, tag, startDate:dates[0]||'', endDate:dates[dates.length-1]||'', children:kids });
+  });
+
+  // 2. 抓出「完全同一天」的群組
+  const dateMap = {};
+  const reallyNoTag = [];
+  noTag.forEach(child => {
+     if (child.dateValue) {
+         if (!dateMap[child.dateValue]) dateMap[child.dateValue] = [];
+         dateMap[child.dateValue].push(child);
+     } else {
+         reallyNoTag.push(child);
+     }
+  });
+
+  const autoGroups = [];
+  Object.entries(dateMap).forEach(([date, kids]) => {
+     if (kids.length > 1) {
+         // 同一天有多隻，獨立成紅色框群組
+         autoGroups.push({ isManual: false, isSameDate: true, startDate: date, endDate: date, children: kids });
+     } else {
+         // 只有一隻，退回原本的時間分組邏輯
+         reallyNoTag.push(kids[0]);
+     }
+  });
+
+  // 3. 無 TAG 且非同一天的自動時間分組
+  const sorted = [...reallyNoTag].sort((a,b)=>String(a.dateValue).localeCompare(String(b.dateValue)));
+  const thresholdGroups = [];
+  for (const child of sorted) {
+    const ct = child.dateValue ? new Date(child.dateValue).getTime() : 0;
+    const last = thresholdGroups.slice(-1)[0];
+    if (!last || !ct) { thresholdGroups.push({ isManual:false, isSameDate:false, startDate:child.dateValue||'', endDate:child.dateValue||'', children:[child] }); continue; }
+    const lt = new Date(last.endDate).getTime();
+    if (Math.abs(ct-lt)/86400000 <= thresholdDays) { last.children.push(child); last.endDate = child.dateValue||last.endDate; }
+    else thresholdGroups.push({ isManual:false, isSameDate:false, startDate:child.dateValue||'', endDate:child.dateValue||'', children:[child] });
+  }
+
+  autoGroups.push(...thresholdGroups);
+  autoGroups.sort((a,b) => String(a.startDate).localeCompare(String(b.startDate)));
+
+  return [...manualGroups, ...autoGroups];
+}
+
+// ── 手動新增子代邏輯 ──────────────────────────────────────
+function showCustomKittenForm() { document.getElementById('customKittenForm').style.display = 'block'; }
+function hideCustomKittenForm() {
+  document.getElementById('customKittenForm').style.display = 'none';
+  document.getElementById('ckChipId').value = '';
+  document.getElementById('ckName').value = '';
+  document.getElementById('ckSex').value = '';
+  document.getElementById('ckBreed').value = '';
+  document.getElementById('ckDate').value = '';
+}
+async function saveCustomKitten() {
+  const chipId = document.getElementById('ckChipId').value.trim();
+  if (!chipId) return alert('晶片號為必填！');
+  if (!OVERRIDES.customKittens[selectedChip]) OVERRIDES.customKittens[selectedChip] = [];
+  OVERRIDES.customKittens[selectedChip].push({
+    chipId,
+    name: document.getElementById('ckName').value.trim(),
+    sex: document.getElementById('ckSex').value.trim(),
+    breed: document.getElementById('ckBreed').value.trim(),
+    dateValue: document.getElementById('ckDate').value,
+    date: document.getElementById('ckDate').value,
+    status: '手動新增',
+    firstRecordDate: '',
+    isCustom: true
+  });
+  await saveOverrides();
+  hideCustomKittenForm();
+  renderList();
+}
+async function deleteCustomKitten(chipId) {
+  if (!confirm('確定要刪除這隻手動新增的子代嗎？')) return;
+  const list = OVERRIDES.customKittens[selectedChip];
+  if (list) {
+    OVERRIDES.customKittens[selectedChip] = list.filter(k => k.chipId !== chipId);
+    await saveOverrides();
+    renderDetail();
+  }
+}
+
+// ── 詳細面板 ──────────────────────────────────────────────
+function renderDetail() {
+  const parent = rowsForMode().find(r => r.chipId === selectedChip);
+  const detail = document.getElementById('detail');
+  if (!parent) { detail.innerHTML = `<div class="empty">請選擇一隻${modeLabel()}</div>`; return; }
+  const thresholdDays = Number(document.getElementById('dayRange').value);
+  const stat = parentStats(parent);
+  const breed = getBreed(parent);
+  
+  // 合併原本的其他子代與手動新增的子代
+  const customKids = OVERRIDES.customKittens[parent.chipId] || [];
+  const mergedOther = [...parent.otherChildren, ...customKids];
+  const otherGroups = groupOtherChildren(mergedOther, thresholdDays);
+
+  const pdfHtml = parent.pdfLitters.length
+    ? parent.pdfLitters.map(l => `<div class="litter">
+        <div class="litterHead">
+          <div><b>第 ${escapeHtml(l.litterNo)} 胎</b> <span class="badge ok">PDF確定</span></div>
+          <div class="small">生產：${escapeHtml(l.productionDate||'未填')}｜配種：${escapeHtml(l.matingDate||'未填')}｜${partnerLabel()}：${escapeHtml(l.partnerChipId||'未填')}｜子代：${l.kittens.length}</div>
+        </div>
+        <div class="kittenGrid">${l.kittens.map(k=>renderKitten(k,`<br/>寵登狀態：${escapeHtml(k.registrationStatus||'')}${k.status?'<br/>cat_family狀態：'+escapeHtml(k.status):''}${k.firstRecordDate?'<br/>第一筆異動：'+escapeHtml(k.firstRecordDate):''}`)).join('')}</div>
+      </div>`).join('')
+    : `<div class="empty">此${modeLabel()}沒有 PDF 確定胎次。</div>`;
+
+  const otherHtml = otherGroups.length
+    ? otherGroups.map((g, i) => {
+        const autoIdx = otherGroups.filter((x,xi)=>!x.isManual&&xi<=i).length;
+        let title, dateRange, extraClass = '';
+        if (g.isManual) {
+            title = `<b>🏷 手動標記：${escapeHtml(g.tag)}</b> <span class="badge manual">手動綁定</span>`;
+            dateRange = g.startDate ? `原始區間：${escapeHtml(g.startDate)} ～ ${escapeHtml(g.endDate)}` : '';
+            extraClass = 'manual-litter';
+        } else if (g.isSameDate) {
+            title = `<b>🚨 同日推定第 ${autoIdx} 組</b> <span class="badge" style="background:#fef2f2;color:#dc2626;">同日出生</span>`;
+            dateRange = `日期：${escapeHtml(g.startDate)}`;
+            extraClass = 'samedate-litter';
+        } else {
+            title = `<b>其他推定第 ${autoIdx} 組</b> <span class="badge warn">cat_family</span>`;
+            dateRange = `原始區間：${escapeHtml(g.startDate||'未知')} ～ ${escapeHtml(g.endDate||'未知')}｜閾值：${thresholdDays}天`;
+            extraClass = '';
+        }
+        
+        const groupDate = getGroupDate(g.children);
+        const chipIds = JSON.stringify(g.children.map(c => c.chipId));
+        const matingInfo = g.children.map(c => OVERRIDES.kittenMatingInfo[c.chipId]).find(Boolean);
+        const matingHtml = matingInfo 
+          ? `<span class="badge manual" style="margin-left:8px; background:#fff1f2; color:#be123c;">配種日：${escapeHtml(matingInfo.matingDate||'未填')}｜${escapeHtml(matingInfo.partnerType||'')} ${escapeHtml(matingInfo.partnerChipId||'')}</span>`
+          : '';
+
+        return `<div class="litter ${extraClass} other-litter">
+          <div class="litterHead">
+            <div>${title} ${matingHtml}</div>
+            <div class="litter-date-row">
+              <span class="small">${dateRange}｜子代：${g.children.length}</span>
+              <button style="background:#fef3c7; color:#b45309; border:1px solid #f59e0b; padding:4px 8px; font-size:12px; border-radius:6px; cursor:pointer;" onclick="openMatingModal('${escapeHtml(chipIds)}')">🔗 設定配種</button>
+              <label class="litter-date-label">📅 同胎出生日
+                <input type="date" class="litter-date-input"
+                  value="${escapeHtml(groupDate)}"
+                  onchange="saveLitterGroupDate(this, '${escapeHtml(chipIds)}')"
+                  title="設定後套用到此組所有幼貓"
+                />
+              </label>
+            </div>
+          </div>
+          <div class="kittenGrid">${g.children.map(renderOtherKitten).join('')}</div>
+        </div>`;
+      }).join('')
+    : `<div class="empty">PDF 外沒有符合「第一筆為轉出」的其他推定子代。</div>`;
+
+  detail.innerHTML = `
+    <div class="panelTitle">
+      <div>
+        <h2>${modeLabel()} ${escapeHtml(parent.chipId)}</h2>
+        <div class="small">
+          ${escapeHtml(breed||'品種未填')}
+          ${parent.birthDate?'｜生日 '+escapeHtml(parent.birthDate):''}
+          ${breedEditHtml(parent)}
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+        <div class="badges">
+          <span class="badge ok">PDF胎次 ${stat.pdfLitterCount}</span>
+          <span class="badge ok">PDF子代 ${stat.pdfKittenCount}</span>
+          <span class="badge warn">其他 ${stat.otherKittenCount}</span>
+          <span class="badge">總子代 ${stat.totalKittenCount}</span>
+        </div>
+        <button style="background:#1d4ed8; border-color:#1e40af; padding:6px 14px; font-weight:bold; border-radius:8px; font-size:13px;" onclick="exportSingleCatExcel('${escapeHtml(parent.chipId)}')">📊 匯出繁殖紀錄 (Excel)</button>
+      </div>
+    </div>
+    <div class="section"><h3>PDF 確定胎次</h3>${pdfHtml}</div>
+    <div class="section">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h3 style="margin:0;">其他推定子代（含多晶片、紙本作業或手動新增資料）</h3>
+        <button style="background:#f0fdf4; border:1px solid #22c55e; color:#15803d; border-radius:20px; padding:6px 12px; font-size:13px; font-weight:bold; cursor:pointer;" onclick="showCustomKittenForm()">➕ 手動新增子代</button>
+      </div>
+      <div id="customKittenForm" style="display:none; background:#f0fdf4; border:1px dashed #22c55e; border-radius:12px; padding:16px; margin-bottom:14px;">
+        <h4 style="margin:0 0 10px; color:#15803d;">手動新增子代</h4>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+          <input id="ckChipId" placeholder="晶片號 (必填)" style="border-color:#86efac" />
+          <input id="ckName" placeholder="名字" style="border-color:#86efac" />
+          <input id="ckSex" placeholder="性別 (公/母)" style="width:100px; border-color:#86efac" />
+          <input id="ckBreed" placeholder="品種" style="border-color:#86efac" />
+          <input type="date" id="ckDate" title="出生日" style="border-color:#86efac" />
+        </div>
+        <button style="background:#22c55e; border-color:#22c55e; padding:8px 16px;" onclick="saveCustomKitten()">✔ 儲存子代</button>
+        <button class="tabButton" style="padding:8px 16px;" onclick="hideCustomKittenForm()">取消</button>
+      </div>
+      ${otherHtml}
+    </div>`;
+}
+
+// ── 匯出 ──────────────────────────────────────────────────
+function exportCurrentJson() {
+  const rows = getFilteredParents();
+  const blob = new Blob([JSON.stringify({...DATA, [currentMode]: rows, currentMode, overrides: OVERRIDES}, null, 2)], {type:'application/json;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = currentMode === 'mothers' ? 'mother-breeding-filtered.json' : 'father-breeding-filtered.json';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+function switchMode(nextMode) {
+  currentMode = nextMode;
+  selectedChip = null;
+  selectedCats.clear();
+  document.getElementById('motherTab').classList.toggle('active', currentMode === 'mothers');
+  document.getElementById('fatherTab').classList.toggle('active', currentMode === 'fathers');
+  renderList();
+}
+
+// ── 單隻貓咪 Excel 匯出 (ExcelJS) ────────────────────────────────
+function twYear(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return dateStr;
+  return `${d.getFullYear() - 1911}年${String(d.getMonth() + 1).padStart(2,'0')}月${String(d.getDate()).padStart(2,'0')}日`;
+}
+
+function buildCatWorksheet(workbook, chipId) {
+  const parent = rowsForMode().find(r => r.chipId === chipId);
+  if (!parent) return;
+
+  const thresholdDays = Number(document.getElementById('dayRange').value);
+  const breed = getBreed(parent);
+  const customKids = OVERRIDES.customKittens[parent.chipId] || [];
+  const mergedOther = [...parent.otherChildren, ...customKids];
+  const otherGroups = groupOtherChildren(mergedOther, thresholdDays);
+
+  const ws = workbook.addWorksheet(parent.chipId || '繁殖紀錄');
+
+  // 設定列印版面配置：寬度自動縮放為一頁，長度自動
+  ws.pageSetup.fitToPage = true;
+  ws.pageSetup.fitToWidth = 1;
+  ws.pageSetup.fitToHeight = 0;
+  ws.pageSetup.margins = {
+    left: 0.3, right: 0.3,
+    top: 0.5, bottom: 0.5,
+    header: 0.3, footer: 0.3
+  };
+
+  // 設定欄寬 (精確寬度)
+  ws.getColumn(1).width = 20.14;
+  ws.getColumn(2).width = 12.29;
+  ws.getColumn(3).width = 23;
+  ws.getColumn(4).width = 8.43;
+  ws.getColumn(5).width = 47.86;
+
+  // 表頭 Row 1：標題
+  ws.mergeCells('A1:E1');
+  const titleCell = ws.getCell('A1');
+  titleCell.value = '創養軟體整合工作室';
+  titleCell.font = { size: 18, bold: true };
+  titleCell.alignment = { horizontal: 'center', vertical: 'middle' };
+  ws.getRow(1).height = 40;
+
+  // 表頭 Row 2：日期區間
+  ws.mergeCells('A2:E2');
+  const dateRangeCell = ws.getCell('A2');
+  dateRangeCell.value = '繁殖查詢日期區間：無限制';
+  dateRangeCell.font = { size: 12 };
+  dateRangeCell.alignment = { horizontal: 'right', vertical: 'middle' };
+
+  // 表頭 Row 3：類別、性別、品種
+  const isMale = currentMode === 'fathers';
+  const isFemale = currentMode === 'mothers';
+  ws.mergeCells('A3:E3');
+  const infoCell = ws.getCell('A3');
+  infoCell.value = `特定動物類別：　☐犬 ■貓　　特定動物性別：　${isMale?'■':'☐'}公 ${isFemale?'■':'☐'}母　　特定品種/物種：　${breed}`;
+  infoCell.font = { size: 12 };
+  infoCell.alignment = { horizontal: 'left', vertical: 'middle' };
+  ws.getRow(3).height = 25;
+
+  // 表頭 Row 4：出生日期
+  ws.mergeCells('A4:E4');
+  const bdateCell = ws.getCell('A4');
+  bdateCell.value = `出生日期：　${twYear(parent.birthDate)}`;
+  bdateCell.font = { size: 12 };
+
+  // 表頭 Row 5：晶片號碼
+  ws.mergeCells('A5:E5');
+  const chipCell = ws.getCell('A5');
+  chipCell.value = `寵物登記晶片號碼：　${parent.chipId}`;
+  chipCell.font = { size: 12 };
+  ws.getRow(5).height = 25;
+
+  // 資料表頭 Row 6
+  const headers = ['胎次', '配種日期', '配種之種公/種母情形', '生產日期', '幼畜產出情形紀錄'];
+  const headerRow = ws.getRow(6);
+  headerRow.height = 30;
+  
+  headers.forEach((h, i) => {
+    const cell = headerRow.getCell(i + 1);
+    cell.value = h;
+    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE5E7EB' }, bgColor: { argb: 'FFE5E7EB' } };
+    cell.font = { bold: true, color: { argb: 'FF000000' }, size: 12 };
+    cell.alignment = { horizontal: 'center', vertical: 'middle' };
+    cell.border = { top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'} };
+  });
+
+  // 資料寫入函式
+  let currentRow = 7;
+  function addDataRow(col1, col2, col3, col4, col5) {
+    const row = ws.getRow(currentRow);
+    row.getCell(1).value = col1;
+    row.getCell(2).value = col2;
+    row.getCell(3).value = col3;
+    row.getCell(4).value = col4;
+    row.getCell(5).value = col5;
+
+    for (let i=1; i<=5; i++) {
+      const cell = row.getCell(i);
+      cell.border = { top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'} };
+      cell.alignment = { wrapText: true, vertical: 'middle', horizontal: (i === 5 || i === 3) ? 'left' : 'center' };
+      cell.font = { size: 12 };
+    }
+    // 不設定 row.height，讓 Excel 依靠 wrapText 自動調整高度
+    currentRow++;
+  }
+
+  const allLitters = [];
+
+  // 整理 PDF 胎次
+  parent.pdfLitters.forEach(l => {
+    let mCount = 0, fCount = 0, total = l.kittens.length;
+    let kidsText = l.kittens.map(k => {
+      if (k.sex === '公') mCount++;
+      else if (k.sex === '母') fCount++;
+      return `${k.chipId}(已寵登)`;
+    }).join('\n');
+    let summary = `產出的幼畜公${mCount}隻、母${fCount}隻，共計${total}隻，其寵物登記晶片號碼分別為：\n${kidsText}`;
+    let partnerInfo = l.partnerChipId ? `☐ 本場  ■ 他場\n晶片號碼：${l.partnerChipId}` : '';
+    
+    allLitters.push({
+      timestamp: new Date(l.productionDate).getTime() || Number.MAX_SAFE_INTEGER,
+      data: [ "", twYear(l.matingDate), partnerInfo, twYear(l.productionDate), summary ]
+    });
+  });
+
+  // 整理其他推定胎次
+  otherGroups.forEach((g, i) => {
+    let mCount = 0, fCount = 0, total = g.children.length;
+    let kidsText = g.children.map(k => {
+      if (k.sex === '公') mCount++;
+      else if (k.sex === '母') fCount++;
+      const extra = OVERRIDES.kittenExtraChips[k.chipId] ? ` (${OVERRIDES.kittenExtraChips[k.chipId]})` : '';
+      return `${k.chipId||'無晶片'}${extra}`;
+    }).join('\n');
+    let summary = `產出的幼畜公${mCount}隻、母${fCount}隻，共計${total}隻，其寵物登記晶片號碼分別為：\n${kidsText}`;
+    const groupDate = getGroupDate(g.children) || g.startDate;
+
+    const matingInfo = g.children.map(c => OVERRIDES.kittenMatingInfo[c.chipId]).find(Boolean);
+    let matingDateStr = "";
+    let partnerInfo = "";
+    if (matingInfo) {
+      matingDateStr = twYear(matingInfo.matingDate);
+      if (matingInfo.partnerChipId) {
+        partnerInfo = matingInfo.partnerType === '本場' 
+          ? `■ 本場  ☐ 他場\n晶片號碼：${matingInfo.partnerChipId}` 
+          : `☐ 本場  ■ 他場\n晶片號碼：${matingInfo.partnerChipId}`;
+      }
+    }
+
+    allLitters.push({
+      timestamp: new Date(groupDate).getTime() || Number.MAX_SAFE_INTEGER,
+      data: [ "", matingDateStr, partnerInfo, twYear(groupDate), summary ]
+    });
+  });
+
+  // 依照日期先後排序
+  allLitters.sort((a, b) => a.timestamp - b.timestamp);
+
+  // 依序寫入 Excel，統一編號「第X胎」
+  if (allLitters.length === 0) {
+    addDataRow("(無繁殖紀錄)", "", "", "", "");
+  } else {
+    allLitters.forEach((item, index) => {
+      item.data[0] = `第${index + 1}胎`;
+      addDataRow(...item.data);
+    });
+  }
+
+  // ==== 新增簽章與附註 ====
+  currentRow++; // 留一行空白
+  const footerRowStr = currentRow;
+  ws.mergeCells(`A${footerRowStr}:C${footerRowStr}`);
+  const footerCell = ws.getCell(`A${footerRowStr}`);
+  footerCell.value = OVERRIDES.footerText || '本紀錄為創軟產出如有異常請通知';
+  footerCell.font = { size: Number(OVERRIDES.footerTextSize) || 14, bold: true };
+  footerCell.alignment = { horizontal: 'left', vertical: 'middle' };
+
+  function parseCellOrKeyword(posStr) {
+    if (posStr === '左上' || posStr === 'top-left') return { row: 0.1, col: 0.1, isBottom: false };
+    if (posStr === '右上' || posStr === 'top-right') return { row: 0.1, col: 3.5, isBottom: false };
+    if (posStr === '左下(動態底部)' || posStr === 'bottom-left') return { row: footerRowStr - 1 + 0.1, col: 0.1, isBottom: true };
+    if (posStr === '右下(動態底部)' || posStr === 'bottom-right') return { row: footerRowStr - 1 + 0.1, col: 3.5, isBottom: true };
+    
+    // Parse A1, B2 等自訂儲存格
+    const match = String(posStr).toUpperCase().match(/^([A-Z]+)(\d+)$/);
+    if (match) {
+      const colStr = match[1];
+      const rowStr = match[2];
+      let colIndex = 0;
+      for (let i = 0; i < colStr.length; i++) {
+        colIndex = colIndex * 26 + (colStr.charCodeAt(i) - 64);
+      }
+      return { col: colIndex - 1 + 0.1, row: parseInt(rowStr) - 1 + 0.1, isBottom: false };
+    }
+    // Default fallback
+    return { row: 0.1, col: 3.5, isBottom: false };
+  }
+  
+  // 檢查是否有印章在下方，若有才預留高度
+  const cPosInfo = parseCellOrKeyword(OVERRIDES.companyStampPos || '右上');
+  const pPosInfo = parseCellOrKeyword(OVERRIDES.personalStampPos || '左上');
+  const hasBottomStamp = (OVERRIDES.companyStamp && cPosInfo.isBottom) || 
+                         (OVERRIDES.personalStamp && pPosInfo.isBottom);
+  ws.getRow(footerRowStr).height = hasBottomStamp ? Math.max(80, Number(OVERRIDES.companyStampSize) || 90, Number(OVERRIDES.personalStampSize) || 70) : 30;
+  
+  let usedCoords = {}; // 用來防止同座標重疊
+
+  function applyStamp(base64Data, size, posStr) {
+    if (!base64Data) return;
+    const cleanBase64 = base64Data.replace(/^data:image\/\w+;base64,/, "");
+    const imgId = workbook.addImage({ base64: cleanBase64, extension: 'png' });
+    
+    let info = parseCellOrKeyword(posStr);
+    let key = `${info.row}_${info.col}`;
+    while (usedCoords[key]) {
+       info.col += (size / 60) + 0.2; // 往右疊加
+       key = `${info.row}_${info.col}`;
+    }
+    usedCoords[key] = true;
+
+    ws.addImage(imgId, {
+      tl: { col: info.col, row: info.row },
+      ext: { width: size, height: size }
+    });
+  }
+
+  applyStamp(OVERRIDES.companyStamp, Number(OVERRIDES.companyStampSize) || 90, OVERRIDES.companyStampPos || '右上');
+  applyStamp(OVERRIDES.personalStamp, Number(OVERRIDES.personalStampSize) || 70, OVERRIDES.personalStampPos || '左上');
+  // ==========================
+}
+
+async function exportSingleCatExcel(chipId) {
+  const workbook = new ExcelJS.Workbook();
+  buildCatWorksheet(workbook, chipId);
+  if (workbook.worksheets.length === 0) return;
+  const buffer = await workbook.xlsx.writeBuffer();
+  const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `繁殖紀錄_${currentMode==='mothers'?'母':'公'}_${chipId}.xlsx`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+async function exportBatchCatsExcel() {
+  const selectedArr = Array.from(selectedCats);
+  if (selectedArr.length === 0) return alert('請先勾選至少一隻貓咪！');
+  const workbook = new ExcelJS.Workbook();
+  selectedArr.forEach(chipId => buildCatWorksheet(workbook, chipId));
+  if (workbook.worksheets.length === 0) return;
+  const buffer = await workbook.xlsx.writeBuffer();
+  const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `批次繁殖紀錄_${currentMode==='mothers'?'母':'公'}_共${selectedArr.length}隻.xlsx`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── 資料連動：將配種子代注入對方親代 ─────────────────────────
+function injectMatingInfoChildren() {
+  const allParents = [...DATA.mothers, ...DATA.fathers];
+  const parentMap = {};
+  allParents.forEach(p => parentMap[p.chipId] = p);
+
+  allParents.forEach(parent => {
+    const customKids = OVERRIDES.customKittens[parent.chipId] || [];
+    const mergedOther = [...parent.otherChildren, ...customKids];
+    
+    mergedOther.forEach(child => {
+      const matingInfo = OVERRIDES.kittenMatingInfo[child.chipId];
+      if (matingInfo && matingInfo.partnerChipId) {
+        const partnerId = matingInfo.partnerChipId;
+        if (parentMap[partnerId]) {
+          const partner = parentMap[partnerId];
+          const exists = partner.pdfLitters.some(l => l.kittens.some(k => k.chipId === child.chipId)) ||
+                         partner.otherChildren.some(k => k.chipId === child.chipId);
+          if (!exists) {
+            const newChild = { ...child };
+            if (parent.sex === '母') {
+              newChild.motherChipId = parent.chipId;
+              newChild.fatherChipId = partnerId;
+            } else if (parent.sex === '公') {
+              newChild.fatherChipId = parent.chipId;
+              newChild.motherChipId = partnerId;
+            }
+            partner.otherChildren.push(newChild);
+          }
+        }
+      }
+    });
+  });
+}
+
+// ── 初始化 ────────────────────────────────────────────────
+async function init() {
+  try {
+    const [dataRes, overridesRes] = await Promise.all([
+      fetch('/api/data'),
+      fetch('/api/overrides')
+    ]);
+    if (!dataRes.ok) throw new Error(`HTTP ${dataRes.status}`);
+    DATA = await dataRes.json();
+    if (overridesRes.ok) OVERRIDES = await overridesRes.json();
+
+    // 確保結構完整
+    if (!OVERRIDES.breedOverrides) OVERRIDES.breedOverrides = {};
+    if (!OVERRIDES.litterTags) OVERRIDES.litterTags = {};
+    if (!OVERRIDES.kittenBirthDates) OVERRIDES.kittenBirthDates = {};
+    if (!OVERRIDES.kittenExtraChips) OVERRIDES.kittenExtraChips = {};
+    if (!OVERRIDES.customKittens) OVERRIDES.customKittens = {};
+    if (!OVERRIDES.kittenMatingInfo) OVERRIDES.kittenMatingInfo = {};
+    if (OVERRIDES.footerText === undefined) OVERRIDES.footerText = '本紀錄為創軟產出如有異常請通知';
+    if (!OVERRIDES.footerTextSize) OVERRIDES.footerTextSize = 14;
+    if (!OVERRIDES.companyStampSize) OVERRIDES.companyStampSize = 90;
+    if (!OVERRIDES.personalStampSize) OVERRIDES.personalStampSize = 70;
+    if (!OVERRIDES.companyStampPos) OVERRIDES.companyStampPos = 'top-right';
+    if (!OVERRIDES.personalStampPos) OVERRIDES.personalStampPos = 'top-left';
+
+    injectMatingInfoChildren();
+
+    // 事件綁定
+    document.getElementById('motherTab').addEventListener('click', () => switchMode('mothers'));
+    document.getElementById('fatherTab').addEventListener('click', () => switchMode('fathers'));
+    document.getElementById('keyword').addEventListener('input', renderList);
+    document.getElementById('sortMode').addEventListener('change', renderList);
+    document.getElementById('dayRange').addEventListener('input', e => {
+      document.getElementById('dayText').textContent = e.target.value + '天';
+      renderDetail();
+    });
+    document.getElementById('exportBtn').addEventListener('click', exportCurrentJson);
+    document.getElementById('breedSearch').addEventListener('input', renderBreedFilter);
+    document.getElementById('recentToggle').addEventListener('click', () => {
+      recentOnly = !recentOnly;
+      document.getElementById('recentToggle').classList.toggle('on', recentOnly);
+      document.getElementById('recentToggle').innerHTML = recentOnly
+        ? '&#9711; 近三年 ✓'
+        : '&#128337; 近三年';
+      selectedChip = null;
+      renderList();
+    });
+
+    // 首次渲染
+    renderStats();
+    renderBreedFilter();
+    renderList();
+  } catch (err) {
+    document.getElementById('stats').innerHTML = `<div style="color:var(--bad);padding:16px;">資料載入失敗：${err.message}</div>`;
+    document.getElementById('parentList').innerHTML = '';
+    document.getElementById('detail').innerHTML = `<div class="empty">無法連線到後端 API，請確認伺服器是否正常運行。</div>`;
+  }
+}
+
+// ── 設定配種對話框 ──────────────────────────────────────
+let currentMatingChipIds = [];
+function openMatingModal(chipIdsStr) {
+  currentMatingChipIds = JSON.parse(chipIdsStr);
+  const repChip = currentMatingChipIds[0];
+  const info = OVERRIDES.kittenMatingInfo[repChip] || { partnerChipId:'', partnerType:'本場', matingDate:'' };
+  
+  document.getElementById('matingPartnerId').value = info.partnerChipId || '';
+  document.getElementById('matingPartnerType').value = info.partnerType || '本場';
+  document.getElementById('matingDate').value = info.matingDate || '';
+  document.getElementById('matingModal').style.display = 'flex';
+}
+
+function closeMatingModal() {
+  document.getElementById('matingModal').style.display = 'none';
+}
+
+async function saveMatingModal() {
+  const partnerChipId = document.getElementById('matingPartnerId').value.trim();
+  const partnerType = document.getElementById('matingPartnerType').value;
+  const matingDate = document.getElementById('matingDate').value;
+
+  if (partnerChipId || matingDate) {
+    currentMatingChipIds.forEach(chip => {
+      OVERRIDES.kittenMatingInfo[chip] = { partnerChipId, partnerType, matingDate };
+    });
+  } else {
+    currentMatingChipIds.forEach(chip => {
+      delete OVERRIDES.kittenMatingInfo[chip];
+    });
+  }
+  
+  await saveOverrides();
+  closeMatingModal();
+  
+  // 重新整理資料以觸發連動
+  init(); 
+}
+
+// ── 系統設定對話框 (印章上傳) ────────────────────────
+function openSettingsModal() {
+  document.getElementById('settingsModal').style.display = 'flex';
+  document.getElementById('footerTextInput').value = OVERRIDES.footerText || '本紀錄為創軟產出如有異常請通知';
+  document.getElementById('footerTextSizeInput').value = OVERRIDES.footerTextSize || 14;
+  document.getElementById('companyStampSizeInput').value = OVERRIDES.companyStampSize || 90;
+  document.getElementById('personalStampSizeInput').value = OVERRIDES.personalStampSize || 70;
+  document.getElementById('companyStampPosInput').value = OVERRIDES.companyStampPos || '右上';
+  document.getElementById('personalStampPosInput').value = OVERRIDES.personalStampPos || '左上';
+  updateStampPreview('companyStamp');
+  updateStampPreview('personalStamp');
+}
+async function closeSettingsModal() {
+  OVERRIDES.footerText = document.getElementById('footerTextInput').value;
+  OVERRIDES.footerTextSize = Number(document.getElementById('footerTextSizeInput').value) || 14;
+  OVERRIDES.companyStampSize = Number(document.getElementById('companyStampSizeInput').value) || 90;
+  OVERRIDES.personalStampSize = Number(document.getElementById('personalStampSizeInput').value) || 70;
+  OVERRIDES.companyStampPos = document.getElementById('companyStampPosInput').value;
+  OVERRIDES.personalStampPos = document.getElementById('personalStampPosInput').value;
+  await saveOverrides();
+  document.getElementById('settingsModal').style.display = 'none';
+}
+function updateStampPreview(type) {
+  const container = document.getElementById(`preview-${type}`);
+  const base64 = OVERRIDES[type];
+  if (base64) {
+    container.innerHTML = `<img src="${base64}" style="max-height:80px; max-width:100%; object-fit:contain;" />`;
+  } else {
+    container.innerHTML = `<span style="color:#9ca3af; font-size:12px;">尚未上傳</span>`;
+  }
+}
+function handleStampUpload(event, type) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    OVERRIDES[type] = e.target.result;
+    updateStampPreview(type);
+    await saveOverrides();
+  };
+  reader.readAsDataURL(file);
+}
+async function clearStamp(type) {
+  OVERRIDES[type] = null;
+  updateStampPreview(type);
+  await saveOverrides();
+}
+
+init();
+</script>
+
+<!-- 配種設定對話框 -->
+<div id="matingModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999; align-items:center; justify-content:center;">
+  <div style="background:#fff; padding:24px; border-radius:14px; width:400px; max-width:90%; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+    <h3 style="margin-top:0;">設定群組配種資訊</h3>
+    <p style="font-size:13px; color:#6b7280; margin-bottom:16px;">此設定將套用至該群組的所有幼貓。<br/>設定公貓/母貓後，這些幼貓也會自動出現在對方的紀錄中。</p>
+    
+    <div style="margin-bottom:12px;">
+      <label style="display:block; font-size:13px; margin-bottom:4px; font-weight:bold;">對象來源</label>
+      <select id="matingPartnerType" style="width:100%;">
+        <option value="本場">本場</option>
+        <option value="他場">他場</option>
+      </select>
+    </div>
+    
+    <div style="margin-bottom:12px;">
+      <label style="display:block; font-size:13px; margin-bottom:4px; font-weight:bold;">配對晶片號碼</label>
+      <input id="matingPartnerId" type="text" placeholder="請輸入對象晶片號碼" style="width:100%;" />
+    </div>
+
+    <div style="margin-bottom:20px;">
+      <label style="display:block; font-size:13px; margin-bottom:4px; font-weight:bold;">配種日期</label>
+      <input id="matingDate" type="date" style="width:100%;" />
+    </div>
+
+    <div style="display:flex; justify-content:flex-end; gap:8px;">
+      <button style="background:#e5e7eb; color:#374151; border-color:#d1d5db;" onclick="closeMatingModal()">取消</button>
+      <button style="background:#be123c; border-color:#be123c;" onclick="saveMatingModal()">儲存並連動</button>
+    </div>
+  </div>
+</div>
+
+<!-- 系統設定對話框 -->
+<div id="settingsModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999; align-items:center; justify-content:center;">
+  <div style="background:#fff; padding:24px; border-radius:14px; width:450px; max-width:90%; box-shadow:0 10px 25px rgba(0,0,0,0.2); max-height:90vh; overflow-y:auto;">
+    <h3 style="margin-top:0;">⚙️ 系統設定</h3>
+    
+    <div style="margin-bottom:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <label style="font-size:14px; font-weight:bold; margin:0;">自訂報表附註文字</label>
+        <div style="font-size:12px; color:#4b5563;">文字大小: <input type="number" id="footerTextSizeInput" style="width:50px; padding:2px 4px; font-size:12px;" /></div>
+      </div>
+      <input id="footerTextInput" type="text" style="width:100%; font-size:13px; border-color:#d1d5db;" placeholder="例如：本紀錄為創軟產出如有異常請通知" />
+    </div>
+
+    <datalist id="stampPosOptions">
+      <option value="左上"></option>
+      <option value="右上"></option>
+      <option value="左下(動態底部)"></option>
+      <option value="右下(動態底部)"></option>
+    </datalist>
+
+    <div style="margin-bottom:16px; border:1px solid #e5e7eb; padding:12px; border-radius:8px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <label style="font-size:14px; font-weight:bold; margin:0;">公司大章</label>
+        <div style="font-size:12px; color:#4b5563;">
+          位置(輸入如A1): <input type="text" id="companyStampPosInput" list="stampPosOptions" style="width:100px; padding:2px 4px; font-size:12px; margin-right:4px;" placeholder="例如: 右上 或 E1" />
+          長寬(px): <input type="number" id="companyStampSizeInput" style="width:50px; padding:2px 4px; font-size:12px;" />
+        </div>
+      </div>
+      <input type="file" accept="image/png, image/jpeg" onchange="handleStampUpload(event, 'companyStamp')" style="margin-bottom:8px; font-size:12px;" />
+      <div id="preview-companyStamp" style="min-height:60px; background:#f9fafb; border:1px dashed #d1d5db; display:flex; align-items:center; justify-content:center; border-radius:6px; padding:6px;">
+        <span style="color:#9ca3af; font-size:12px;">尚未上傳</span>
+      </div>
+      <button onclick="clearStamp('companyStamp')" style="margin-top:8px; font-size:12px; padding:4px 8px; background:#fee2e2; color:#ef4444; border:none; border-radius:4px; cursor:pointer;">清除大章</button>
+    </div>
+
+    <div style="margin-bottom:20px; border:1px solid #e5e7eb; padding:12px; border-radius:8px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <label style="font-size:14px; font-weight:bold; margin:0;">負責人小章</label>
+        <div style="font-size:12px; color:#4b5563;">
+          位置(輸入如A1): <input type="text" id="personalStampPosInput" list="stampPosOptions" style="width:100px; padding:2px 4px; font-size:12px; margin-right:4px;" placeholder="例如: 左上 或 A1" />
+          長寬(px): <input type="number" id="personalStampSizeInput" style="width:50px; padding:2px 4px; font-size:12px;" />
+        </div>
+      </div>
+      <input type="file" accept="image/png, image/jpeg" onchange="handleStampUpload(event, 'personalStamp')" style="margin-bottom:8px; font-size:12px;" />
+      <div id="preview-personalStamp" style="min-height:60px; background:#f9fafb; border:1px dashed #d1d5db; display:flex; align-items:center; justify-content:center; border-radius:6px; padding:6px;">
+        <span style="color:#9ca3af; font-size:12px;">尚未上傳</span>
+      </div>
+      <button onclick="clearStamp('personalStamp')" style="margin-top:8px; font-size:12px; padding:4px 8px; background:#fee2e2; color:#ef4444; border:none; border-radius:4px; cursor:pointer;">清除小章</button>
+    </div>
+
+    <div style="display:flex; justify-content:flex-end; gap:8px;">
+      <button style="background:#2563eb; border-color:#2563eb;" onclick="closeSettingsModal()">完成</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
