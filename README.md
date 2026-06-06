@@ -16,6 +16,35 @@
 
 ---
 
+## 📁 資料檔結構說明 (`data/breeding_data.json`)
+為了保護隱私與敏感資料，`breeding_data.json` 不會上傳至 Git，只存放在本機的 `data/` 目錄下。若你要在新的環境啟動，請在 `data/` 底下建立 `breeding_data.json` 檔案，基本結構如下：
+
+```json
+{
+  "generatedAt": "2026-06-05 15:43:28",
+  "summary": {
+    "motherCount": 24,
+    "fatherCount": 8
+  },
+  "mothers": [
+    {
+      "chipId": "母貓晶片號碼",
+      "pdfChildren": [],
+      "otherChildren": []
+    }
+  ],
+  "fathers": [
+    {
+      "chipId": "公貓晶片號碼",
+      "pdfChildren": [],
+      "otherChildren": []
+    }
+  ]
+}
+```
+
+---
+
 ## 💻 如何啟動專案
 
 ### 1️⃣ 前置需求
