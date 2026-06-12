@@ -182,7 +182,7 @@ function getBreed(parent) {
 
 // ── 覆寫儲存 ──────────────────────────────────────────────
 async function saveOverrides() {
-  await fetch('/api/overrides', {
+  await fetch('./api/overrides', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(OVERRIDES)
@@ -289,14 +289,82 @@ function getFilteredParents() {
 
 // ── 統計 ──────────────────────────────────────────────────
 function parentStats(parent) {
-  const pdfLitterCount = parent.pdfLitters.length;
-  const pdfKittenCount = parent.pdfLitters.reduce((s,l)=>s+l.kittens.length,0);
-  const otherKittenCount = parent.otherChildren.length;
-  return { pdfLitterCount, pdfKittenCount, otherKittenCount, totalKittenCount: pdfKittenCount+otherKittenCount };
+  const now = Date.now();
+  let pdfLitterCount = 0;
+  let pdfKittenCount = 0;
+  let otherKittenCount = 0;
+
+  const htmlPdfLitters = parent.pdfLitters.map(l => ({ ...l, kittens: [...l.kittens] }));
+  const customKids = OVERRIDES.customKittens[parent.chipId] || [];
+  const mergedOther = [...parent.otherChildren, ...customKids];
+  const htmlRemainingOther = [];
+
+  mergedOther.forEach(child => {
+    const bDate = OVERRIDES.kittenBirthDates[child.chipId] || child.dateValue;
+    const matchingPdfLitter = htmlPdfLitters.find(l => l.productionDate && l.productionDate === bDate);
+    if (matchingPdfLitter) {
+      matchingPdfLitter.kittens.push(child);
+    } else {
+      htmlRemainingOther.push(child);
+    }
+  });
+
+  htmlPdfLitters.forEach(l => {
+    const dates = [l.productionDate, ...l.kittens.map(k => k.dateValue)].filter(Boolean).map(d => new Date(d).getTime()).filter(t => !isNaN(t));
+    if (!recentOnly || (dates.length && now - Math.max(...dates) <= THREE_YEARS_MS)) {
+      pdfLitterCount++;
+      pdfKittenCount += l.kittens.length;
+    }
+  });
+
+  htmlRemainingOther.forEach(k => {
+    const d = OVERRIDES.kittenBirthDates[k.chipId] || k.dateValue;
+    const t = d ? new Date(d).getTime() : 0;
+    if (!recentOnly || (t && !isNaN(t) && now - t <= THREE_YEARS_MS)) {
+      otherKittenCount++;
+    }
+  });
+
+  return { 
+    pdfLitterCount, 
+    pdfKittenCount, 
+    otherKittenCount, 
+    totalKittenCount: pdfKittenCount + otherKittenCount 
+  };
 }
 
 function renderStats() {
-  const s = DATA.summary;
+  let mCount = 0, fCount = 0;
+  let pdfMCount = 0, pdfFCount = 0;
+  let pdfKittenCount = 0, otherKittenCount = 0;
+
+  const processParent = (p, isMother) => {
+    const st = parentStats(p);
+    const hasAny = st.pdfLitterCount > 0 || st.otherKittenCount > 0;
+    
+    if (!recentOnly || hasAny) {
+      if (isMother) mCount++; else fCount++;
+      if (st.pdfLitterCount > 0) {
+        if (isMother) pdfMCount++; else pdfFCount++;
+      }
+      pdfKittenCount += st.pdfKittenCount;
+      otherKittenCount += st.otherKittenCount;
+    }
+  };
+
+  DATA.mothers.forEach(p => processParent(p, true));
+  DATA.fathers.forEach(p => processParent(p, false));
+
+  const s = {
+    motherCount: mCount,
+    fatherCount: fCount,
+    pdfMotherCount: pdfMCount,
+    pdfFatherCount: pdfFCount,
+    pdfConfirmedKittenCount: pdfKittenCount,
+    catFamilyOtherKittenCount: otherKittenCount,
+    excludedByFirstRecordRuleCount: DATA.summary.excludedByFirstRecordRuleCount
+  };
+
   const cards = [['母貓總數',s.motherCount],['公貓總數',s.fatherCount],['PDF母貓',s.pdfMotherCount],['PDF公貓',s.pdfFatherCount],['PDF確定子代',s.pdfConfirmedKittenCount],['其他推定子代',s.catFamilyOtherKittenCount],['轉入排除',s.excludedByFirstRecordRuleCount]];
   document.getElementById('stats').innerHTML = cards.map(([l,v]) => `<div class="stat"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
 }
@@ -320,13 +388,26 @@ function renderList() {
     const stat = parentStats(parent);
     const breed = getBreed(parent);
     const isChecked = selectedCats.has(parent.chipId);
+    
+    const dayRangeEl = document.getElementById('dayRange');
+    const thresholdDays = dayRangeEl ? Number(dayRangeEl.value) : 30;
+    const customKids = OVERRIDES.customKittens[parent.chipId] || [];
+    const htmlRemainingOther = [];
+    [...parent.otherChildren, ...customKids].forEach(child => {
+      const bDate = OVERRIDES.kittenBirthDates[child.chipId] || child.dateValue;
+      if (!parent.pdfLitters.some(l => l.productionDate && l.productionDate === bDate)) {
+        htmlRemainingOther.push(child);
+      }
+    });
+    const totalLitters = parent.pdfLitters.length + groupOtherChildren(htmlRemainingOther, thresholdDays).length;
+
     return `<div class="parentItem ${parent.chipId===selectedChip?'active':''}" onclick="selectParent('${escapeHtml(parent.chipId)}')">
       <div style="display:flex; align-items:center; gap:8px;">
         <input type="checkbox" class="cat-checkbox" value="${escapeHtml(parent.chipId)}" ${isChecked?'checked':''} onclick="event.stopPropagation(); toggleCatSelection('${escapeHtml(parent.chipId)}')" style="width:16px;height:16px; cursor:pointer; margin:0;" />
         <div class="chip">${escapeHtml(parent.chipId)}</div>
       </div>
       <div class="small" style="margin-left:24px;">${escapeHtml(breed || '品種未填')} ${parent.birthDate?'｜生日 '+escapeHtml(parent.birthDate):''}</div>
-      <div class="badges" style="margin-left:24px;"><span class="badge ok">PDF胎次 ${stat.pdfLitterCount}</span><span class="badge ok">PDF子代 ${stat.pdfKittenCount}</span><span class="badge warn">其他 ${stat.otherKittenCount}</span><span class="badge">總子代 ${stat.totalKittenCount}</span></div>
+      <div class="badges" style="margin-left:24px;"><span class="badge tag" style="background:#f5f3ff; color:#7c3aed;">總胎次 ${totalLitters}</span><span class="badge ok">PDF胎次 ${stat.pdfLitterCount}</span><span class="badge ok">PDF子代 ${stat.pdfKittenCount}</span><span class="badge warn">其他 ${stat.otherKittenCount}</span><span class="badge">總子代 ${stat.totalKittenCount}</span></div>
     </div>`;
   }).join('') || '<div class="empty">查無資料</div>';
   renderDetail();
@@ -401,13 +482,14 @@ function renderKitten(child, extra='') {
 }
 
 // ── 幼貓渲染（其他推定，含 TAG 輸入）────────────────────────
-function renderOtherKitten(child) {
+function renderOtherKitten(child, isMerged = false) {
   const tag = OVERRIDES.litterTags[child.chipId] || '';
   const extraChip = OVERRIDES.kittenExtraChips[child.chipId] || '';
   const deleteBtn = child.isCustom ? `<button style="background:var(--bad); border:none; padding:2px 6px; font-size:12px; float:right;" onclick="deleteCustomKitten('${escapeHtml(child.chipId)}')">刪除</button>` : '';
+  const redDot = isMerged ? ' <span style="color:red; font-size:14px;" title="與PDF同日合併">🔴</span>' : '';
   return `<div class="kitten">
     ${deleteBtn}
-    <b>${escapeHtml(child.chipId||'無晶片')}</b>
+    <b>${escapeHtml(child.chipId||'無晶片')}</b>${redDot}
     <div>${child.name?'名字：'+escapeHtml(child.name):''}</div>
     <div class="meta">${child.sex?'性別：'+escapeHtml(child.sex)+'｜':''}${escapeHtml(child.breed||'')}
     <br/>出生日：<b>${escapeHtml(OVERRIDES.kittenBirthDates[child.chipId] || child.date || '未知')}</b>${OVERRIDES.kittenBirthDates[child.chipId]?' <span class="badge warn" style="font-size:10px">已編輯</span>':''}
@@ -515,7 +597,7 @@ function groupOtherChildren(children, thresholdDays) {
 
   // 3. 無 TAG 且非同一天的自動時間分組
   const sorted = [...reallyNoTag].sort((a,b)=>String(a.dateValue).localeCompare(String(b.dateValue)));
-  const thresholdGroups = [];
+    const thresholdGroups = [];
   for (const child of sorted) {
     const ct = child.dateValue ? new Date(child.dateValue).getTime() : 0;
     const last = thresholdGroups.slice(-1)[0];
@@ -582,15 +664,70 @@ function renderDetail() {
   // 合併原本的其他子代與手動新增的子代
   const customKids = OVERRIDES.customKittens[parent.chipId] || [];
   const mergedOther = [...parent.otherChildren, ...customKids];
-  const otherGroups = groupOtherChildren(mergedOther, thresholdDays);
+  const htmlPdfLitters = parent.pdfLitters.map(l => ({ ...l, kittens: [...l.kittens] }));
+  const htmlRemainingOther = [];
+  mergedOther.forEach(child => {
+    const bDate = OVERRIDES.kittenBirthDates[child.chipId] || child.dateValue;
+    const matchingPdfLitter = htmlPdfLitters.find(l => l.productionDate && l.productionDate === bDate);
+    if (matchingPdfLitter) {
+      child._isHtmlMergedFromOther = true;
+      matchingPdfLitter.kittens.push(child);
+    } else {
+      htmlRemainingOther.push(child);
+    }
+  });
+  const otherGroups = groupOtherChildren(htmlRemainingOther, thresholdDays);
 
-  const pdfHtml = parent.pdfLitters.length
-    ? parent.pdfLitters.map(l => `<div class="litter">
+  if (recentOnly) {
+    const now = Date.now();
+    for (let i = htmlPdfLitters.length - 1; i >= 0; i--) {
+      const l = htmlPdfLitters[i];
+      const dates = [l.productionDate, ...l.kittens.map(k => k.dateValue)].filter(Boolean).map(d => new Date(d).getTime()).filter(t => !isNaN(t));
+      if (dates.length && now - Math.max(...dates) > THREE_YEARS_MS) {
+        htmlPdfLitters.splice(i, 1);
+      }
+    }
+    for (let i = otherGroups.length - 1; i >= 0; i--) {
+      const g = otherGroups[i];
+      const dates = g.children.map(c => OVERRIDES.kittenBirthDates[c.chipId] || c.dateValue).filter(Boolean).map(d => new Date(d).getTime()).filter(t => !isNaN(t));
+      if (dates.length && now - Math.max(...dates) > THREE_YEARS_MS) {
+        otherGroups.splice(i, 1);
+      }
+    }
+  }
+
+  // --- 計算半年內密集生育警告 ---
+  const allLitterDates = [];
+  htmlPdfLitters.forEach(l => {
+    if (l.productionDate && !isNaN(new Date(l.productionDate).getTime())) {
+      allLitterDates.push({ date: l.productionDate, type: 'pdf', obj: l });
+    }
+  });
+  otherGroups.forEach(g => {
+    const d = getGroupDate(g.children) || g.startDate;
+    if (d && !isNaN(new Date(d).getTime())) {
+      allLitterDates.push({ date: d, type: 'other', obj: g });
+    }
+  });
+  allLitterDates.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  for (let i = 1; i < allLitterDates.length; i++) {
+    const t1 = new Date(allLitterDates[i-1].date).getTime();
+    const t2 = new Date(allLitterDates[i].date).getTime();
+    if (t2 - t1 <= 183 * 24 * 3600 * 1000) {
+      allLitterDates[i].obj._warning = true;
+    }
+  }
+
+  const pdfHtml = htmlPdfLitters.length
+    ? htmlPdfLitters.map(l => `<div class="litter">
         <div class="litterHead">
-          <div><b>第 ${escapeHtml(l.litterNo)} 胎</b> <span class="badge ok">PDF確定</span></div>
+          <div><b>第 ${escapeHtml(l.litterNo)} 胎</b> <span class="badge ok">PDF確定</span>${l._warning ? ' <span class="badge" style="background:#fef2f2;color:#dc2626;font-weight:bold;">⚠️半年內生育</span>' : ''}</div>
           <div class="small">生產：${escapeHtml(l.productionDate||'未填')}｜配種：${escapeHtml(l.matingDate||'未填')}｜${partnerLabel()}：${escapeHtml(l.partnerChipId||'未填')}｜子代：${l.kittens.length}</div>
         </div>
-        <div class="kittenGrid">${l.kittens.map(k=>renderKitten(k,`<br/>寵登狀態：${escapeHtml(k.registrationStatus||'')}${k.status?'<br/>cat_family狀態：'+escapeHtml(k.status):''}${k.firstRecordDate?'<br/>第一筆異動：'+escapeHtml(k.firstRecordDate):''}`)).join('')}</div>
+        <div class="kittenGrid">${l.kittens.map(k => {
+          if (k._isHtmlMergedFromOther) return renderOtherKitten(k, true);
+          return renderKitten(k, `<br/>寵登狀態：${escapeHtml(k.registrationStatus||'')}${k.status?'<br/>cat_family狀態：'+escapeHtml(k.status):''}${k.firstRecordDate?'<br/>第一筆異動：'+escapeHtml(k.firstRecordDate):''}`);
+        }).join('')}</div>
       </div>`).join('')
     : `<div class="empty">此${modeLabel()}沒有 PDF 確定胎次。</div>`;
 
@@ -621,7 +758,7 @@ function renderDetail() {
 
         return `<div class="litter ${extraClass} other-litter">
           <div class="litterHead">
-            <div>${title} ${matingHtml}</div>
+            <div>${title} ${matingHtml}${g._warning ? ' <span class="badge" style="background:#fef2f2;color:#dc2626;font-weight:bold;">⚠️半年內生育</span>' : ''}</div>
             <div class="litter-date-row">
               <span class="small">${dateRange}｜子代：${g.children.length}</span>
               <button style="background:#fef3c7; color:#b45309; border:1px solid #f59e0b; padding:4px 8px; font-size:12px; border-radius:6px; cursor:pointer;" onclick="openMatingModal('${escapeHtml(chipIds)}')">🔗 設定配種</button>
@@ -1004,8 +1141,8 @@ function injectMatingInfoChildren() {
 async function init() {
   try {
     const [dataRes, overridesRes] = await Promise.all([
-      fetch('/api/data'),
-      fetch('/api/overrides')
+      fetch('./api/data'),
+      fetch('./api/overrides')
     ]);
     if (!dataRes.ok) throw new Error(`HTTP ${dataRes.status}`);
     DATA = await dataRes.json();
@@ -1046,6 +1183,7 @@ async function init() {
         : '&#128337; 近三年';
       selectedChip = null;
       renderList();
+      renderStats();
     });
 
     // 首次渲染
