@@ -3,9 +3,8 @@ name: Build and Push FEEDING Image
 on:
   push:
     branches:
+      - master
       - main
-    paths:
-      - '**'
 
 env:
   REGISTRY: ghcr.io
