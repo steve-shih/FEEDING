@@ -6,6 +6,7 @@ COPY package*.json ./
 RUN npm ci --only=production
 
 COPY . .
+RUN cp -r data data_backup
 
 EXPOSE 3000
 
