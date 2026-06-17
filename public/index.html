@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>å¯µç‰©ç¹æ?ç´€?„ç¸½è¦?/title>
+<title>å¯µç‰©ç¹ï¿½?ç´€?ï¿½ç¸½ï¿½?/title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
 <style>
 :root { --bg:#f6f7fb; --card:#fff; --text:#1f2937; --muted:#6b7280; --line:#e5e7eb; --brand:#2563eb; --ok:#059669; --warn:#d97706; --bad:#dc2626; --soft:#eff6ff; --tag:#7c3aed; }
@@ -59,20 +59,20 @@ button { cursor:pointer; background:var(--brand); color:#fff; border-color:var(-
 .small { font-size:12px; color:var(--muted); }
 .loading { padding:40px; text-align:center; color:var(--muted); font-size:16px; }
 
-/* è¿‘ä?å¹´å??›æ???*/
+/* è¿‘ï¿½?å¹´ï¿½??ï¿½ï¿½???*/
 .recent-toggle { display:inline-flex; align-items:center; gap:7px; padding:8px 14px; border-radius:20px; border:1.5px solid #fb923c; background:#fff7ed; color:#c2410c; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; white-space:nowrap; }
 .recent-toggle:hover { background:#ffedd5; }
 .recent-toggle.on { background:#f97316; border-color:#f97316; color:#fff; box-shadow:0 0 0 4px rgba(249,115,22,.2); animation:pulse-orange 2s infinite; }
 .recent-toggle .dot { width:8px; height:8px; border-radius:50%; background:currentColor; opacity:.7; }
 @keyframes pulse-orange { 0%,100%{box-shadow:0 0 0 4px rgba(249,115,22,.2)} 50%{box-shadow:0 0 0 8px rgba(249,115,22,.05)} }
 
-/* TAG è¼¸å…¥æ¬?*/
+/* TAG è¼¸å…¥ï¿½?*/
 .tag-row { margin-top:7px; display:flex; align-items:center; gap:6px; }
 .tag-input { border:1px dashed #c4b5fd; border-radius:8px; padding:4px 8px; font-size:12px; color:var(--tag); width:100%; background:#faf5ff; outline:none; }
 .tag-input:focus { border-style:solid; border-color:#7c3aed; }
 .tag-input::placeholder { color:#c4b5fd; }
 
-/* ?ç¨®ç·¨è¼¯ */
+/* ?ï¿½ç¨®ç·¨è¼¯ */
 .breed-edit-btn { background:none; border:none; cursor:pointer; color:var(--muted); font-size:13px; padding:2px 4px; border-radius:6px; }
 .breed-edit-btn:hover { background:var(--soft); color:var(--brand); }
 .breed-inline { display:inline-flex; align-items:center; gap:6px; }
@@ -80,7 +80,7 @@ button { cursor:pointer; background:var(--brand); color:#fff; border-color:var(-
 .breed-inline button { padding:3px 8px; font-size:12px; border-radius:8px; }
 .breed-inline .cancel-btn { background:#fff; color:var(--muted); border-color:var(--line); }
 
-/* ?Œè??ºç??¥æ? */
+/* ?ï¿½ï¿½??ï¿½ï¿½??ï¿½ï¿½? */
 .litter-date-row { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
 .litter-date-label { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:#92400e; font-weight:600; white-space:nowrap; }
 .litter-date-input { border:1px solid #fcd34d; border-radius:8px; padding:4px 8px; font-size:12px; background:#fffbeb; color:#92400e; cursor:pointer; }
@@ -88,13 +88,13 @@ button { cursor:pointer; background:var(--brand); color:#fff; border-color:var(-
 .litter.manual-litter .litter-date-label { color:#6d28d9; }
 .litter.manual-litter .litter-date-input { border-color:#c4b5fd; background:#faf5ff; color:#6d28d9; }
 
-/* ?Œæ—¥?ºç?ç´…æ? */
+/* ?ï¿½æ—¥?ï¿½ï¿½?ç´…ï¿½? */
 .litter.samedate-litter { border-color: #ef4444; border-width: 2px; }
 .litter.samedate-litter .litterHead { background: #fef2f2; border-bottom-color: #ef4444; }
 .litter.samedate-litter .litter-date-label { color: #991b1b; }
 .litter.samedate-litter .litter-date-input { border-color: #fca5a5; background: #fee2e2; color: #991b1b; }
 
-/* å¤šé¸?ç¨® Dropdown */
+/* å¤šé¸?ï¿½ç¨® Dropdown */
 .multi-select-wrap { position:relative; }
 .multi-select-box { display:flex; flex-wrap:wrap; gap:5px; align-items:center; min-height:42px; border:1px solid var(--line); border-radius:10px; padding:6px 10px; cursor:pointer; background:#fff; user-select:none; }
 .multi-select-box:hover { border-color:#93c5fd; }
@@ -117,65 +117,66 @@ button { cursor:pointer; background:var(--brand); color:#fff; border-color:var(-
 <body>
 <header>
   <div class="header-left">
-    <h1>å¯µç‰©ç¹æ?ç´€?„ç¸½è¦?/h1>
-    <div class="sub">è³‡æ?ä¾†æ?ï¼?b>PDF</b> ?ºç‰¹å¯µç™»è¨˜ç?ç³»çµ±è³‡æ?ï¼ˆè?å¾Œæ?ä½¿ç”¨ï¼Œéƒ¨?†æ?ä½å¯?½å¡«å¯«æ?èª¤ï?ï¼?b>cat_family</b> ?ºç??¬ä?æºè??…ï??¨æ–¼è£œå…¥ PDF ?ªæ¶µ?‹ç?å­ä»£è³‡è??‚æ”¯?´æ?è²“è??¬è??¥è©¢??/div>
+    <h1>å¯µç‰©ç¹ï¿½?ç´€?ï¿½ç¸½ï¿½?/h1>
+    <div class="sub">è³‡ï¿½?ä¾†ï¿½?ï¿½?b>PDF</b> ?ï¿½ç‰¹å¯µç™»è¨˜ï¿½?ç³»çµ±è³‡ï¿½?ï¼ˆï¿½?å¾Œï¿½?ä½¿ç”¨ï¼Œéƒ¨?ï¿½ï¿½?ä½å¯?ï¿½å¡«å¯«ï¿½?èª¤ï¿½?ï¿½?b>cat_family</b> ?ï¿½ï¿½??ï¿½ï¿½?æºï¿½??ï¿½ï¿½??ï¿½æ–¼è£œå…¥ PDF ?ï¿½æ¶µ?ï¿½ï¿½?å­ä»£è³‡ï¿½??ï¿½æ”¯?ï¿½ï¿½?è²“ï¿½??ï¿½ï¿½??ï¿½è©¢??/div>
   </div>
   <div class="header-right">
-    <button class="recent-toggle" id="recentToggle">&#128337; è¿‘ä?å¹?/button>
+    <button class="recent-toggle" id="recentToggle">&#128337; è¿‘ï¿½?ï¿½?/button>
   </div>
 </header>
 <div class="wrap">
-  <div class="stats" id="stats"><div class="loading">è³‡æ?è¼‰å…¥ä¸?..</div></div>
+  <div class="stats" id="stats"><div class="loading">è³‡ï¿½?è¼‰å…¥ï¿½?..</div></div>
   <div class="toolbar">
-    <div class="tabs"><button id="motherTab" class="tabButton active">æ¯è??¥è©¢</button><button id="fatherTab" class="tabButton">?¬è??¥è©¢</button></div>
-    <input id="keyword" placeholder="?œå?è¦ªä»£?¶ç??å?ä»?™¶?‡ã€å?ç¨®ã€å?å­?.." />
-    <!-- å¤šé¸?ç¨® -->
+    <div class="tabs"><button id="motherTab" class="tabButton active">æ¯ï¿½??ï¿½è©¢</button><button id="fatherTab" class="tabButton">?ï¿½ï¿½??ï¿½è©¢</button></div>
+    <input id="keyword" placeholder="?ï¿½ï¿½?è¦ªä»£?ï¿½ï¿½??ï¿½ï¿½?ï¿½?ï¿½ï¿½?ï¿½ã€ï¿½?ç¨®ã€ï¿½?ï¿½?.." />
+    <!-- å¤šé¸?ï¿½ç¨® -->
     <div class="multi-select-wrap" id="breedFilterWrap">
       <div class="multi-select-box" id="breedFilterBox">
-        <span class="placeholder" id="breedPlaceholder">?¨éƒ¨?ç¨®</span>
+        <span class="placeholder" id="breedPlaceholder">?ï¿½éƒ¨?ï¿½ç¨®</span>
         <span class="ms-arrow">??/span>
       </div>
       <div class="ms-dropdown" id="breedDropdown">
-        <div class="ms-search"><input id="breedSearch" placeholder="?œå??ç¨®..." /></div>
+        <div class="ms-search"><input id="breedSearch" placeholder="?ï¿½ï¿½??ï¿½ç¨®..." /></div>
         <div id="breedOptionList"></div>
       </div>
     </div>
-    <div class="rangeBox">?†è?å¤©æ•¸ <input id="dayRange" type="range" min="1" max="120" value="30" /> <b id="dayText">30å¤?/b></div>
-    <select id="sortMode"><option value="totalDesc">å­ä»£å¤šåˆ°å°?/option><option value="pdfDesc">PDF?å??°å?</option><option value="chipAsc">?¶ç?å°åˆ°å¤?/option></select>
-    <button id="exportBtn">?¯å‡º JSON</button>
-    <button onclick="openSettingsModal()" style="background:#f3f4f6; color:#374151; border-color:#d1d5db; font-weight:bold; padding:10px 8px;">?™ï? è¨­å?</button>
+    <div class="rangeBox">?ï¿½ï¿½?å¤©æ•¸ <input id="dayRange" type="range" min="1" max="120" value="30" /> <b id="dayText">30ï¿½?/b></div>
+    <select id="sortMode"><option value="totalDesc">å­ä»£å¤šåˆ°ï¿½?/option><option value="pdfDesc">PDF?ï¿½ï¿½??ï¿½ï¿½?</option><option value="chipAsc">?ï¿½ï¿½?å°åˆ°ï¿½?/option></select>
+    <button id="exportBtn">?ï¿½å‡º JSON</button>
+    <button onclick="openSettingsModal()" style="background:#f3f4f6; color:#374151; border-color:#d1d5db; font-weight:bold; padding:10px 8px;">?ï¿½ï¿½? è¨­ï¿½?</button>
   </div>
   <div class="note">
-    <b>?? è³‡æ?èªªæ?ï¼?/b>
-    <b>PDFï¼ˆç‰¹å¯µç™»è¨˜ç?ï¼?/b> ??ç³»çµ±è¼ƒå??Ÿæ?ä½¿ç”¨ï¼Œéƒ¨?†æ?ä½å¯?½æ?å¡«å¯«?¯èª¤ï¼Œè?æ¬¡è?å­ä»£ä»¥æ­¤?ºå„ª?ˆä??ç?å°æ­£ç¢ºã€?    <b>cat_familyï¼ˆç??¬ä?æºï?</b> ??è£œå? PDF ?ªå??´ç™»è¨˜ç?å­ä»£ï¼›åˆ¤?·è??‡ï?å­ä»£ç¬¬ä?ç­†ç•°?•ç‚º?Œè??ºï?type=0ï¼‰ã€æ?è¦–ç‚º?ªå·±?Ÿï?ç¬¬ä?ç­†ç‚º?Œè??¥ï?type=1ï¼‰ã€å??’é™¤??    ?¬è??¥è©¢ä»?PDF ?¬è?è³‡æ??ºä¸»ï¼Œcat_family è£œå??Œæ™¶?‡ä?æºä? PDF ?ªæ¶µ?‹ä?ç¬¬ä?ç­†è??ºç?å­ä»£??  </div>
+    <b>?? è³‡ï¿½?èªªï¿½?ï¿½?/b>
+    <b>PDFï¼ˆç‰¹å¯µç™»è¨˜ï¿½?ï¿½?/b> ??ç³»çµ±è¼ƒï¿½??ï¿½ï¿½?ä½¿ç”¨ï¼Œéƒ¨?ï¿½ï¿½?ä½å¯?ï¿½ï¿½?å¡«å¯«?ï¿½èª¤ï¼Œï¿½?æ¬¡ï¿½?å­ä»£ä»¥æ­¤?ï¿½å„ª?ï¿½ï¿½??ï¿½ï¿½?å°æ­£ç¢ºï¿½?    <b>cat_familyï¼ˆï¿½??ï¿½ï¿½?æºï¿½?</b> ??è£œï¿½? PDF ?ï¿½ï¿½??ï¿½ç™»è¨˜ï¿½?å­ä»£ï¼›åˆ¤?ï¿½ï¿½??ï¿½ï¿½?å­ä»£ç¬¬ï¿½?ç­†ç•°?ï¿½ç‚º?ï¿½ï¿½??ï¿½ï¿½?type=0ï¼‰ã€ï¿½?è¦–ç‚º?ï¿½å·±?ï¿½ï¿½?ç¬¬ï¿½?ç­†ç‚º?ï¿½ï¿½??ï¿½ï¿½?type=1ï¼‰ã€ï¿½??ï¿½é™¤??    ?ï¿½ï¿½??ï¿½è©¢ï¿½?PDF ?ï¿½ï¿½?è³‡ï¿½??ï¿½ä¸»ï¼Œcat_family è£œï¿½??ï¿½æ™¶?ï¿½ï¿½?æºï¿½? PDF ?ï¿½æ¶µ?ï¿½ï¿½?ç¬¬ï¿½?ç­†ï¿½??ï¿½ï¿½?å­ä»£??  </div>
   <div class="grid">
-    <aside class="side"><div class="sideHead"><span id="sideTitle">æ¯è?æ¸…å–®</span> <span id="visibleCount" class="small"></span></div><div class="list" id="parentList"><div class="loading">è³‡æ?è¼‰å…¥ä¸?..</div></div></aside>
-    <main class="panel" id="detail"><div class="loading">è³‡æ?è¼‰å…¥ä¸?..</div></main>
+    <aside class="side"><div class="sideHead"><span id="sideTitle">æ¯ï¿½?æ¸…å–®</span> <span id="visibleCount" class="small"></span></div><div class="list" id="parentList"><div class="loading">è³‡ï¿½?è¼‰å…¥ï¿½?..</div></div></aside>
+    <main class="panel" id="detail"><div class="loading">è³‡ï¿½?è¼‰å…¥ï¿½?..</div></main>
   </div>
 </div>
 <script>
 let DATA = null;
-let OVERRIDES = { breedOverrides: {}, litterTags: {}, kittenBirthDates: {}, kittenExtraChips: {}, customKittens: {}, kittenMatingInfo: {}, companyStamp: null, personalStamp: null, footerText: '?¬ç??„ç‚º?µè??¢å‡ºå¦‚æ??°å¸¸è«‹é€šçŸ¥', footerTextSize: 14, companyStampSize: 90, personalStampSize: 70, companyStampPos: 'top-right', personalStampPos: 'top-left' };
+let OVERRIDES = { breedOverrides: {}, litterTags: {}, kittenBirthDates: {}, kittenExtraChips: {}, customKittens: {}, kittenMatingInfo: {}, companyStamp: null, personalStamp: null, footerText: '?ï¿½ï¿½??ï¿½ç‚º?ï¿½ï¿½??ï¿½å‡ºå¦‚ï¿½??ï¿½å¸¸è«‹é€šçŸ¥', footerTextSize: 14, companyStampSize: 90, personalStampSize: 70, companyStampPos: 'top-right', personalStampPos: 'top-left' };
 let currentMode = 'mothers';
 let selectedChip = null;
 let selectedCats = new Set();
-let selectedBreeds = []; // å¤šé¸?ç¨®
-let recentOnly = false;  // è¿‘ä?å¹´ç¯©??
+let selectedBreeds = []; // å¤šé¸?ï¿½ç¨®
+let recentOnly = false;  // è¿‘ï¿½?å¹´ç¯©??
 const THREE_YEARS_MS = 3 * 365 * 24 * 3600 * 1000;
 
-// ?€?€ å·¥å…·?½å? ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// ?ï¿½?ï¿½ å·¥å…·?ï¿½ï¿½? ?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 function escapeHtml(v) {
   return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-function modeLabel() { return currentMode === 'mothers' ? 'æ¯è?' : '?¬è?'; }
-function partnerLabel() { return currentMode === 'mothers' ? '?¶è?' : 'æ¯è?'; }
+function modeLabel() { return currentMode === 'mothers' ? 'æ¯ï¿½?' : '?ï¿½ï¿½?'; }
+function partnerLabel() { return currentMode === 'mothers' ? '?ï¿½ï¿½?' : 'æ¯ï¿½?'; }
 function rowsForMode() { return currentMode === 'mothers' ? DATA.mothers : DATA.fathers; }
 
-// ?–å??‰æ??ç¨®ï¼ˆå?å§?or è¦†å¯«ï¼?function getBreed(parent) {
+// ç²å–å“ç¨®
+function getBreed(parent) {
   return parent.breed || OVERRIDES.breedOverrides[parent.chipId] || '';
 }
 
-// ?€?€ è¦†å¯«?²å? ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// ?ï¿½?ï¿½ è¦†å¯«?ï¿½ï¿½? ?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 async function saveOverrides() {
   await fetch('/feeding/api/overrides', {
     method: 'POST',
@@ -184,7 +185,7 @@ async function saveOverrides() {
   });
 }
 
-// ?€?€ å¤šé¸?ç¨® Dropdown ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// ?ï¿½?ï¿½ å¤šé¸?ï¿½ç¨® Dropdown ?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 function collectBreeds() {
   const set = new Set();
   [...DATA.mothers, ...DATA.fathers].forEach(p => {
@@ -203,7 +204,7 @@ function renderBreedFilter() {
   document.getElementById('breedOptionList').innerHTML = filtered.map(b =>
     `<label class="ms-option"><input type="checkbox" value="${escapeHtml(b)}" ${selectedBreeds.includes(b)?'checked':''} onchange="toggleBreed('${escapeHtml(b)}')" />${escapeHtml(b)}</label>`
   ).join('');
-  // ?´æ–° badge
+  // ?ï¿½æ–° badge
   const box = document.getElementById('breedFilterBox');
   const placeholder = document.getElementById('breedPlaceholder');
   const arrow = box.querySelector('.ms-arrow');
@@ -230,7 +231,7 @@ function toggleBreed(breed) {
   renderList();
 }
 
-// Dropdown ?‹é?
+// Dropdown ?ï¿½ï¿½?
 document.addEventListener('click', e => {
   const wrap = document.getElementById('breedFilterWrap');
   const dd = document.getElementById('breedDropdown');
@@ -243,7 +244,7 @@ document.addEventListener('click', e => {
   }
 });
 
-// ?€?€ ç¯©é¸?è¼¯ ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// ?ï¿½?ï¿½ ç¯©é¸?ï¿½è¼¯ ?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 function parentMatchesBreed(parent) {
   if (selectedBreeds.length === 0) return true;
   const pb = getBreed(parent).trim();
@@ -257,8 +258,10 @@ function getFilteredParents() {
   const sortMode = document.getElementById('sortMode').value;
   const now = Date.now();
   let rows = rowsForMode().filter(p => {
-    if (!p.chipId) return false; // ?æ¿¾?¡æ™¶?‡ï?èº«å?ä¸æ?ï¼?    if (!parentMatchesBreed(p)) return false;
-    // è¿‘ä?å¹´ç¯©?¸ï??€?‰å?ä»???°æ—¥?Ÿå??ˆåœ¨ä¸‰å¹´??    if (recentOnly) {
+    if (!p.chipId) return false; // éæ¿¾ç„¡æ™¶ç‰‡
+    if (!parentMatchesBreed(p)) return false;
+    // è¿‘ä¸‰å¹´ç¯©é¸
+    if (recentOnly) {
       const allDates = [
         ...p.pdfLitters.map(l => l.productionDate),
         ...p.pdfLitters.flatMap(l => l.kittens.map(k => k.dateValue)),
@@ -280,7 +283,7 @@ function getFilteredParents() {
   return rows;
 }
 
-// ?€?€ çµ±è? ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// ?ï¿½?ï¿½ çµ±ï¿½? ?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 function parentStats(parent) {
   const now = Date.now();
   let pdfLitterCount = 0;
@@ -358,22 +361,22 @@ function renderStats() {
     excludedByFirstRecordRuleCount: DATA.summary.excludedByFirstRecordRuleCount
   };
 
-  const cards = [['æ¯è?ç¸½æ•¸',s.motherCount],['?¬è?ç¸½æ•¸',s.fatherCount],['PDFæ¯è?',s.pdfMotherCount],['PDF?¬è?',s.pdfFatherCount],['PDFç¢ºå?å­ä»£',s.pdfConfirmedKittenCount],['?¶ä??¨å?å­ä»£',s.catFamilyOtherKittenCount],['è½‰å…¥?’é™¤',s.excludedByFirstRecordRuleCount]];
+  const cards = [['æ¯ï¿½?ç¸½æ•¸',s.motherCount],['?ï¿½ï¿½?ç¸½æ•¸',s.fatherCount],['PDFæ¯ï¿½?',s.pdfMotherCount],['PDF?ï¿½ï¿½?',s.pdfFatherCount],['PDFç¢ºï¿½?å­ä»£',s.pdfConfirmedKittenCount],['?ï¿½ï¿½??ï¿½ï¿½?å­ä»£',s.catFamilyOtherKittenCount],['è½‰å…¥?ï¿½é™¤',s.excludedByFirstRecordRuleCount]];
   document.getElementById('stats').innerHTML = cards.map(([l,v]) => `<div class="stat"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
 }
 
-// ?€?€ æ¸…å–®æ¸²æ? ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// ?ï¿½?ï¿½ æ¸…å–®æ¸²ï¿½? ?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 function renderList() {
   const rows = getFilteredParents();
   const allSelected = rows.length > 0 && rows.every(r => selectedCats.has(r.chipId));
   
   document.getElementById('sideTitle').innerHTML = `
     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
-      <span><label style="cursor:pointer; font-size:14px;"><input type="checkbox" id="selectAllCats" ${allSelected?'checked':''} onchange="toggleSelectAllCats()" style="margin-right:4px;" />?¨é¸${modeLabel()}</label></span>
-      <button style="background:#10b981; border-color:#10b981; font-size:12px; padding:4px 8px; border-radius:6px; color:#fff;" onclick="exportBatchCatsExcel()">?? ?¹æ¬¡?¯å‡º (${selectedCats.size})</button>
+      <span><label style="cursor:pointer; font-size:14px;"><input type="checkbox" id="selectAllCats" ${allSelected?'checked':''} onchange="toggleSelectAllCats()" style="margin-right:4px;" />?ï¿½é¸${modeLabel()}</label></span>
+      <button style="background:#10b981; border-color:#10b981; font-size:12px; padding:4px 8px; border-radius:6px; color:#fff;" onclick="exportBatchCatsExcel()">?? ?ï¿½æ¬¡?ï¿½å‡º (${selectedCats.size})</button>
     </div>
   `;
-  document.getElementById('visibleCount').textContent = `?®å? ${rows.length} ç­†`;
+  document.getElementById('visibleCount').textContent = `?ï¿½ï¿½? ${rows.length} ç­†`;
 
   if (!selectedChip && rows[0]) selectedChip = rows[0].chipId;
   if (!rows.some(p => p.chipId === selectedChip)) selectedChip = rows[0] ? rows[0].chipId : null;
@@ -399,10 +402,10 @@ function renderList() {
         <input type="checkbox" class="cat-checkbox" value="${escapeHtml(parent.chipId)}" ${isChecked?'checked':''} onclick="event.stopPropagation(); toggleCatSelection('${escapeHtml(parent.chipId)}')" style="width:16px;height:16px; cursor:pointer; margin:0;" />
         <div class="chip">${escapeHtml(parent.chipId)}</div>
       </div>
-      <div class="small" style="margin-left:24px;">${escapeHtml(breed || '?ç¨®?ªå¡«')} ${parent.birthDate?'ï½œç???'+escapeHtml(parent.birthDate):''}</div>
-      <div class="badges" style="margin-left:24px;"><span class="badge tag" style="background:#f5f3ff; color:#7c3aed;">ç¸½è?æ¬?${totalLitters}</span><span class="badge ok">PDF?æ¬¡ ${stat.pdfLitterCount}</span><span class="badge ok">PDFå­ä»£ ${stat.pdfKittenCount}</span><span class="badge warn">?¶ä? ${stat.otherKittenCount}</span><span class="badge">ç¸½å?ä»?${stat.totalKittenCount}</span></div>
+      <div class="small" style="margin-left:24px;">${escapeHtml(breed || '?ï¿½ç¨®?ï¿½å¡«')} ${parent.birthDate?'ï½œï¿½???'+escapeHtml(parent.birthDate):''}</div>
+      <div class="badges" style="margin-left:24px;"><span class="badge tag" style="background:#f5f3ff; color:#7c3aed;">ç¸½ï¿½?ï¿½?${totalLitters}</span><span class="badge ok">PDF?ï¿½æ¬¡ ${stat.pdfLitterCount}</span><span class="badge ok">PDFå­ä»£ ${stat.pdfKittenCount}</span><span class="badge warn">?ï¿½ï¿½? ${stat.otherKittenCount}</span><span class="badge">ç¸½ï¿½?ï¿½?${stat.totalKittenCount}</span></div>
     </div>`;
-  }).join('') || '<div class="empty">?¥ç„¡è³‡æ?</div>';
+  }).join('') || '<div class="empty">?ï¿½ç„¡è³‡ï¿½?</div>';
   renderDetail();
 }
 
@@ -425,13 +428,13 @@ function toggleSelectAllCats() {
 
 function selectParent(chip) { selectedChip = chip; renderList(); }
 
-// ?€?€ ?ç¨®ç·¨è¼¯ UI ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// ?ï¿½?ï¿½ ?ï¿½ç¨®ç·¨è¼¯ UI ?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 function breedEditHtml(parent) {
-  if (parent.breed) return ''; // ?Ÿå??‰å?ç¨®ï?ä¸å¯ç·¨è¼¯
+  if (parent.breed) return ''; // ?ï¿½ï¿½??ï¿½ï¿½?ç¨®ï¿½?ä¸å¯ç·¨è¼¯
   const override = OVERRIDES.breedOverrides[parent.chipId] || '';
   return `<span class="breed-inline" id="breedEditArea_${escapeHtml(parent.chipId)}">
-    ${override ? `<span class="badge warn" style="font-size:12px">å·²è?å¡«ï?${escapeHtml(override)}</span>` : ''}
-    <button class="breed-edit-btn" onclick="showBreedEdit('${escapeHtml(parent.chipId)}')" title="è£œå¡«?ç¨®">?ï? è£œå¡«?ç¨®</button>
+    ${override ? `<span class="badge warn" style="font-size:12px">å·²ï¿½?å¡«ï¿½?${escapeHtml(override)}</span>` : ''}
+    <button class="breed-edit-btn" onclick="showBreedEdit('${escapeHtml(parent.chipId)}')" title="è£œå¡«?ï¿½ç¨®">?ï¿½ï¿½? è£œå¡«?ï¿½ç¨®</button>
   </span>`;
 }
 
@@ -439,9 +442,9 @@ function showBreedEdit(chipId) {
   const area = document.getElementById('breedEditArea_' + chipId);
   if (!area) return;
   const cur = OVERRIDES.breedOverrides[chipId] || '';
-  area.innerHTML = `<input id="breedEditInput_${escapeHtml(chipId)}" value="${escapeHtml(cur)}" placeholder="è¼¸å…¥?ç¨®?ç¨±" style="width:150px" />
-    <button onclick="saveBreedEdit('${escapeHtml(chipId)}')">??ç¢ºè?</button>
-    <button class="cancel-btn" onclick="renderDetail()">?–æ?</button>`;
+  area.innerHTML = `<input id="breedEditInput_${escapeHtml(chipId)}" value="${escapeHtml(cur)}" placeholder="è¼¸å…¥?ï¿½ç¨®?ï¿½ç¨±" style="width:150px" />
+    <button onclick="saveBreedEdit('${escapeHtml(chipId)}')">??ç¢ºï¿½?</button>
+    <button class="cancel-btn" onclick="renderDetail()">?ï¿½ï¿½?</button>`;
   document.getElementById('breedEditInput_' + chipId)?.focus();
 }
 
@@ -456,15 +459,16 @@ async function saveBreedEdit(chipId) {
   renderList();
 }
 
-// ?€?€ å¹¼è?æ¸²æ?ï¼ˆPDF ç¢ºå?ï¼‰â??€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// ?ï¿½?ï¿½ å¹¼ï¿½?æ¸²ï¿½?ï¼ˆPDF ç¢ºï¿½?ï¼‰ï¿½??ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 function renderKitten(child, extra='') {
   const extraChip = OVERRIDES.kittenExtraChips[child.chipId] || '';
-  return `<div class="kitten"><b>${escapeHtml(child.chipId||'?¡æ™¶??)}</b>
-    <div>${child.name?'?å?ï¼?+escapeHtml(child.name):''}</div>
-    <div class="meta">${child.sex?'?§åˆ¥ï¼?+escapeHtml(child.sex)+'ï½?:''}${escapeHtml(child.breed||'')}
-    <br/>æ¯ï?${escapeHtml(child.motherChipId||'?ªæ?ä¾?)}<br/>?¶ï?${escapeHtml(child.fatherChipId||'?ªæ?ä¾?)}${extra}</div>
+  return `<div class="kitten">
+    <b>${escapeHtml(child.chipId || 'ç„¡æ™¶ç‰‡')}</b>
+    <div>${child.name ? 'åå­—ï¼š' + escapeHtml(child.name) : ''}</div>
+    <div class="meta">${child.sex ? 'æ€§åˆ¥ï¼š' + escapeHtml(child.sex) + 'ï½œ' : ''}${escapeHtml(child.breed || '')}
+    <br/>æ¯ï¼š${escapeHtml(child.motherChipId || 'æœªæä¾›')}<br/>çˆ¶ï¼š${escapeHtml(child.fatherChipId || 'æœªæä¾›')}${extra}</div>
     <div class="tag-row" style="margin-top:6px;">
-      <input class="tag-input" style="border-color:#93c5fd; background:#eff6ff; color:#2563eb;" placeholder="å¤šæ™¶???™è¨»"
+      <input class="tag-input" style="border-color:#93c5fd; background:#eff6ff; color:#2563eb;" placeholder="è¤‡æ•¸æ™¶ç‰‡/å‚™è¨»"
         value="${escapeHtml(extraChip)}"
         data-chip="${escapeHtml(child.chipId)}"
         onchange="saveExtraChip(this)"
@@ -474,22 +478,21 @@ function renderKitten(child, extra='') {
   </div>`;
 }
 
-// ?€?€ å¹¼è?æ¸²æ?ï¼ˆå…¶ä»–æ¨å®šï???TAG è¼¸å…¥ï¼‰â??€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
 function renderOtherKitten(child, isMerged = false) {
   const tag = OVERRIDES.litterTags[child.chipId] || '';
   const extraChip = OVERRIDES.kittenExtraChips[child.chipId] || '';
-  const deleteBtn = child.isCustom ? `<button style="background:var(--bad); border:none; padding:2px 6px; font-size:12px; float:right;" onclick="deleteCustomKitten('${escapeHtml(child.chipId)}')">?ªé™¤</button>` : '';
-  const redDot = isMerged ? ' <span style="color:red; font-size:14px;" title="?‡PDF?Œæ—¥?ˆä½µ">?”´</span>' : '';
+  const deleteBtn = child.isCustom ? `<button style="background:var(--bad); border:none; padding:2px 6px; font-size:12px; float:right;" onclick="deleteCustomKitten('${escapeHtml(child.chipId)}')">åˆªé™¤</button>` : '';
+  const redDot = isMerged ? ' <span style="color:red; font-size:14px;" title="æ¨å®šå­ä»£ä½µå…¥ç›¸åŒç”Ÿæ—¥PDFèƒæ¬¡">â˜…</span>' : '';
   return `<div class="kitten">
     ${deleteBtn}
-    <b>${escapeHtml(child.chipId||'?¡æ™¶??)}</b>${redDot}
-    <div>${child.name?'?å?ï¼?+escapeHtml(child.name):''}</div>
-    <div class="meta">${child.sex?'?§åˆ¥ï¼?+escapeHtml(child.sex)+'ï½?:''}${escapeHtml(child.breed||'')}
-    <br/>?ºç??¥ï?<b>${escapeHtml(OVERRIDES.kittenBirthDates[child.chipId] || child.date || '?ªçŸ¥')}</b>${OVERRIDES.kittenBirthDates[child.chipId]?' <span class="badge warn" style="font-size:10px">å·²ç·¨è¼?/span>':''}
-    <br/>ç¬¬ä?ç­†ç•°?•ï?${escapeHtml(child.firstRecordDate||'')}
-    <br/>?€?‹ï?${escapeHtml(child.status||'')}</div>
+    <b>${escapeHtml(child.chipId || 'ç„¡æ™¶ç‰‡')}</b>${redDot}
+    <div>${child.name ? 'åå­—ï¼š' + escapeHtml(child.name) : ''}</div>
+    <div class="meta">${child.sex ? 'æ€§åˆ¥ï¼š' + escapeHtml(child.sex) + 'ï½œ' : ''}${escapeHtml(child.breed || '')}
+    <br/>ç”Ÿæ—¥ï¼š<b>${escapeHtml(OVERRIDES.kittenBirthDates[child.chipId] || child.date || 'æœªçŸ¥')}</b>${OVERRIDES.kittenBirthDates[child.chipId] ? ' <span class="badge warn" style="font-size:10px">å·²æ”¹ç”Ÿæ—¥</span>' : ''}
+    <br/>ç¬¬ä¸€ç­†ç•°å‹•ï¼š${escapeHtml(child.firstRecordDate || '')}
+    <br/>ç‹€æ…‹ï¼š${escapeHtml(child.status || '')}</div>
     <div class="tag-row">
-      <input class="tag-input" placeholder="è²¼è?æ¬¡TAGï¼ˆå?TAG=?Œä??ï?"
+      <input class="tag-input" placeholder="æ™¶ç‰‡çµ„åˆ¥/åŒèƒTAGï¼ˆä¾‹å¦‚TAG=è²“åª½æ™¶ç‰‡+ç”Ÿç”¢æ—¥æœŸï¼‰"
         value="${escapeHtml(tag)}"
         data-chip="${escapeHtml(child.chipId)}"
         onchange="saveLitterTag(this)"
@@ -497,7 +500,7 @@ function renderOtherKitten(child, isMerged = false) {
       />
     </div>
     <div class="tag-row">
-      <input class="tag-input" style="border-color:#93c5fd; background:#eff6ff; color:#2563eb;" placeholder="å¤šæ™¶???™è¨»"
+      <input class="tag-input" style="border-color:#93c5fd; background:#eff6ff; color:#2563eb;" placeholder="è¤‡æ•¸æ™¶ç‰‡/å‚™è¨»"
         value="${escapeHtml(extraChip)}"
         data-chip="${escapeHtml(child.chipId)}"
         onchange="saveExtraChip(this)"
@@ -507,45 +510,7 @@ function renderOtherKitten(child, isMerged = false) {
   </div>`;
 }
 
-async function saveExtraChip(input) {
-  const chip = input.dataset.chip;
-  const val = input.value.trim();
-  if (val) OVERRIDES.kittenExtraChips[chip] = val;
-  else delete OVERRIDES.kittenExtraChips[chip];
-  await saveOverrides();
-}
-
-async function saveLitterTag(input) {
-  const chip = input.dataset.chip;
-  const val = input.value.trim();
-  if (val) OVERRIDES.litterTags[chip] = val;
-  else delete OVERRIDES.litterTags[chip];
-  await saveOverrides();
-  renderDetail(); // ?æ–°?†ç?
-}
-
-// ?€?€ ?Œè??ºç??¥æ?ï¼ˆé?PDFç¾¤ç?ï¼‰â??€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
-async function saveLitterGroupDate(input, chipIds) {
-  const val = input.value.trim();
-  const ids = JSON.parse(chipIds);
-  ids.forEach(chip => {
-    if (val) OVERRIDES.kittenBirthDates[chip] = val;
-    else delete OVERRIDES.kittenBirthDates[chip];
-  });
-  await saveOverrides();
-  renderDetail();
-}
-
-function getGroupDate(children) {
-  // ?¥ç¾¤çµ„å…§?€?‰å¹¼è²“éƒ½?‰ç›¸?Œè?å¯«æ—¥?Ÿï?é¡¯ç¤ºè©²æ—¥?Ÿï??¦å?é¡¯ç¤ºç©?  const dates = children.map(c => OVERRIDES.kittenBirthDates[c.chipId]).filter(Boolean);
-  if (!dates.length) return '';
-  const allSame = dates.every(d => d === dates[0]);
-  return allSame ? dates[0] : '';
-}
-
-// ?€?€ ?¨å?å­ä»£?†ç?ï¼ˆTAG ?ªå?ï¼‰â??€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
 function groupOtherChildren(children, thresholdDays) {
-  // ?†æ??‰TAG?Œç„¡TAG?©æ‰¹
   const tagged = {}, noTag = [];
   children.forEach(child => {
     const tag = OVERRIDES.litterTags[child.chipId];
@@ -558,12 +523,11 @@ function groupOtherChildren(children, thresholdDays) {
   });
 
   const manualGroups = [];
-  // 1. ?‹å? TAG ç¾¤ç?ï¼ˆæ??é¢ï¼?  Object.entries(tagged).forEach(([tag, kids]) => {
+  Object.entries(tagged).forEach(([tag, kids]) => {
     const dates = kids.map(k=>k.dateValue).filter(Boolean).sort();
     manualGroups.push({ isManual:true, tag, startDate:dates[0]||'', endDate:dates[dates.length-1]||'', children:kids });
   });
 
-  // 2. ?“å‡º?Œå??¨å?ä¸€å¤©ã€ç?ç¾¤ç?
   const dateMap = {};
   const reallyNoTag = [];
   noTag.forEach(child => {
@@ -578,16 +542,14 @@ function groupOtherChildren(children, thresholdDays) {
   const autoGroups = [];
   Object.entries(dateMap).forEach(([date, kids]) => {
      if (kids.length > 1) {
-         // ?Œä?å¤©æ?å¤šéš»ï¼Œç¨ç«‹æ?ç´…è‰²æ¡†ç¾¤çµ?         autoGroups.push({ isManual: false, isSameDate: true, startDate: date, endDate: date, children: kids });
+         autoGroups.push({ isManual: false, isSameDate: true, startDate: date, endDate: date, children: kids });
      } else {
-         // ?ªæ?ä¸€?»ï??€?å??¬ç??‚é??†ç??è¼¯
          reallyNoTag.push(kids[0]);
      }
   });
 
-  // 3. ??TAG ä¸”é??Œä?å¤©ç??ªå??‚é??†ç?
   const sorted = [...reallyNoTag].sort((a,b)=>String(a.dateValue).localeCompare(String(b.dateValue)));
-    const thresholdGroups = [];
+  const thresholdGroups = [];
   for (const child of sorted) {
     const ct = child.dateValue ? new Date(child.dateValue).getTime() : 0;
     const last = thresholdGroups.slice(-1)[0];
@@ -603,7 +565,7 @@ function groupOtherChildren(children, thresholdDays) {
   return [...manualGroups, ...autoGroups];
 }
 
-// ?€?€ ?‹å??°å?å­ä»£?è¼¯ ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// â”€â”€ æ‰‹å‹•æ–°å¢å­ä»£é‚è¼¯ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function showCustomKittenForm() { document.getElementById('customKittenForm').style.display = 'block'; }
 function hideCustomKittenForm() {
   document.getElementById('customKittenForm').style.display = 'none';
@@ -615,7 +577,7 @@ function hideCustomKittenForm() {
 }
 async function saveCustomKitten() {
   const chipId = document.getElementById('ckChipId').value.trim();
-  if (!chipId) return alert('?¶ç??Ÿç‚ºå¿…å¡«ï¼?);
+  if (!chipId) return alert('?ï¿½ï¿½??ï¿½ç‚ºå¿…å¡«ï¿½?);
   if (!OVERRIDES.customKittens[selectedChip]) OVERRIDES.customKittens[selectedChip] = [];
   OVERRIDES.customKittens[selectedChip].push({
     chipId,
@@ -624,7 +586,7 @@ async function saveCustomKitten() {
     breed: document.getElementById('ckBreed').value.trim(),
     dateValue: document.getElementById('ckDate').value,
     date: document.getElementById('ckDate').value,
-    status: '?‹å??°å?',
+    status: '?ï¿½ï¿½??ï¿½ï¿½?',
     firstRecordDate: '',
     isCustom: true
   });
@@ -633,7 +595,7 @@ async function saveCustomKitten() {
   renderList();
 }
 async function deleteCustomKitten(chipId) {
-  if (!confirm('ç¢ºå?è¦åˆª?¤é€™éš»?‹å??°å??„å?ä»??ï¼?)) return;
+  if (!confirm('ç¢ºï¿½?è¦åˆª?ï¿½é€™éš»?ï¿½ï¿½??ï¿½ï¿½??ï¿½ï¿½?ï¿½??ï¿½?)) return;
   const list = OVERRIDES.customKittens[selectedChip];
   if (list) {
     OVERRIDES.customKittens[selectedChip] = list.filter(k => k.chipId !== chipId);
@@ -642,16 +604,16 @@ async function deleteCustomKitten(chipId) {
   }
 }
 
-// ?€?€ è©³ç´°?¢æ¿ ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// ?ï¿½?ï¿½ è©³ç´°?ï¿½æ¿ ?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 function renderDetail() {
   const parent = rowsForMode().find(r => r.chipId === selectedChip);
   const detail = document.getElementById('detail');
-  if (!parent) { detail.innerHTML = `<div class="empty">è«‹é¸?‡ä???{modeLabel()}</div>`; return; }
+  if (!parent) { detail.innerHTML = `<div class="empty">è«‹é¸?ï¿½ï¿½???{modeLabel()}</div>`; return; }
   const thresholdDays = Number(document.getElementById('dayRange').value);
   const stat = parentStats(parent);
   const breed = getBreed(parent);
   
-  // ?ˆä½µ?Ÿæœ¬?„å…¶ä»–å?ä»???‹å??°å??„å?ä»?  const customKids = OVERRIDES.customKittens[parent.chipId] || [];
+  // ?ï¿½ä½µ?ï¿½æœ¬?ï¿½å…¶ä»–ï¿½?ï¿½???ï¿½ï¿½??ï¿½ï¿½??ï¿½ï¿½?ï¿½?  const customKids = OVERRIDES.customKittens[parent.chipId] || [];
   const mergedOther = [...parent.otherChildren, ...customKids];
   const htmlPdfLitters = parent.pdfLitters.map(l => ({ ...l, kittens: [...l.kittens] }));
   const htmlRemainingOther = [];
@@ -685,7 +647,7 @@ function renderDetail() {
     }
   }
 
-  // --- è¨ˆç??Šå¹´?§å??†ç??²è­¦??---
+  // --- è¨ˆï¿½??ï¿½å¹´?ï¿½ï¿½??ï¿½ï¿½??ï¿½è­¦??---
   const allLitterDates = [];
   htmlPdfLitters.forEach(l => {
     if (l.productionDate && !isNaN(new Date(l.productionDate).getTime())) {
@@ -710,31 +672,31 @@ function renderDetail() {
   const pdfHtml = htmlPdfLitters.length
     ? htmlPdfLitters.map(l => `<div class="litter">
         <div class="litterHead">
-          <div><b>ç¬?${escapeHtml(l.litterNo)} ??/b> <span class="badge ok">PDFç¢ºå?</span>${l._warning ? ' <span class="badge" style="background:#fef2f2;color:#dc2626;font-weight:bold;">? ï??Šå¹´?§ç???/span>' : ''}</div>
-          <div class="small">?Ÿç”¢ï¼?{escapeHtml(l.productionDate||'?ªå¡«')}ï½œé?ç¨®ï?${escapeHtml(l.matingDate||'?ªå¡«')}ï½?{partnerLabel()}ï¼?{escapeHtml(l.partnerChipId||'?ªå¡«')}ï½œå?ä»??${l.kittens.length}</div>
+          <div><b>ï¿½?${escapeHtml(l.litterNo)} ??/b> <span class="badge ok">PDFç¢ºï¿½?</span>${l._warning ? ' <span class="badge" style="background:#fef2f2;color:#dc2626;font-weight:bold;">?ï¿½ï¿½??ï¿½å¹´?ï¿½ï¿½???/span>' : ''}</div>
+          <div class="small">?ï¿½ç”¢ï¿½?{escapeHtml(l.productionDate||'?ï¿½å¡«')}ï½œï¿½?ç¨®ï¿½?${escapeHtml(l.matingDate||'?ï¿½å¡«')}ï¿½?{partnerLabel()}ï¿½?{escapeHtml(l.partnerChipId||'?ï¿½å¡«')}ï½œï¿½?ï¿½??${l.kittens.length}</div>
         </div>
         <div class="kittenGrid">${l.kittens.map(k => {
           if (k._isHtmlMergedFromOther) return renderOtherKitten(k, true);
-          return renderKitten(k, `<br/>å¯µç™»?€?‹ï?${escapeHtml(k.registrationStatus||'')}${k.status?'<br/>cat_family?€?‹ï?'+escapeHtml(k.status):''}${k.firstRecordDate?'<br/>ç¬¬ä?ç­†ç•°?•ï?'+escapeHtml(k.firstRecordDate):''}`);
+          return renderKitten(k, `<br/>å¯µç™»?ï¿½?ï¿½ï¿½?${escapeHtml(k.registrationStatus||'')}${k.status?'<br/>cat_family?ï¿½?ï¿½ï¿½?'+escapeHtml(k.status):''}${k.firstRecordDate?'<br/>ç¬¬ï¿½?ç­†ç•°?ï¿½ï¿½?'+escapeHtml(k.firstRecordDate):''}`);
         }).join('')}</div>
       </div>`).join('')
-    : `<div class="empty">æ­?{modeLabel()}æ²’æ? PDF ç¢ºå??æ¬¡??/div>`;
+    : `<div class="empty">ï¿½?{modeLabel()}æ²’ï¿½? PDF ç¢ºï¿½??ï¿½æ¬¡??/div>`;
 
   const otherHtml = otherGroups.length
     ? otherGroups.map((g, i) => {
         const autoIdx = otherGroups.filter((x,xi)=>!x.isManual&&xi<=i).length;
         let title, dateRange, extraClass = '';
         if (g.isManual) {
-            title = `<b>?· ?‹å?æ¨™è?ï¼?{escapeHtml(g.tag)}</b> <span class="badge manual">?‹å?ç¶å?</span>`;
-            dateRange = g.startDate ? `?Ÿå??€?“ï?${escapeHtml(g.startDate)} ï½?${escapeHtml(g.endDate)}` : '';
+            title = `<b>?ï¿½ï¿½ ?ï¿½ï¿½?æ¨™ï¿½?ï¿½?{escapeHtml(g.tag)}</b> <span class="badge manual">?ï¿½ï¿½?ç¶ï¿½?</span>`;
+            dateRange = g.startDate ? `?ï¿½ï¿½??ï¿½?ï¿½ï¿½?${escapeHtml(g.startDate)} ï¿½?${escapeHtml(g.endDate)}` : '';
             extraClass = 'manual-litter';
         } else if (g.isSameDate) {
-            title = `<b>?š¨ ?Œæ—¥?¨å?ç¬?${autoIdx} çµ?/b> <span class="badge" style="background:#fef2f2;color:#dc2626;">?Œæ—¥?ºç?</span>`;
-            dateRange = `?¥æ?ï¼?{escapeHtml(g.startDate)}`;
+            title = `<b>?ï¿½ï¿½ ?ï¿½æ—¥?ï¿½ï¿½?ï¿½?${autoIdx} ï¿½?/b> <span class="badge" style="background:#fef2f2;color:#dc2626;">?ï¿½æ—¥?ï¿½ï¿½?</span>`;
+            dateRange = `?ï¿½ï¿½?ï¿½?{escapeHtml(g.startDate)}`;
             extraClass = 'samedate-litter';
         } else {
-            title = `<b>?¶ä??¨å?ç¬?${autoIdx} çµ?/b> <span class="badge warn">cat_family</span>`;
-            dateRange = `?Ÿå??€?“ï?${escapeHtml(g.startDate||'?ªçŸ¥')} ï½?${escapeHtml(g.endDate||'?ªçŸ¥')}ï½œé–¾?¼ï?${thresholdDays}å¤©`;
+            title = `<b>?ï¿½ï¿½??ï¿½ï¿½?ï¿½?${autoIdx} ï¿½?/b> <span class="badge warn">cat_family</span>`;
+            dateRange = `?ï¿½ï¿½??ï¿½?ï¿½ï¿½?${escapeHtml(g.startDate||'?ï¿½çŸ¥')} ï¿½?${escapeHtml(g.endDate||'?ï¿½çŸ¥')}ï½œé–¾?ï¿½ï¿½?${thresholdDays}å¤©`;
             extraClass = '';
         }
         
@@ -742,19 +704,19 @@ function renderDetail() {
         const chipIds = JSON.stringify(g.children.map(c => c.chipId));
         const matingInfo = g.children.map(c => OVERRIDES.kittenMatingInfo[c.chipId]).find(Boolean);
         const matingHtml = matingInfo 
-          ? `<span class="badge manual" style="margin-left:8px; background:#fff1f2; color:#be123c;">?ç¨®?¥ï?${escapeHtml(matingInfo.matingDate||'?ªå¡«')}ï½?{escapeHtml(matingInfo.partnerType||'')} ${escapeHtml(matingInfo.partnerChipId||'')}</span>`
+          ? `<span class="badge manual" style="margin-left:8px; background:#fff1f2; color:#be123c;">?ï¿½ç¨®?ï¿½ï¿½?${escapeHtml(matingInfo.matingDate||'?ï¿½å¡«')}ï¿½?{escapeHtml(matingInfo.partnerType||'')} ${escapeHtml(matingInfo.partnerChipId||'')}</span>`
           : '';
 
         return `<div class="litter ${extraClass} other-litter">
           <div class="litterHead">
-            <div>${title} ${matingHtml}${g._warning ? ' <span class="badge" style="background:#fef2f2;color:#dc2626;font-weight:bold;">? ï??Šå¹´?§ç???/span>' : ''}</div>
+            <div>${title} ${matingHtml}${g._warning ? ' <span class="badge" style="background:#fef2f2;color:#dc2626;font-weight:bold;">?ï¿½ï¿½??ï¿½å¹´?ï¿½ï¿½???/span>' : ''}</div>
             <div class="litter-date-row">
-              <span class="small">${dateRange}ï½œå?ä»??${g.children.length}</span>
-              <button style="background:#fef3c7; color:#b45309; border:1px solid #f59e0b; padding:4px 8px; font-size:12px; border-radius:6px; cursor:pointer;" onclick="openMatingModal('${escapeHtml(chipIds)}')">?? è¨­å??ç¨®</button>
-              <label class="litter-date-label">?? ?Œè??ºç???                <input type="date" class="litter-date-input"
+              <span class="small">${dateRange}ï½œï¿½?ï¿½??${g.children.length}</span>
+              <button style="background:#fef3c7; color:#b45309; border:1px solid #f59e0b; padding:4px 8px; font-size:12px; border-radius:6px; cursor:pointer;" onclick="openMatingModal('${escapeHtml(chipIds)}')">?? è¨­ï¿½??ï¿½ç¨®</button>
+              <label class="litter-date-label">?? ?ï¿½ï¿½??ï¿½ï¿½???                <input type="date" class="litter-date-input"
                   value="${escapeHtml(groupDate)}"
                   onchange="saveLitterGroupDate(this, '${escapeHtml(chipIds)}')"
-                  title="è¨­å?å¾Œå??¨åˆ°æ­¤ç??€?‰å¹¼è²?
+                  title="è¨­ï¿½?å¾Œï¿½??ï¿½åˆ°æ­¤ï¿½??ï¿½?ï¿½å¹¼ï¿½?
                 />
               </label>
             </div>
@@ -762,51 +724,51 @@ function renderDetail() {
           <div class="kittenGrid">${g.children.map(renderOtherKitten).join('')}</div>
         </div>`;
       }).join('')
-    : `<div class="empty">PDF å¤–æ??‰ç¬¦?ˆã€Œç¬¬ä¸€ç­†ç‚ºè½‰å‡º?ç??¶ä??¨å?å­ä»£??/div>`;
+    : `<div class="empty">PDF å¤–ï¿½??ï¿½ç¬¦?ï¿½ã€Œç¬¬ä¸€ç­†ç‚ºè½‰å‡º?ï¿½ï¿½??ï¿½ï¿½??ï¿½ï¿½?å­ä»£??/div>`;
 
   detail.innerHTML = `
     <div class="panelTitle">
       <div>
         <h2>${modeLabel()} ${escapeHtml(parent.chipId)}</h2>
         <div class="small">
-          ${escapeHtml(breed||'?ç¨®?ªå¡«')}
-          ${parent.birthDate?'ï½œç???'+escapeHtml(parent.birthDate):''}
+          ${escapeHtml(breed||'?ï¿½ç¨®?ï¿½å¡«')}
+          ${parent.birthDate?'ï½œï¿½???'+escapeHtml(parent.birthDate):''}
           ${breedEditHtml(parent)}
         </div>
       </div>
       <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
         <div class="badges">
-          <span class="badge ok">PDF?æ¬¡ ${stat.pdfLitterCount}</span>
+          <span class="badge ok">PDF?ï¿½æ¬¡ ${stat.pdfLitterCount}</span>
           <span class="badge ok">PDFå­ä»£ ${stat.pdfKittenCount}</span>
-          <span class="badge warn">?¶ä? ${stat.otherKittenCount}</span>
-          <span class="badge">ç¸½å?ä»?${stat.totalKittenCount}</span>
+          <span class="badge warn">?ï¿½ï¿½? ${stat.otherKittenCount}</span>
+          <span class="badge">ç¸½ï¿½?ï¿½?${stat.totalKittenCount}</span>
         </div>
-        <button style="background:#1d4ed8; border-color:#1e40af; padding:6px 14px; font-weight:bold; border-radius:8px; font-size:13px;" onclick="exportSingleCatExcel('${escapeHtml(parent.chipId)}')">?? ?¯å‡ºç¹æ?ç´€??(Excel)</button>
+        <button style="background:#1d4ed8; border-color:#1e40af; padding:6px 14px; font-weight:bold; border-radius:8px; font-size:13px;" onclick="exportSingleCatExcel('${escapeHtml(parent.chipId)}')">?? ?ï¿½å‡ºç¹ï¿½?ç´€??(Excel)</button>
       </div>
     </div>
-    <div class="section"><h3>PDF ç¢ºå??æ¬¡</h3>${pdfHtml}</div>
+    <div class="section"><h3>PDF ç¢ºï¿½??ï¿½æ¬¡</h3>${pdfHtml}</div>
     <div class="section">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h3 style="margin:0;">?¶ä??¨å?å­ä»£ï¼ˆå«å¤šæ™¶?‡ã€ç??¬ä?æ¥­æ??‹å??°å?è³‡æ?ï¼?/h3>
-        <button style="background:#f0fdf4; border:1px solid #22c55e; color:#15803d; border-radius:20px; padding:6px 12px; font-size:13px; font-weight:bold; cursor:pointer;" onclick="showCustomKittenForm()">???‹å??°å?å­ä»£</button>
+        <h3 style="margin:0;">?ï¿½ï¿½??ï¿½ï¿½?å­ä»£ï¼ˆå«å¤šæ™¶?ï¿½ã€ï¿½??ï¿½ï¿½?æ¥­ï¿½??ï¿½ï¿½??ï¿½ï¿½?è³‡ï¿½?ï¿½?/h3>
+        <button style="background:#f0fdf4; border:1px solid #22c55e; color:#15803d; border-radius:20px; padding:6px 12px; font-size:13px; font-weight:bold; cursor:pointer;" onclick="showCustomKittenForm()">???ï¿½ï¿½??ï¿½ï¿½?å­ä»£</button>
       </div>
       <div id="customKittenForm" style="display:none; background:#f0fdf4; border:1px dashed #22c55e; border-radius:12px; padding:16px; margin-bottom:14px;">
-        <h4 style="margin:0 0 10px; color:#15803d;">?‹å??°å?å­ä»£</h4>
+        <h4 style="margin:0 0 10px; color:#15803d;">?ï¿½ï¿½??ï¿½ï¿½?å­ä»£</h4>
         <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
-          <input id="ckChipId" placeholder="?¶ç???(å¿…å¡«)" style="border-color:#86efac" />
-          <input id="ckName" placeholder="?å?" style="border-color:#86efac" />
-          <input id="ckSex" placeholder="?§åˆ¥ (??æ¯?" style="width:100px; border-color:#86efac" />
-          <input id="ckBreed" placeholder="?ç¨®" style="border-color:#86efac" />
-          <input type="date" id="ckDate" title="?ºç??? style="border-color:#86efac" />
+          <input id="ckChipId" placeholder="?ï¿½ï¿½???(å¿…å¡«)" style="border-color:#86efac" />
+          <input id="ckName" placeholder="?ï¿½ï¿½?" style="border-color:#86efac" />
+          <input id="ckSex" placeholder="?ï¿½åˆ¥ (??ï¿½?" style="width:100px; border-color:#86efac" />
+          <input id="ckBreed" placeholder="?ï¿½ç¨®" style="border-color:#86efac" />
+          <input type="date" id="ckDate" title="?ï¿½ï¿½??? style="border-color:#86efac" />
         </div>
-        <button style="background:#22c55e; border-color:#22c55e; padding:8px 16px;" onclick="saveCustomKitten()">???²å?å­ä»£</button>
-        <button class="tabButton" style="padding:8px 16px;" onclick="hideCustomKittenForm()">?–æ?</button>
+        <button style="background:#22c55e; border-color:#22c55e; padding:8px 16px;" onclick="saveCustomKitten()">???ï¿½ï¿½?å­ä»£</button>
+        <button class="tabButton" style="padding:8px 16px;" onclick="hideCustomKittenForm()">?ï¿½ï¿½?</button>
       </div>
       ${otherHtml}
     </div>`;
 }
 
-// ?€?€ ?¯å‡º ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// ?ï¿½?ï¿½ ?ï¿½å‡º ?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 function exportCurrentJson() {
   const rows = getFilteredParents();
   const blob = new Blob([JSON.stringify({...DATA, [currentMode]: rows, currentMode, overrides: OVERRIDES}, null, 2)], {type:'application/json;charset=utf-8'});
@@ -826,12 +788,12 @@ function switchMode(nextMode) {
   renderList();
 }
 
-// ?€?€ ?®éš»è²“å’ª Excel ?¯å‡º (ExcelJS) ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// ?ï¿½?ï¿½ ?ï¿½éš»è²“å’ª Excel ?ï¿½å‡º (ExcelJS) ?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 function twYear(dateStr) {
   if (!dateStr) return '';
   const d = new Date(dateStr);
   if (isNaN(d.getTime())) return dateStr;
-  return `${d.getFullYear() - 1911}å¹?{String(d.getMonth() + 1).padStart(2,'0')}??{String(d.getDate()).padStart(2,'0')}?¥`;
+  return `${d.getFullYear() - 1911}ï¿½?{String(d.getMonth() + 1).padStart(2,'0')}??{String(d.getDate()).padStart(2,'0')}?ï¿½`;
 }
 
 function buildCatWorksheet(workbook, chipId) {
@@ -844,9 +806,9 @@ function buildCatWorksheet(workbook, chipId) {
   const mergedOther = [...parent.otherChildren, ...customKids];
   const otherGroups = groupOtherChildren(mergedOther, thresholdDays);
 
-  const ws = workbook.addWorksheet(parent.chipId || 'ç¹æ?ç´€??);
+  const ws = workbook.addWorksheet(parent.chipId || 'ç¹ï¿½?ç´€??);
 
-  // è¨­å??—å°?ˆé¢?ç½®ï¼šå¯¬åº¦è‡ª?•ç¸®?¾ç‚ºä¸€?ï??·åº¦?ªå?
+  // è¨­ï¿½??ï¿½å°?ï¿½é¢?ï¿½ç½®ï¼šå¯¬åº¦è‡ª?ï¿½ç¸®?ï¿½ç‚ºä¸€?ï¿½ï¿½??ï¿½åº¦?ï¿½ï¿½?
   ws.pageSetup.fitToPage = true;
   ws.pageSetup.fitToWidth = 1;
   ws.pageSetup.fitToHeight = 0;
@@ -856,48 +818,48 @@ function buildCatWorksheet(workbook, chipId) {
     header: 0.3, footer: 0.3
   };
 
-  // è¨­å?æ¬„å¯¬ (ç²¾ç¢ºå¯¬åº¦)
+  // è¨­ï¿½?æ¬„å¯¬ (ç²¾ç¢ºå¯¬åº¦)
   ws.getColumn(1).width = 20.14;
   ws.getColumn(2).width = 12.29;
   ws.getColumn(3).width = 23;
   ws.getColumn(4).width = 8.43;
   ws.getColumn(5).width = 47.86;
 
-  // è¡¨é ­ Row 1ï¼šæ?é¡?  ws.mergeCells('A1:E1');
+  // è¡¨é ­ Row 1ï¼šï¿½?ï¿½?  ws.mergeCells('A1:E1');
   const titleCell = ws.getCell('A1');
-  titleCell.value = '?µé?è»Ÿé??´å?å·¥ä?å®?;
+  titleCell.value = '?ï¿½ï¿½?è»Ÿï¿½??ï¿½ï¿½?å·¥ï¿½?ï¿½?;
   titleCell.font = { size: 18, bold: true };
   titleCell.alignment = { horizontal: 'center', vertical: 'middle' };
   ws.getRow(1).height = 40;
 
-  // è¡¨é ­ Row 2ï¼šæ—¥?Ÿå???  ws.mergeCells('A2:E2');
+  // è¡¨é ­ Row 2ï¼šæ—¥?ï¿½ï¿½???  ws.mergeCells('A2:E2');
   const dateRangeCell = ws.getCell('A2');
-  dateRangeCell.value = 'ç¹æ??¥è©¢?¥æ??€?“ï??¡é???;
+  dateRangeCell.value = 'ç¹ï¿½??ï¿½è©¢?ï¿½ï¿½??ï¿½?ï¿½ï¿½??ï¿½ï¿½???;
   dateRangeCell.font = { size: 12 };
   dateRangeCell.alignment = { horizontal: 'right', vertical: 'middle' };
 
-  // è¡¨é ­ Row 3ï¼šé??¥ã€æ€§åˆ¥?å?ç¨?  const isMale = currentMode === 'fathers';
+  // è¡¨é ­ Row 3ï¼šï¿½??ï¿½ã€æ€§åˆ¥?ï¿½ï¿½?ï¿½?  const isMale = currentMode === 'fathers';
   const isFemale = currentMode === 'mothers';
   ws.mergeCells('A3:E3');
   const infoCell = ws.getCell('A3');
-  infoCell.value = `?¹å??•ç‰©é¡åˆ¥ï¼šã€€?çŠ¬ ? è??€?€?¹å??•ç‰©?§åˆ¥ï¼šã€€${isMale?'??:'??}??${isFemale?'??:'??}æ¯ã€€?€?¹å??ç¨®/?©ç¨®ï¼šã€€${breed}`;
+  infoCell.value = `?ï¿½ï¿½??ï¿½ç‰©é¡åˆ¥ï¼šã€€?ï¿½çŠ¬ ?ï¿½ï¿½??ï¿½?ï¿½?ï¿½ï¿½??ï¿½ç‰©?ï¿½åˆ¥ï¼šã€€${isMale?'??:'??}??${isFemale?'??:'??}æ¯ã€€?ï¿½?ï¿½ï¿½??ï¿½ç¨®/?ï¿½ç¨®ï¼šã€€${breed}`;
   infoCell.font = { size: 12 };
   infoCell.alignment = { horizontal: 'left', vertical: 'middle' };
   ws.getRow(3).height = 25;
 
-  // è¡¨é ­ Row 4ï¼šå‡º?Ÿæ—¥??  ws.mergeCells('A4:E4');
+  // è¡¨é ­ Row 4ï¼šå‡º?ï¿½æ—¥??  ws.mergeCells('A4:E4');
   const bdateCell = ws.getCell('A4');
-  bdateCell.value = `?ºç??¥æ?ï¼šã€€${twYear(parent.birthDate)}`;
+  bdateCell.value = `?ï¿½ï¿½??ï¿½ï¿½?ï¼šã€€${twYear(parent.birthDate)}`;
   bdateCell.font = { size: 12 };
 
-  // è¡¨é ­ Row 5ï¼šæ™¶?‡è?ç¢?  ws.mergeCells('A5:E5');
+  // è¡¨é ­ Row 5ï¼šæ™¶?ï¿½ï¿½?ï¿½?  ws.mergeCells('A5:E5');
   const chipCell = ws.getCell('A5');
-  chipCell.value = `å¯µç‰©?»è??¶ç??Ÿç¢¼ï¼šã€€${parent.chipId}`;
+  chipCell.value = `å¯µç‰©?ï¿½ï¿½??ï¿½ï¿½??ï¿½ç¢¼ï¼šã€€${parent.chipId}`;
   chipCell.font = { size: 12 };
   ws.getRow(5).height = 25;
 
-  // è³‡æ?è¡¨é ­ Row 6
-  const headers = ['?æ¬¡', '?ç¨®?¥æ?', '?ç¨®ä¹‹ç¨®??ç¨®æ??…å½¢', '?Ÿç”¢?¥æ?', 'å¹¼ç??¢å‡º?…å½¢ç´€??];
+  // è³‡ï¿½?è¡¨é ­ Row 6
+  const headers = ['?ï¿½æ¬¡', '?ï¿½ç¨®?ï¿½ï¿½?', '?ï¿½ç¨®ä¹‹ç¨®??ç¨®ï¿½??ï¿½å½¢', '?ï¿½ç”¢?ï¿½ï¿½?', 'å¹¼ï¿½??ï¿½å‡º?ï¿½å½¢ç´€??];
   const headerRow = ws.getRow(6);
   headerRow.height = 30;
   
@@ -910,7 +872,7 @@ function buildCatWorksheet(workbook, chipId) {
     cell.border = { top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'} };
   });
 
-  // è³‡æ?å¯«å…¥?½å?
+  // è³‡ï¿½?å¯«å…¥?ï¿½ï¿½?
   let currentRow = 7;
   function addDataRow(col1, col2, col3, col4, col5) {
     const row = ws.getRow(currentRow);
@@ -926,22 +888,22 @@ function buildCatWorksheet(workbook, chipId) {
       cell.alignment = { wrapText: true, vertical: 'middle', horizontal: (i === 5 || i === 3) ? 'left' : 'center' };
       cell.font = { size: 12 };
     }
-    // ä¸è¨­å®?row.heightï¼Œè? Excel ä¾é? wrapText ?ªå?èª¿æ•´é«˜åº¦
+    // ä¸è¨­ï¿½?row.heightï¼Œï¿½? Excel ä¾ï¿½? wrapText ?ï¿½ï¿½?èª¿æ•´é«˜åº¦
     currentRow++;
   }
 
   const allLitters = [];
 
-  // ?´ç? PDF ?æ¬¡
+  // ?ï¿½ï¿½? PDF ?ï¿½æ¬¡
   parent.pdfLitters.forEach(l => {
     let mCount = 0, fCount = 0, total = l.kittens.length;
     let kidsText = l.kittens.map(k => {
       if (k.sex === '??) mCount++;
-      else if (k.sex === 'æ¯?) fCount++;
+      else if (k.sex === 'ï¿½?) fCount++;
       return `${k.chipId}(å·²å¯µ??`;
     }).join('\n');
-    let summary = `?¢å‡º?„å¹¼?œå…¬${mCount}?»ã€æ?${fCount}?»ï??±è?${total}?»ï??¶å¯µ?©ç™»è¨˜æ™¶?‡è?ç¢¼å??¥ç‚ºï¼š\n${kidsText}`;
-    let partnerInfo = l.partnerChipId ? `???¬å ´  ??ä»–å ´\n?¶ç??Ÿç¢¼ï¼?{l.partnerChipId}` : '';
+    let summary = `?ï¿½å‡º?ï¿½å¹¼?ï¿½å…¬${mCount}?ï¿½ã€ï¿½?${fCount}?ï¿½ï¿½??ï¿½ï¿½?${total}?ï¿½ï¿½??ï¿½å¯µ?ï¿½ç™»è¨˜æ™¶?ï¿½ï¿½?ç¢¼ï¿½??ï¿½ç‚ºï¼š\n${kidsText}`;
+    let partnerInfo = l.partnerChipId ? `???ï¿½å ´  ??ä»–å ´\n?ï¿½ï¿½??ï¿½ç¢¼ï¿½?{l.partnerChipId}` : '';
     
     allLitters.push({
       timestamp: new Date(l.productionDate).getTime() || Number.MAX_SAFE_INTEGER,
@@ -949,16 +911,16 @@ function buildCatWorksheet(workbook, chipId) {
     });
   });
 
-  // ?´ç??¶ä??¨å??æ¬¡
+  // ?ï¿½ï¿½??ï¿½ï¿½??ï¿½ï¿½??ï¿½æ¬¡
   otherGroups.forEach((g, i) => {
     let mCount = 0, fCount = 0, total = g.children.length;
     let kidsText = g.children.map(k => {
       if (k.sex === '??) mCount++;
-      else if (k.sex === 'æ¯?) fCount++;
+      else if (k.sex === 'ï¿½?) fCount++;
       const extra = OVERRIDES.kittenExtraChips[k.chipId] ? ` (${OVERRIDES.kittenExtraChips[k.chipId]})` : '';
-      return `${k.chipId||'?¡æ™¶??}${extra}`;
+      return `${k.chipId||'?ï¿½æ™¶??}${extra}`;
     }).join('\n');
-    let summary = `?¢å‡º?„å¹¼?œå…¬${mCount}?»ã€æ?${fCount}?»ï??±è?${total}?»ï??¶å¯µ?©ç™»è¨˜æ™¶?‡è?ç¢¼å??¥ç‚ºï¼š\n${kidsText}`;
+    let summary = `?ï¿½å‡º?ï¿½å¹¼?ï¿½å…¬${mCount}?ï¿½ã€ï¿½?${fCount}?ï¿½ï¿½??ï¿½ï¿½?${total}?ï¿½ï¿½??ï¿½å¯µ?ï¿½ç™»è¨˜æ™¶?ï¿½ï¿½?ç¢¼ï¿½??ï¿½ç‚ºï¼š\n${kidsText}`;
     const groupDate = getGroupDate(g.children) || g.startDate;
 
     const matingInfo = g.children.map(c => OVERRIDES.kittenMatingInfo[c.chipId]).find(Boolean);
@@ -967,9 +929,9 @@ function buildCatWorksheet(workbook, chipId) {
     if (matingInfo) {
       matingDateStr = twYear(matingInfo.matingDate);
       if (matingInfo.partnerChipId) {
-        partnerInfo = matingInfo.partnerType === '?¬å ´' 
-          ? `???¬å ´  ??ä»–å ´\n?¶ç??Ÿç¢¼ï¼?{matingInfo.partnerChipId}` 
-          : `???¬å ´  ??ä»–å ´\n?¶ç??Ÿç¢¼ï¼?{matingInfo.partnerChipId}`;
+        partnerInfo = matingInfo.partnerType === '?ï¿½å ´' 
+          ? `???ï¿½å ´  ??ä»–å ´\n?ï¿½ï¿½??ï¿½ç¢¼ï¿½?{matingInfo.partnerChipId}` 
+          : `???ï¿½å ´  ??ä»–å ´\n?ï¿½ï¿½??ï¿½ç¢¼ï¿½?{matingInfo.partnerChipId}`;
       }
     }
 
@@ -979,31 +941,31 @@ function buildCatWorksheet(workbook, chipId) {
     });
   });
 
-  // ä¾ç…§?¥æ??ˆå??’å?
+  // ä¾ç…§?ï¿½ï¿½??ï¿½ï¿½??ï¿½ï¿½?
   allLitters.sort((a, b) => a.timestamp - b.timestamp);
 
-  // ä¾å?å¯«å…¥ Excelï¼Œçµ±ä¸€ç·¨è??Œç¬¬X?ã€?  if (allLitters.length === 0) {
-    addDataRow("(?¡ç?æ®–ç???", "", "", "", "");
+  // ä¾ï¿½?å¯«å…¥ Excelï¼Œçµ±ä¸€ç·¨ï¿½??ï¿½ç¬¬X?ï¿½ï¿½?  if (allLitters.length === 0) {
+    addDataRow("(?ï¿½ï¿½?æ®–ï¿½???", "", "", "", "");
   } else {
     allLitters.forEach((item, index) => {
-      item.data[0] = `ç¬?{index + 1}?`;
+      item.data[0] = `ï¿½?{index + 1}?ï¿½`;
       addDataRow(...item.data);
     });
   }
 
-  // ==== ?°å?ç°½ç??‡é?è¨?====
-  currentRow++; // ?™ä?è¡Œç©º??  const footerRowStr = currentRow;
+  // ==== ?ï¿½ï¿½?ç°½ï¿½??ï¿½ï¿½?ï¿½?====
+  currentRow++; // ?ï¿½ï¿½?è¡Œç©º??  const footerRowStr = currentRow;
   ws.mergeCells(`A${footerRowStr}:C${footerRowStr}`);
   const footerCell = ws.getCell(`A${footerRowStr}`);
-  footerCell.value = OVERRIDES.footerText || '?¬ç??„ç‚º?µè??¢å‡ºå¦‚æ??°å¸¸è«‹é€šçŸ¥';
+  footerCell.value = OVERRIDES.footerText || '?ï¿½ï¿½??ï¿½ç‚º?ï¿½ï¿½??ï¿½å‡ºå¦‚ï¿½??ï¿½å¸¸è«‹é€šçŸ¥';
   footerCell.font = { size: Number(OVERRIDES.footerTextSize) || 14, bold: true };
   footerCell.alignment = { horizontal: 'left', vertical: 'middle' };
 
   function parseCellOrKeyword(posStr) {
-    if (posStr === 'å·¦ä?' || posStr === 'top-left') return { row: 0.1, col: 0.1, isBottom: false };
-    if (posStr === '?³ä?' || posStr === 'top-right') return { row: 0.1, col: 3.5, isBottom: false };
-    if (posStr === 'å·¦ä?(?•æ?åº•éƒ¨)' || posStr === 'bottom-left') return { row: footerRowStr - 1 + 0.1, col: 0.1, isBottom: true };
-    if (posStr === '?³ä?(?•æ?åº•éƒ¨)' || posStr === 'bottom-right') return { row: footerRowStr - 1 + 0.1, col: 3.5, isBottom: true };
+    if (posStr === 'å·¦ï¿½?' || posStr === 'top-left') return { row: 0.1, col: 0.1, isBottom: false };
+    if (posStr === '?ï¿½ï¿½?' || posStr === 'top-right') return { row: 0.1, col: 3.5, isBottom: false };
+    if (posStr === 'å·¦ï¿½?(?ï¿½ï¿½?åº•éƒ¨)' || posStr === 'bottom-left') return { row: footerRowStr - 1 + 0.1, col: 0.1, isBottom: true };
+    if (posStr === '?ï¿½ï¿½?(?ï¿½ï¿½?åº•éƒ¨)' || posStr === 'bottom-right') return { row: footerRowStr - 1 + 0.1, col: 3.5, isBottom: true };
     
     // Parse A1, B2 ç­‰è‡ªè¨‚å„²å­˜æ ¼
     const match = String(posStr).toUpperCase().match(/^([A-Z]+)(\d+)$/);
@@ -1020,14 +982,14 @@ function buildCatWorksheet(workbook, chipId) {
     return { row: 0.1, col: 3.5, isBottom: false };
   }
   
-  // æª¢æŸ¥?¯å¦?‰å°ç« åœ¨ä¸‹æ–¹ï¼Œè‹¥?‰æ??ç?é«˜åº¦
-  const cPosInfo = parseCellOrKeyword(OVERRIDES.companyStampPos || '?³ä?');
-  const pPosInfo = parseCellOrKeyword(OVERRIDES.personalStampPos || 'å·¦ä?');
+  // æª¢æŸ¥?ï¿½å¦?ï¿½å°ç« åœ¨ä¸‹æ–¹ï¼Œè‹¥?ï¿½ï¿½??ï¿½ï¿½?é«˜åº¦
+  const cPosInfo = parseCellOrKeyword(OVERRIDES.companyStampPos || '?ï¿½ï¿½?');
+  const pPosInfo = parseCellOrKeyword(OVERRIDES.personalStampPos || 'å·¦ï¿½?');
   const hasBottomStamp = (OVERRIDES.companyStamp && cPosInfo.isBottom) || 
                          (OVERRIDES.personalStamp && pPosInfo.isBottom);
   ws.getRow(footerRowStr).height = hasBottomStamp ? Math.max(80, Number(OVERRIDES.companyStampSize) || 90, Number(OVERRIDES.personalStampSize) || 70) : 30;
   
-  let usedCoords = {}; // ?¨ä??²æ­¢?Œåº§æ¨™é???
+  let usedCoords = {}; // ?ï¿½ï¿½??ï¿½æ­¢?ï¿½åº§æ¨™ï¿½???
   function applyStamp(base64Data, size, posStr) {
     if (!base64Data) return;
     const cleanBase64 = base64Data.replace(/^data:image\/\w+;base64,/, "");
@@ -1036,7 +998,7 @@ function buildCatWorksheet(workbook, chipId) {
     let info = parseCellOrKeyword(posStr);
     let key = `${info.row}_${info.col}`;
     while (usedCoords[key]) {
-       info.col += (size / 60) + 0.2; // å¾€?³ç???       key = `${info.row}_${info.col}`;
+       info.col += (size / 60) + 0.2; // å¾€?ï¿½ï¿½???       key = `${info.row}_${info.col}`;
     }
     usedCoords[key] = true;
 
@@ -1046,8 +1008,8 @@ function buildCatWorksheet(workbook, chipId) {
     });
   }
 
-  applyStamp(OVERRIDES.companyStamp, Number(OVERRIDES.companyStampSize) || 90, OVERRIDES.companyStampPos || '?³ä?');
-  applyStamp(OVERRIDES.personalStamp, Number(OVERRIDES.personalStampSize) || 70, OVERRIDES.personalStampPos || 'å·¦ä?');
+  applyStamp(OVERRIDES.companyStamp, Number(OVERRIDES.companyStampSize) || 90, OVERRIDES.companyStampPos || '?ï¿½ï¿½?');
+  applyStamp(OVERRIDES.personalStamp, Number(OVERRIDES.personalStampSize) || 70, OVERRIDES.personalStampPos || 'å·¦ï¿½?');
   // ==========================
 }
 
@@ -1060,14 +1022,14 @@ async function exportSingleCatExcel(chipId) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `ç¹æ?ç´€?„_${currentMode==='mothers'?'æ¯?:'??}_${chipId}.xlsx`;
+  a.download = `ç¹ï¿½?ç´€?ï¿½_${currentMode==='mothers'?'ï¿½?:'??}_${chipId}.xlsx`;
   a.click();
   URL.revokeObjectURL(url);
 }
 
 async function exportBatchCatsExcel() {
   const selectedArr = Array.from(selectedCats);
-  if (selectedArr.length === 0) return alert('è«‹å??¾é¸?³å?ä¸€?»è??ªï?');
+  if (selectedArr.length === 0) return alert('è«‹ï¿½??ï¿½é¸?ï¿½ï¿½?ä¸€?ï¿½ï¿½??ï¿½ï¿½?');
   const workbook = new ExcelJS.Workbook();
   selectedArr.forEach(chipId => buildCatWorksheet(workbook, chipId));
   if (workbook.worksheets.length === 0) return;
@@ -1076,12 +1038,12 @@ async function exportBatchCatsExcel() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `?¹æ¬¡ç¹æ?ç´€?„_${currentMode==='mothers'?'æ¯?:'??}_??{selectedArr.length}??xlsx`;
+  a.download = `?ï¿½æ¬¡ç¹ï¿½?ç´€?ï¿½_${currentMode==='mothers'?'ï¿½?:'??}_??{selectedArr.length}??xlsx`;
   a.click();
   URL.revokeObjectURL(url);
 }
 
-// ?€?€ è³‡æ????ï¼šå??ç¨®å­ä»£æ³¨å…¥å°æ–¹è¦ªä»£ ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// ?ï¿½?ï¿½ è³‡ï¿½????ï¼šï¿½??ï¿½ç¨®å­ä»£æ³¨å…¥å°æ–¹è¦ªä»£ ?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 function injectMatingInfoChildren() {
   const allParents = [...DATA.mothers, ...DATA.fathers];
   const parentMap = {};
@@ -1101,7 +1063,7 @@ function injectMatingInfoChildren() {
                          partner.otherChildren.some(k => k.chipId === child.chipId);
           if (!exists) {
             const newChild = { ...child };
-            if (parent.sex === 'æ¯?) {
+            if (parent.sex === 'ï¿½?) {
               newChild.motherChipId = parent.chipId;
               newChild.fatherChipId = partnerId;
             } else if (parent.sex === '??) {
@@ -1116,7 +1078,7 @@ function injectMatingInfoChildren() {
   });
 }
 
-// ?€?€ ?å????€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// ?ï¿½?ï¿½ ?ï¿½ï¿½????ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 async function init() {
   try {
     const [dataRes, overridesRes] = await Promise.all([
@@ -1127,14 +1089,14 @@ async function init() {
     DATA = await dataRes.json();
     if (overridesRes.ok) OVERRIDES = await overridesRes.json();
 
-    // ç¢ºä?çµæ?å®Œæ•´
+    // ç¢ºï¿½?çµï¿½?å®Œæ•´
     if (!OVERRIDES.breedOverrides) OVERRIDES.breedOverrides = {};
     if (!OVERRIDES.litterTags) OVERRIDES.litterTags = {};
     if (!OVERRIDES.kittenBirthDates) OVERRIDES.kittenBirthDates = {};
     if (!OVERRIDES.kittenExtraChips) OVERRIDES.kittenExtraChips = {};
     if (!OVERRIDES.customKittens) OVERRIDES.customKittens = {};
     if (!OVERRIDES.kittenMatingInfo) OVERRIDES.kittenMatingInfo = {};
-    if (OVERRIDES.footerText === undefined) OVERRIDES.footerText = '?¬ç??„ç‚º?µè??¢å‡ºå¦‚æ??°å¸¸è«‹é€šçŸ¥';
+    if (OVERRIDES.footerText === undefined) OVERRIDES.footerText = '?ï¿½ï¿½??ï¿½ç‚º?ï¿½ï¿½??ï¿½å‡ºå¦‚ï¿½??ï¿½å¸¸è«‹é€šçŸ¥';
     if (!OVERRIDES.footerTextSize) OVERRIDES.footerTextSize = 14;
     if (!OVERRIDES.companyStampSize) OVERRIDES.companyStampSize = 90;
     if (!OVERRIDES.personalStampSize) OVERRIDES.personalStampSize = 70;
@@ -1143,13 +1105,13 @@ async function init() {
 
     injectMatingInfoChildren();
 
-    // äº‹ä»¶ç¶å?
+    // äº‹ä»¶ç¶ï¿½?
     document.getElementById('motherTab').addEventListener('click', () => switchMode('mothers'));
     document.getElementById('fatherTab').addEventListener('click', () => switchMode('fathers'));
     document.getElementById('keyword').addEventListener('input', renderList);
     document.getElementById('sortMode').addEventListener('change', renderList);
     document.getElementById('dayRange').addEventListener('input', e => {
-      document.getElementById('dayText').textContent = e.target.value + 'å¤?;
+      document.getElementById('dayText').textContent = e.target.value + 'ï¿½?;
       renderDetail();
     });
     document.getElementById('exportBtn').addEventListener('click', exportCurrentJson);
@@ -1158,33 +1120,33 @@ async function init() {
       recentOnly = !recentOnly;
       document.getElementById('recentToggle').classList.toggle('on', recentOnly);
       document.getElementById('recentToggle').innerHTML = recentOnly
-        ? '&#9711; è¿‘ä?å¹???
-        : '&#128337; è¿‘ä?å¹?;
+        ? '&#9711; è¿‘ï¿½?ï¿½???
+        : '&#128337; è¿‘ï¿½?ï¿½?;
       selectedChip = null;
       renderList();
       renderStats();
     });
 
-    // é¦–æ¬¡æ¸²æ?
+    // é¦–æ¬¡æ¸²ï¿½?
     renderStats();
     renderBreedFilter();
     renderList();
   } catch (err) {
-    document.getElementById('stats').innerHTML = `<div style="color:var(--bad);padding:16px;">è³‡æ?è¼‰å…¥å¤±æ?ï¼?{err.message}</div>`;
+    document.getElementById('stats').innerHTML = `<div style="color:var(--bad);padding:16px;">è³‡ï¿½?è¼‰å…¥å¤±ï¿½?ï¿½?{err.message}</div>`;
     document.getElementById('parentList').innerHTML = '';
-    document.getElementById('detail').innerHTML = `<div class="empty">?¡æ?????°å?ç«?APIï¼Œè?ç¢ºè?ä¼ºæ??¨æ˜¯?¦æ­£å¸¸é?è¡Œã€?/div>`;
+    document.getElementById('detail').innerHTML = `<div class="empty">?ï¿½ï¿½?????ï¿½ï¿½?ï¿½?APIï¼Œï¿½?ç¢ºï¿½?ä¼ºï¿½??ï¿½æ˜¯?ï¿½æ­£å¸¸ï¿½?è¡Œï¿½?/div>`;
   }
 }
 
-// ?€?€ è¨­å??ç¨®å°è©±æ¡??€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// ?ï¿½?ï¿½ è¨­ï¿½??ï¿½ç¨®å°è©±ï¿½??ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 let currentMatingChipIds = [];
 function openMatingModal(chipIdsStr) {
   currentMatingChipIds = JSON.parse(chipIdsStr);
   const repChip = currentMatingChipIds[0];
-  const info = OVERRIDES.kittenMatingInfo[repChip] || { partnerChipId:'', partnerType:'?¬å ´', matingDate:'' };
+  const info = OVERRIDES.kittenMatingInfo[repChip] || { partnerChipId:'', partnerType:'?ï¿½å ´', matingDate:'' };
   
   document.getElementById('matingPartnerId').value = info.partnerChipId || '';
-  document.getElementById('matingPartnerType').value = info.partnerType || '?¬å ´';
+  document.getElementById('matingPartnerType').value = info.partnerType || '?ï¿½å ´';
   document.getElementById('matingDate').value = info.matingDate || '';
   document.getElementById('matingModal').style.display = 'flex';
 }
@@ -1211,19 +1173,19 @@ async function saveMatingModal() {
   await saveOverrides();
   closeMatingModal();
   
-  // ?æ–°?´ç?è³‡æ?ä»¥è§¸?¼é€??
+  // ?ï¿½æ–°?ï¿½ï¿½?è³‡ï¿½?ä»¥è§¸?ï¿½ï¿½??
   init(); 
 }
 
-// ?€?€ ç³»çµ±è¨­å?å°è©±æ¡?(?°ç?ä¸Šå‚³) ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
+// ?ï¿½?ï¿½ ç³»çµ±è¨­ï¿½?å°è©±ï¿½?(?ï¿½ï¿½?ä¸Šå‚³) ?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 function openSettingsModal() {
   document.getElementById('settingsModal').style.display = 'flex';
-  document.getElementById('footerTextInput').value = OVERRIDES.footerText || '?¬ç??„ç‚º?µè??¢å‡ºå¦‚æ??°å¸¸è«‹é€šçŸ¥';
+  document.getElementById('footerTextInput').value = OVERRIDES.footerText || '?ï¿½ï¿½??ï¿½ç‚º?ï¿½ï¿½??ï¿½å‡ºå¦‚ï¿½??ï¿½å¸¸è«‹é€šçŸ¥';
   document.getElementById('footerTextSizeInput').value = OVERRIDES.footerTextSize || 14;
   document.getElementById('companyStampSizeInput').value = OVERRIDES.companyStampSize || 90;
   document.getElementById('personalStampSizeInput').value = OVERRIDES.personalStampSize || 70;
-  document.getElementById('companyStampPosInput').value = OVERRIDES.companyStampPos || '?³ä?';
-  document.getElementById('personalStampPosInput').value = OVERRIDES.personalStampPos || 'å·¦ä?';
+  document.getElementById('companyStampPosInput').value = OVERRIDES.companyStampPos || '?ï¿½ï¿½?';
+  document.getElementById('personalStampPosInput').value = OVERRIDES.personalStampPos || 'å·¦ï¿½?';
   updateStampPreview('companyStamp');
   updateStampPreview('personalStamp');
 }
@@ -1266,89 +1228,89 @@ async function clearStamp(type) {
 init();
 </script>
 
-<!-- ?ç¨®è¨­å?å°è©±æ¡?-->
+<!-- ?ï¿½ç¨®è¨­ï¿½?å°è©±ï¿½?-->
 <div id="matingModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999; align-items:center; justify-content:center;">
   <div style="background:#fff; padding:24px; border-radius:14px; width:400px; max-width:90%; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
-    <h3 style="margin-top:0;">è¨­å?ç¾¤ç??ç¨®è³‡è?</h3>
-    <p style="font-size:13px; color:#6b7280; margin-bottom:16px;">æ­¤è¨­å®šå?å¥—ç”¨?³è©²ç¾¤ç??„æ??‰å¹¼è²“ã€?br/>è¨­å??¬è?/æ¯è?å¾Œï??™ä?å¹¼è?ä¹Ÿæ??ªå??ºç¾?¨å??¹ç?ç´€?„ä¸­??/p>
+    <h3 style="margin-top:0;">è¨­ï¿½?ç¾¤ï¿½??ï¿½ç¨®è³‡ï¿½?</h3>
+    <p style="font-size:13px; color:#6b7280; margin-bottom:16px;">æ­¤è¨­å®šï¿½?å¥—ç”¨?ï¿½è©²ç¾¤ï¿½??ï¿½ï¿½??ï¿½å¹¼è²“ï¿½?br/>è¨­ï¿½??ï¿½ï¿½?/æ¯ï¿½?å¾Œï¿½??ï¿½ï¿½?å¹¼ï¿½?ä¹Ÿï¿½??ï¿½ï¿½??ï¿½ç¾?ï¿½ï¿½??ï¿½ï¿½?ç´€?ï¿½ä¸­??/p>
     
     <div style="margin-bottom:12px;">
-      <label style="display:block; font-size:13px; margin-bottom:4px; font-weight:bold;">å°è±¡ä¾†æ?</label>
+      <label style="display:block; font-size:13px; margin-bottom:4px; font-weight:bold;">å°è±¡ä¾†ï¿½?</label>
       <select id="matingPartnerType" style="width:100%;">
-        <option value="?¬å ´">?¬å ´</option>
+        <option value="?ï¿½å ´">?ï¿½å ´</option>
         <option value="ä»–å ´">ä»–å ´</option>
       </select>
     </div>
     
     <div style="margin-bottom:12px;">
-      <label style="display:block; font-size:13px; margin-bottom:4px; font-weight:bold;">?å??¶ç??Ÿç¢¼</label>
-      <input id="matingPartnerId" type="text" placeholder="è«‹è¼¸?¥å?è±¡æ™¶?‡è?ç¢? style="width:100%;" />
+      <label style="display:block; font-size:13px; margin-bottom:4px; font-weight:bold;">?ï¿½ï¿½??ï¿½ï¿½??ï¿½ç¢¼</label>
+      <input id="matingPartnerId" type="text" placeholder="è«‹è¼¸?ï¿½ï¿½?è±¡æ™¶?ï¿½ï¿½?ï¿½? style="width:100%;" />
     </div>
 
     <div style="margin-bottom:20px;">
-      <label style="display:block; font-size:13px; margin-bottom:4px; font-weight:bold;">?ç¨®?¥æ?</label>
+      <label style="display:block; font-size:13px; margin-bottom:4px; font-weight:bold;">?ï¿½ç¨®?ï¿½ï¿½?</label>
       <input id="matingDate" type="date" style="width:100%;" />
     </div>
 
     <div style="display:flex; justify-content:flex-end; gap:8px;">
-      <button style="background:#e5e7eb; color:#374151; border-color:#d1d5db;" onclick="closeMatingModal()">?–æ?</button>
-      <button style="background:#be123c; border-color:#be123c;" onclick="saveMatingModal()">?²å?ä¸¦é€??</button>
+      <button style="background:#e5e7eb; color:#374151; border-color:#d1d5db;" onclick="closeMatingModal()">?ï¿½ï¿½?</button>
+      <button style="background:#be123c; border-color:#be123c;" onclick="saveMatingModal()">?ï¿½ï¿½?ä¸¦ï¿½??</button>
     </div>
   </div>
 </div>
 
-<!-- ç³»çµ±è¨­å?å°è©±æ¡?-->
+<!-- ç³»çµ±è¨­ï¿½?å°è©±ï¿½?-->
 <div id="settingsModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999; align-items:center; justify-content:center;">
   <div style="background:#fff; padding:24px; border-radius:14px; width:450px; max-width:90%; box-shadow:0 10px 25px rgba(0,0,0,0.2); max-height:90vh; overflow-y:auto;">
-    <h3 style="margin-top:0;">?™ï? ç³»çµ±è¨­å?</h3>
+    <h3 style="margin-top:0;">?ï¿½ï¿½? ç³»çµ±è¨­ï¿½?</h3>
     
     <div style="margin-bottom:16px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-        <label style="font-size:14px; font-weight:bold; margin:0;">?ªè??±è¡¨?„è¨»?‡å?</label>
-        <div style="font-size:12px; color:#4b5563;">?‡å?å¤§å?: <input type="number" id="footerTextSizeInput" style="width:50px; padding:2px 4px; font-size:12px;" /></div>
+        <label style="font-size:14px; font-weight:bold; margin:0;">?ï¿½ï¿½??ï¿½è¡¨?ï¿½è¨»?ï¿½ï¿½?</label>
+        <div style="font-size:12px; color:#4b5563;">?ï¿½ï¿½?å¤§ï¿½?: <input type="number" id="footerTextSizeInput" style="width:50px; padding:2px 4px; font-size:12px;" /></div>
       </div>
-      <input id="footerTextInput" type="text" style="width:100%; font-size:13px; border-color:#d1d5db;" placeholder="ä¾‹å?ï¼šæœ¬ç´€?„ç‚º?µè??¢å‡ºå¦‚æ??°å¸¸è«‹é€šçŸ¥" />
+      <input id="footerTextInput" type="text" style="width:100%; font-size:13px; border-color:#d1d5db;" placeholder="ä¾‹ï¿½?ï¼šæœ¬ç´€?ï¿½ç‚º?ï¿½ï¿½??ï¿½å‡ºå¦‚ï¿½??ï¿½å¸¸è«‹é€šçŸ¥" />
     </div>
 
     <datalist id="stampPosOptions">
-      <option value="å·¦ä?"></option>
-      <option value="?³ä?"></option>
-      <option value="å·¦ä?(?•æ?åº•éƒ¨)"></option>
-      <option value="?³ä?(?•æ?åº•éƒ¨)"></option>
+      <option value="å·¦ï¿½?"></option>
+      <option value="?ï¿½ï¿½?"></option>
+      <option value="å·¦ï¿½?(?ï¿½ï¿½?åº•éƒ¨)"></option>
+      <option value="?ï¿½ï¿½?(?ï¿½ï¿½?åº•éƒ¨)"></option>
     </datalist>
 
     <div style="margin-bottom:16px; border:1px solid #e5e7eb; padding:12px; border-radius:8px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <label style="font-size:14px; font-weight:bold; margin:0;">?¬å¸å¤§ç?</label>
+        <label style="font-size:14px; font-weight:bold; margin:0;">?ï¿½å¸å¤§ï¿½?</label>
         <div style="font-size:12px; color:#4b5563;">
-          ä½ç½®(è¼¸å…¥å¦‚A1): <input type="text" id="companyStampPosInput" list="stampPosOptions" style="width:100px; padding:2px 4px; font-size:12px; margin-right:4px;" placeholder="ä¾‹å?: ?³ä? ??E1" />
-          ?·å¯¬(px): <input type="number" id="companyStampSizeInput" style="width:50px; padding:2px 4px; font-size:12px;" />
+          ä½ç½®(è¼¸å…¥å¦‚A1): <input type="text" id="companyStampPosInput" list="stampPosOptions" style="width:100px; padding:2px 4px; font-size:12px; margin-right:4px;" placeholder="ä¾‹ï¿½?: ?ï¿½ï¿½? ??E1" />
+          ?ï¿½å¯¬(px): <input type="number" id="companyStampSizeInput" style="width:50px; padding:2px 4px; font-size:12px;" />
         </div>
       </div>
       <input type="file" accept="image/png, image/jpeg" onchange="handleStampUpload(event, 'companyStamp')" style="margin-bottom:8px; font-size:12px;" />
       <div id="preview-companyStamp" style="min-height:60px; background:#f9fafb; border:1px dashed #d1d5db; display:flex; align-items:center; justify-content:center; border-radius:6px; padding:6px;">
         <span style="color:#9ca3af; font-size:12px;">å°šæœªä¸Šå‚³</span>
       </div>
-      <button onclick="clearStamp('companyStamp')" style="margin-top:8px; font-size:12px; padding:4px 8px; background:#fee2e2; color:#ef4444; border:none; border-radius:4px; cursor:pointer;">æ¸…é™¤å¤§ç?</button>
+      <button onclick="clearStamp('companyStamp')" style="margin-top:8px; font-size:12px; padding:4px 8px; background:#fee2e2; color:#ef4444; border:none; border-radius:4px; cursor:pointer;">æ¸…é™¤å¤§ï¿½?</button>
     </div>
 
     <div style="margin-bottom:20px; border:1px solid #e5e7eb; padding:12px; border-radius:8px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <label style="font-size:14px; font-weight:bold; margin:0;">è² è²¬äººå?ç«?/label>
+        <label style="font-size:14px; font-weight:bold; margin:0;">è² è²¬äººï¿½?ï¿½?/label>
         <div style="font-size:12px; color:#4b5563;">
-          ä½ç½®(è¼¸å…¥å¦‚A1): <input type="text" id="personalStampPosInput" list="stampPosOptions" style="width:100px; padding:2px 4px; font-size:12px; margin-right:4px;" placeholder="ä¾‹å?: å·¦ä? ??A1" />
-          ?·å¯¬(px): <input type="number" id="personalStampSizeInput" style="width:50px; padding:2px 4px; font-size:12px;" />
+          ä½ç½®(è¼¸å…¥å¦‚A1): <input type="text" id="personalStampPosInput" list="stampPosOptions" style="width:100px; padding:2px 4px; font-size:12px; margin-right:4px;" placeholder="ä¾‹ï¿½?: å·¦ï¿½? ??A1" />
+          ?ï¿½å¯¬(px): <input type="number" id="personalStampSizeInput" style="width:50px; padding:2px 4px; font-size:12px;" />
         </div>
       </div>
       <input type="file" accept="image/png, image/jpeg" onchange="handleStampUpload(event, 'personalStamp')" style="margin-bottom:8px; font-size:12px;" />
       <div id="preview-personalStamp" style="min-height:60px; background:#f9fafb; border:1px dashed #d1d5db; display:flex; align-items:center; justify-content:center; border-radius:6px; padding:6px;">
         <span style="color:#9ca3af; font-size:12px;">å°šæœªä¸Šå‚³</span>
       </div>
-      <button onclick="clearStamp('personalStamp')" style="margin-top:8px; font-size:12px; padding:4px 8px; background:#fee2e2; color:#ef4444; border:none; border-radius:4px; cursor:pointer;">æ¸…é™¤å°ç?</button>
+      <button onclick="clearStamp('personalStamp')" style="margin-top:8px; font-size:12px; padding:4px 8px; background:#fee2e2; color:#ef4444; border:none; border-radius:4px; cursor:pointer;">æ¸…é™¤å°ï¿½?</button>
     </div>
 
     <div style="display:flex; justify-content:flex-end; gap:8px;">
-      <button style="background:#2563eb; border-color:#2563eb;" onclick="closeSettingsModal()">å®Œæ?</button>
+      <button style="background:#2563eb; border-color:#2563eb;" onclick="closeSettingsModal()">å®Œï¿½?</button>
     </div>
   </div>
 </div>
