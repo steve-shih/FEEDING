@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>寵物繁�?紀?�總�?/title>
+<title>寵物繁殖紀錄總覽</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
 <style>
 :root { --bg:#f6f7fb; --card:#fff; --text:#1f2937; --muted:#6b7280; --line:#e5e7eb; --brand:#2563eb; --ok:#059669; --warn:#d97706; --bad:#dc2626; --soft:#eff6ff; --tag:#7c3aed; }
@@ -59,20 +59,20 @@ button { cursor:pointer; background:var(--brand); color:#fff; border-color:var(-
 .small { font-size:12px; color:var(--muted); }
 .loading { padding:40px; text-align:center; color:var(--muted); font-size:16px; }
 
-/* 近�?年�??��???*/
+/* 近三年切換按鈕 */
 .recent-toggle { display:inline-flex; align-items:center; gap:7px; padding:8px 14px; border-radius:20px; border:1.5px solid #fb923c; background:#fff7ed; color:#c2410c; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; white-space:nowrap; }
 .recent-toggle:hover { background:#ffedd5; }
 .recent-toggle.on { background:#f97316; border-color:#f97316; color:#fff; box-shadow:0 0 0 4px rgba(249,115,22,.2); animation:pulse-orange 2s infinite; }
 .recent-toggle .dot { width:8px; height:8px; border-radius:50%; background:currentColor; opacity:.7; }
 @keyframes pulse-orange { 0%,100%{box-shadow:0 0 0 4px rgba(249,115,22,.2)} 50%{box-shadow:0 0 0 8px rgba(249,115,22,.05)} }
 
-/* TAG 輸入�?*/
+/* TAG 輸入欄 */
 .tag-row { margin-top:7px; display:flex; align-items:center; gap:6px; }
 .tag-input { border:1px dashed #c4b5fd; border-radius:8px; padding:4px 8px; font-size:12px; color:var(--tag); width:100%; background:#faf5ff; outline:none; }
 .tag-input:focus { border-style:solid; border-color:#7c3aed; }
 .tag-input::placeholder { color:#c4b5fd; }
 
-/* ?�種編輯 */
+/* 品種編輯 */
 .breed-edit-btn { background:none; border:none; cursor:pointer; color:var(--muted); font-size:13px; padding:2px 4px; border-radius:6px; }
 .breed-edit-btn:hover { background:var(--soft); color:var(--brand); }
 .breed-inline { display:inline-flex; align-items:center; gap:6px; }
@@ -80,7 +80,7 @@ button { cursor:pointer; background:var(--brand); color:#fff; border-color:var(-
 .breed-inline button { padding:3px 8px; font-size:12px; border-radius:8px; }
 .breed-inline .cancel-btn { background:#fff; color:var(--muted); border-color:var(--line); }
 
-/* ?��??��??��? */
+/* 同胎出生日期 */
 .litter-date-row { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
 .litter-date-label { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:#92400e; font-weight:600; white-space:nowrap; }
 .litter-date-input { border:1px solid #fcd34d; border-radius:8px; padding:4px 8px; font-size:12px; background:#fffbeb; color:#92400e; cursor:pointer; }
@@ -88,13 +88,13 @@ button { cursor:pointer; background:var(--brand); color:#fff; border-color:var(-
 .litter.manual-litter .litter-date-label { color:#6d28d9; }
 .litter.manual-litter .litter-date-input { border-color:#c4b5fd; background:#faf5ff; color:#6d28d9; }
 
-/* ?�日?��?紅�? */
+/* 同日出生紅框 */
 .litter.samedate-litter { border-color: #ef4444; border-width: 2px; }
 .litter.samedate-litter .litterHead { background: #fef2f2; border-bottom-color: #ef4444; }
 .litter.samedate-litter .litter-date-label { color: #991b1b; }
 .litter.samedate-litter .litter-date-input { border-color: #fca5a5; background: #fee2e2; color: #991b1b; }
 
-/* 多選?�種 Dropdown */
+/* 多選品種 Dropdown */
 .multi-select-wrap { position:relative; }
 .multi-select-box { display:flex; flex-wrap:wrap; gap:5px; align-items:center; min-height:42px; border:1px solid var(--line); border-radius:10px; padding:6px 10px; cursor:pointer; background:#fff; user-select:none; }
 .multi-select-box:hover { border-color:#93c5fd; }
@@ -117,66 +117,70 @@ button { cursor:pointer; background:var(--brand); color:#fff; border-color:var(-
 <body>
 <header>
   <div class="header-left">
-    <h1>寵物繁�?紀?�總�?/h1>
-    <div class="sub">資�?來�?�?b>PDF</b> ?�特寵登記�?系統資�?（�?後�?使用，部?��?位可?�填寫�?誤�?�?b>cat_family</b> ?��??��?源�??��??�於補入 PDF ?�涵?��?子代資�??�支?��?貓�??��??�詢??/div>
+    <h1>寵物繁殖紀錄總覽</h1>
+    <div class="sub">資料來源：<b>PDF</b> 為特寵登記站系統資料（較後期使用，部分欄位可能填寫有誤）；<b>cat_family</b> 為紙本來源補充，用於補入 PDF 未涵蓋的子代資訊。支援母貓與公貓查詢。</div>
   </div>
   <div class="header-right">
-    <button class="recent-toggle" id="recentToggle">&#128337; 近�?�?/button>
+    <button class="recent-toggle" id="recentToggle">&#128337; 近三年</button>
   </div>
 </header>
 <div class="wrap">
-  <div class="stats" id="stats"><div class="loading">資�?載入�?..</div></div>
+  <div class="stats" id="stats"><div class="loading">資料載入中...</div></div>
   <div class="toolbar">
-    <div class="tabs"><button id="motherTab" class="tabButton active">母�??�詢</button><button id="fatherTab" class="tabButton">?��??�詢</button></div>
-    <input id="keyword" placeholder="?��?親代?��??��?�?��?�、�?種、�?�?.." />
-    <!-- 多選?�種 -->
+    <div class="tabs"><button id="motherTab" class="tabButton active">母貓查詢</button><button id="fatherTab" class="tabButton">公貓查詢</button></div>
+    <input id="keyword" placeholder="搜尋親代晶片、子代晶片、品種、名字..." />
+    <!-- 多選品種 -->
     <div class="multi-select-wrap" id="breedFilterWrap">
       <div class="multi-select-box" id="breedFilterBox">
-        <span class="placeholder" id="breedPlaceholder">?�部?�種</span>
-        <span class="ms-arrow">??/span>
+        <span class="placeholder" id="breedPlaceholder">全部品種</span>
+        <span class="ms-arrow">▼</span>
       </div>
       <div class="ms-dropdown" id="breedDropdown">
-        <div class="ms-search"><input id="breedSearch" placeholder="?��??�種..." /></div>
+        <div class="ms-search"><input id="breedSearch" placeholder="搜尋品種..." /></div>
         <div id="breedOptionList"></div>
       </div>
     </div>
-    <div class="rangeBox">?��?天數 <input id="dayRange" type="range" min="1" max="120" value="30" /> <b id="dayText">30�?/b></div>
-    <select id="sortMode"><option value="totalDesc">子代多到�?/option><option value="pdfDesc">PDF?��??��?</option><option value="chipAsc">?��?小到�?/option></select>
-    <button id="exportBtn">?�出 JSON</button>
-    <button onclick="openSettingsModal()" style="background:#f3f4f6; color:#374151; border-color:#d1d5db; font-weight:bold; padding:10px 8px;">?��? 設�?</button>
+    <div class="rangeBox">分胎天數 <input id="dayRange" type="range" min="1" max="120" value="30" /> <b id="dayText">30天</b></div>
+    <select id="sortMode"><option value="totalDesc">子代多到少</option><option value="pdfDesc">PDF胎多到少</option><option value="chipAsc">晶片小到大</option></select>
+    <button id="exportBtn">匯出 JSON</button>
+    <button onclick="openSettingsModal()" style="background:#f3f4f6; color:#374151; border-color:#d1d5db; font-weight:bold; padding:10px 8px;">⚙️ 設定</button>
   </div>
   <div class="note">
-    <b>?? 資�?說�?�?/b>
-    <b>PDF（特寵登記�?�?/b> ??系統較�??��?使用，部?��?位可?��?填寫?�誤，�?次�?子代以此?�優?��??��?對正確�?    <b>cat_family（�??��?源�?</b> ??補�? PDF ?��??�登記�?子代；判?��??��?子代第�?筆異?�為?��??��?type=0）」�?視為?�己?��?第�?筆為?��??��?type=1）」�??�除??    ?��??�詢�?PDF ?��?資�??�主，cat_family 補�??�晶?��?源�? PDF ?�涵?��?第�?筆�??��?子代??  </div>
+    <b>📋 資料說明：</b>
+    <b>PDF（特寵登記站）</b> — 系統較後期才使用，部分欄位可能有填寫錯誤，胎次與子代以此為優先但非絕對正確。
+    <b>cat_family（紙本來源）</b> — 補充 PDF 未完整登記的子代；判斷規則：子代第一筆異動為「轉出（type=0）」才視為自己生；第一筆為「轉入（type=1）」則排除。
+    公貓查詢以 PDF 公貓資料為主，cat_family 補充同晶片來源下 PDF 未涵蓋且第一筆轉出的子代。
+  </div>
   <div class="grid">
-    <aside class="side"><div class="sideHead"><span id="sideTitle">母�?清單</span> <span id="visibleCount" class="small"></span></div><div class="list" id="parentList"><div class="loading">資�?載入�?..</div></div></aside>
-    <main class="panel" id="detail"><div class="loading">資�?載入�?..</div></main>
+    <aside class="side"><div class="sideHead"><span id="sideTitle">母貓清單</span> <span id="visibleCount" class="small"></span></div><div class="list" id="parentList"><div class="loading">資料載入中...</div></div></aside>
+    <main class="panel" id="detail"><div class="loading">資料載入中...</div></main>
   </div>
 </div>
 <script>
 let DATA = null;
-let OVERRIDES = { breedOverrides: {}, litterTags: {}, kittenBirthDates: {}, kittenExtraChips: {}, customKittens: {}, kittenMatingInfo: {}, companyStamp: null, personalStamp: null, footerText: '?��??�為?��??�出如�??�常請通知', footerTextSize: 14, companyStampSize: 90, personalStampSize: 70, companyStampPos: 'top-right', personalStampPos: 'top-left' };
+let OVERRIDES = { breedOverrides: {}, litterTags: {}, kittenBirthDates: {}, kittenExtraChips: {}, customKittens: {}, kittenMatingInfo: {}, companyStamp: null, personalStamp: null, footerText: '本紀錄為創軟產出如有異常請通知', footerTextSize: 14, companyStampSize: 90, personalStampSize: 70, companyStampPos: 'top-right', personalStampPos: 'top-left' };
 let currentMode = 'mothers';
 let selectedChip = null;
 let selectedCats = new Set();
-let selectedBreeds = []; // 多選?�種
-let recentOnly = false;  // 近�?年篩??
+let selectedBreeds = []; // 多選品種
+let recentOnly = false;  // 近三年篩選
+
 const THREE_YEARS_MS = 3 * 365 * 24 * 3600 * 1000;
 
-// ?�?� 工具?��? ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
+// ── 工具函式 ──────────────────────────────────────────────
 function escapeHtml(v) {
   return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-function modeLabel() { return currentMode === 'mothers' ? '母�?' : '?��?'; }
-function partnerLabel() { return currentMode === 'mothers' ? '?��?' : '母�?'; }
+function modeLabel() { return currentMode === 'mothers' ? '母貓' : '公貓'; }
+function partnerLabel() { return currentMode === 'mothers' ? '父貓' : '母貓'; }
 function rowsForMode() { return currentMode === 'mothers' ? DATA.mothers : DATA.fathers; }
 
-// 獲取品種
+// 取得有效品種（原始 or 覆寫）
 function getBreed(parent) {
   return parent.breed || OVERRIDES.breedOverrides[parent.chipId] || '';
 }
 
-// ?�?� 覆寫?��? ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
+// ── 覆寫儲存 ──────────────────────────────────────────────
 async function saveOverrides() {
   await fetch('/feeding/api/overrides', {
     method: 'POST',
@@ -185,7 +189,7 @@ async function saveOverrides() {
   });
 }
 
-// ?�?� 多選?�種 Dropdown ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
+// ── 多選品種 Dropdown ─────────────────────────────────────
 function collectBreeds() {
   const set = new Set();
   [...DATA.mothers, ...DATA.fathers].forEach(p => {
@@ -204,11 +208,11 @@ function renderBreedFilter() {
   document.getElementById('breedOptionList').innerHTML = filtered.map(b =>
     `<label class="ms-option"><input type="checkbox" value="${escapeHtml(b)}" ${selectedBreeds.includes(b)?'checked':''} onchange="toggleBreed('${escapeHtml(b)}')" />${escapeHtml(b)}</label>`
   ).join('');
-  // ?�新 badge
+  // 更新 badge
   const box = document.getElementById('breedFilterBox');
   const placeholder = document.getElementById('breedPlaceholder');
   const arrow = box.querySelector('.ms-arrow');
-  // 移除??badge
+  // 移除舊 badge
   box.querySelectorAll('.ms-badge').forEach(el => el.remove());
   if (selectedBreeds.length === 0) {
     placeholder.style.display = '';
@@ -217,7 +221,7 @@ function renderBreedFilter() {
     selectedBreeds.forEach(b => {
       const el = document.createElement('span');
       el.className = 'ms-badge';
-      el.innerHTML = `${escapeHtml(b)} <span class="rm" onclick="event.stopPropagation();toggleBreed('${escapeHtml(b)}')">?</span>`;
+      el.innerHTML = `${escapeHtml(b)} <span class="rm" onclick="event.stopPropagation();toggleBreed('${escapeHtml(b)}')">×</span>`;
       box.insertBefore(el, arrow);
     });
   }
@@ -231,7 +235,7 @@ function toggleBreed(breed) {
   renderList();
 }
 
-// Dropdown ?��?
+// Dropdown 開關
 document.addEventListener('click', e => {
   const wrap = document.getElementById('breedFilterWrap');
   const dd = document.getElementById('breedDropdown');
@@ -244,7 +248,7 @@ document.addEventListener('click', e => {
   }
 });
 
-// ?�?� 篩選?�輯 ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
+// ── 篩選邏輯 ──────────────────────────────────────────────
 function parentMatchesBreed(parent) {
   if (selectedBreeds.length === 0) return true;
   const pb = getBreed(parent).trim();
@@ -258,9 +262,9 @@ function getFilteredParents() {
   const sortMode = document.getElementById('sortMode').value;
   const now = Date.now();
   let rows = rowsForMode().filter(p => {
-    if (!p.chipId) return false; // 過濾無晶片
+    if (!p.chipId) return false; // 過濾無晶片（身分不明）
     if (!parentMatchesBreed(p)) return false;
-    // 近三年篩選
+    // 近三年篩選：所有子代最新日期必須在三年內
     if (recentOnly) {
       const allDates = [
         ...p.pdfLitters.map(l => l.productionDate),
@@ -283,100 +287,32 @@ function getFilteredParents() {
   return rows;
 }
 
-// ?�?� 統�? ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
+// ── 統計 ──────────────────────────────────────────────────
 function parentStats(parent) {
-  const now = Date.now();
-  let pdfLitterCount = 0;
-  let pdfKittenCount = 0;
-  let otherKittenCount = 0;
-
-  const htmlPdfLitters = parent.pdfLitters.map(l => ({ ...l, kittens: [...l.kittens] }));
-  const customKids = OVERRIDES.customKittens[parent.chipId] || [];
-  const mergedOther = [...parent.otherChildren, ...customKids];
-  const htmlRemainingOther = [];
-
-  mergedOther.forEach(child => {
-    const bDate = OVERRIDES.kittenBirthDates[child.chipId] || child.dateValue;
-    const matchingPdfLitter = htmlPdfLitters.find(l => l.productionDate && l.productionDate === bDate);
-    if (matchingPdfLitter) {
-      matchingPdfLitter.kittens.push(child);
-    } else {
-      htmlRemainingOther.push(child);
-    }
-  });
-
-  htmlPdfLitters.forEach(l => {
-    const dates = [l.productionDate, ...l.kittens.map(k => k.dateValue)].filter(Boolean).map(d => new Date(d).getTime()).filter(t => !isNaN(t));
-    if (!recentOnly || (dates.length && now - Math.max(...dates) <= THREE_YEARS_MS)) {
-      pdfLitterCount++;
-      pdfKittenCount += l.kittens.length;
-    }
-  });
-
-  htmlRemainingOther.forEach(k => {
-    const d = OVERRIDES.kittenBirthDates[k.chipId] || k.dateValue;
-    const t = d ? new Date(d).getTime() : 0;
-    if (!recentOnly || (t && !isNaN(t) && now - t <= THREE_YEARS_MS)) {
-      otherKittenCount++;
-    }
-  });
-
-  return { 
-    pdfLitterCount, 
-    pdfKittenCount, 
-    otherKittenCount, 
-    totalKittenCount: pdfKittenCount + otherKittenCount 
-  };
+  const pdfLitterCount = parent.pdfLitters.length;
+  const pdfKittenCount = parent.pdfLitters.reduce((s,l)=>s+l.kittens.length,0);
+  const otherKittenCount = parent.otherChildren.length;
+  return { pdfLitterCount, pdfKittenCount, otherKittenCount, totalKittenCount: pdfKittenCount+otherKittenCount };
 }
 
 function renderStats() {
-  let mCount = 0, fCount = 0;
-  let pdfMCount = 0, pdfFCount = 0;
-  let pdfKittenCount = 0, otherKittenCount = 0;
-
-  const processParent = (p, isMother) => {
-    const st = parentStats(p);
-    const hasAny = st.pdfLitterCount > 0 || st.otherKittenCount > 0;
-    
-    if (!recentOnly || hasAny) {
-      if (isMother) mCount++; else fCount++;
-      if (st.pdfLitterCount > 0) {
-        if (isMother) pdfMCount++; else pdfFCount++;
-      }
-      pdfKittenCount += st.pdfKittenCount;
-      otherKittenCount += st.otherKittenCount;
-    }
-  };
-
-  DATA.mothers.forEach(p => processParent(p, true));
-  DATA.fathers.forEach(p => processParent(p, false));
-
-  const s = {
-    motherCount: mCount,
-    fatherCount: fCount,
-    pdfMotherCount: pdfMCount,
-    pdfFatherCount: pdfFCount,
-    pdfConfirmedKittenCount: pdfKittenCount,
-    catFamilyOtherKittenCount: otherKittenCount,
-    excludedByFirstRecordRuleCount: DATA.summary.excludedByFirstRecordRuleCount
-  };
-
-  const cards = [['母�?總數',s.motherCount],['?��?總數',s.fatherCount],['PDF母�?',s.pdfMotherCount],['PDF?��?',s.pdfFatherCount],['PDF確�?子代',s.pdfConfirmedKittenCount],['?��??��?子代',s.catFamilyOtherKittenCount],['轉入?�除',s.excludedByFirstRecordRuleCount]];
+  const s = DATA.summary;
+  const cards = [['母貓總數',s.motherCount],['公貓總數',s.fatherCount],['PDF母貓',s.pdfMotherCount],['PDF公貓',s.pdfFatherCount],['PDF確定子代',s.pdfConfirmedKittenCount],['其他推定子代',s.catFamilyOtherKittenCount],['轉入排除',s.excludedByFirstRecordRuleCount]];
   document.getElementById('stats').innerHTML = cards.map(([l,v]) => `<div class="stat"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
 }
 
-// ?�?� 清單渲�? ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
+// ── 清單渲染 ──────────────────────────────────────────────
 function renderList() {
   const rows = getFilteredParents();
   const allSelected = rows.length > 0 && rows.every(r => selectedCats.has(r.chipId));
   
   document.getElementById('sideTitle').innerHTML = `
     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
-      <span><label style="cursor:pointer; font-size:14px;"><input type="checkbox" id="selectAllCats" ${allSelected?'checked':''} onchange="toggleSelectAllCats()" style="margin-right:4px;" />?�選${modeLabel()}</label></span>
-      <button style="background:#10b981; border-color:#10b981; font-size:12px; padding:4px 8px; border-radius:6px; color:#fff;" onclick="exportBatchCatsExcel()">?? ?�次?�出 (${selectedCats.size})</button>
+      <span><label style="cursor:pointer; font-size:14px;"><input type="checkbox" id="selectAllCats" ${allSelected?'checked':''} onchange="toggleSelectAllCats()" style="margin-right:4px;" />全選${modeLabel()}</label></span>
+      <button style="background:#10b981; border-color:#10b981; font-size:12px; padding:4px 8px; border-radius:6px; color:#fff;" onclick="exportBatchCatsExcel()">📊 批次匯出 (${selectedCats.size})</button>
     </div>
   `;
-  document.getElementById('visibleCount').textContent = `?��? ${rows.length} 筆`;
+  document.getElementById('visibleCount').textContent = `目前 ${rows.length} 筆`;
 
   if (!selectedChip && rows[0]) selectedChip = rows[0].chipId;
   if (!rows.some(p => p.chipId === selectedChip)) selectedChip = rows[0] ? rows[0].chipId : null;
@@ -384,28 +320,15 @@ function renderList() {
     const stat = parentStats(parent);
     const breed = getBreed(parent);
     const isChecked = selectedCats.has(parent.chipId);
-    
-    const dayRangeEl = document.getElementById('dayRange');
-    const thresholdDays = dayRangeEl ? Number(dayRangeEl.value) : 30;
-    const customKids = OVERRIDES.customKittens[parent.chipId] || [];
-    const htmlRemainingOther = [];
-    [...parent.otherChildren, ...customKids].forEach(child => {
-      const bDate = OVERRIDES.kittenBirthDates[child.chipId] || child.dateValue;
-      if (!parent.pdfLitters.some(l => l.productionDate && l.productionDate === bDate)) {
-        htmlRemainingOther.push(child);
-      }
-    });
-    const totalLitters = parent.pdfLitters.length + groupOtherChildren(htmlRemainingOther, thresholdDays).length;
-
     return `<div class="parentItem ${parent.chipId===selectedChip?'active':''}" onclick="selectParent('${escapeHtml(parent.chipId)}')">
       <div style="display:flex; align-items:center; gap:8px;">
         <input type="checkbox" class="cat-checkbox" value="${escapeHtml(parent.chipId)}" ${isChecked?'checked':''} onclick="event.stopPropagation(); toggleCatSelection('${escapeHtml(parent.chipId)}')" style="width:16px;height:16px; cursor:pointer; margin:0;" />
         <div class="chip">${escapeHtml(parent.chipId)}</div>
       </div>
-      <div class="small" style="margin-left:24px;">${escapeHtml(breed || '?�種?�填')} ${parent.birthDate?'｜�???'+escapeHtml(parent.birthDate):''}</div>
-      <div class="badges" style="margin-left:24px;"><span class="badge tag" style="background:#f5f3ff; color:#7c3aed;">總�?�?${totalLitters}</span><span class="badge ok">PDF?�次 ${stat.pdfLitterCount}</span><span class="badge ok">PDF子代 ${stat.pdfKittenCount}</span><span class="badge warn">?��? ${stat.otherKittenCount}</span><span class="badge">總�?�?${stat.totalKittenCount}</span></div>
+      <div class="small" style="margin-left:24px;">${escapeHtml(breed || '品種未填')} ${parent.birthDate?'｜生日 '+escapeHtml(parent.birthDate):''}</div>
+      <div class="badges" style="margin-left:24px;"><span class="badge ok">PDF胎次 ${stat.pdfLitterCount}</span><span class="badge ok">PDF子代 ${stat.pdfKittenCount}</span><span class="badge warn">其他 ${stat.otherKittenCount}</span><span class="badge">總子代 ${stat.totalKittenCount}</span></div>
     </div>`;
-  }).join('') || '<div class="empty">?�無資�?</div>';
+  }).join('') || '<div class="empty">查無資料</div>';
   renderDetail();
 }
 
@@ -428,13 +351,13 @@ function toggleSelectAllCats() {
 
 function selectParent(chip) { selectedChip = chip; renderList(); }
 
-// ?�?� ?�種編輯 UI ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
+// ── 品種編輯 UI ───────────────────────────────────────────
 function breedEditHtml(parent) {
-  if (parent.breed) return ''; // ?��??��?種�?不可編輯
+  if (parent.breed) return ''; // 原始有品種，不可編輯
   const override = OVERRIDES.breedOverrides[parent.chipId] || '';
   return `<span class="breed-inline" id="breedEditArea_${escapeHtml(parent.chipId)}">
-    ${override ? `<span class="badge warn" style="font-size:12px">已�?填�?${escapeHtml(override)}</span>` : ''}
-    <button class="breed-edit-btn" onclick="showBreedEdit('${escapeHtml(parent.chipId)}')" title="補填?�種">?��? 補填?�種</button>
+    ${override ? `<span class="badge warn" style="font-size:12px">已補填：${escapeHtml(override)}</span>` : ''}
+    <button class="breed-edit-btn" onclick="showBreedEdit('${escapeHtml(parent.chipId)}')" title="補填品種">✏️ 補填品種</button>
   </span>`;
 }
 
@@ -442,9 +365,9 @@ function showBreedEdit(chipId) {
   const area = document.getElementById('breedEditArea_' + chipId);
   if (!area) return;
   const cur = OVERRIDES.breedOverrides[chipId] || '';
-  area.innerHTML = `<input id="breedEditInput_${escapeHtml(chipId)}" value="${escapeHtml(cur)}" placeholder="輸入?�種?�稱" style="width:150px" />
-    <button onclick="saveBreedEdit('${escapeHtml(chipId)}')">??確�?</button>
-    <button class="cancel-btn" onclick="renderDetail()">?��?</button>`;
+  area.innerHTML = `<input id="breedEditInput_${escapeHtml(chipId)}" value="${escapeHtml(cur)}" placeholder="輸入品種名稱" style="width:150px" />
+    <button onclick="saveBreedEdit('${escapeHtml(chipId)}')">✔ 確認</button>
+    <button class="cancel-btn" onclick="renderDetail()">取消</button>`;
   document.getElementById('breedEditInput_' + chipId)?.focus();
 }
 
@@ -459,16 +382,15 @@ async function saveBreedEdit(chipId) {
   renderList();
 }
 
-// ?�?� 幼�?渲�?（PDF 確�?）�??�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
+// ── 幼貓渲染（PDF 確定）────────────────────────────────────
 function renderKitten(child, extra='') {
   const extraChip = OVERRIDES.kittenExtraChips[child.chipId] || '';
-  return `<div class="kitten">
-    <b>${escapeHtml(child.chipId || '無晶片')}</b>
-    <div>${child.name ? '名字：' + escapeHtml(child.name) : ''}</div>
-    <div class="meta">${child.sex ? '性別：' + escapeHtml(child.sex) + '｜' : ''}${escapeHtml(child.breed || '')}
-    <br/>母：${escapeHtml(child.motherChipId || '未提供')}<br/>父：${escapeHtml(child.fatherChipId || '未提供')}${extra}</div>
+  return `<div class="kitten"><b>${escapeHtml(child.chipId||'無晶片')}</b>
+    <div>${child.name?'名字：'+escapeHtml(child.name):''}</div>
+    <div class="meta">${child.sex?'性別：'+escapeHtml(child.sex)+'｜':''}${escapeHtml(child.breed||'')}
+    <br/>母：${escapeHtml(child.motherChipId||'未提供')}<br/>父：${escapeHtml(child.fatherChipId||'未提供')}${extra}</div>
     <div class="tag-row" style="margin-top:6px;">
-      <input class="tag-input" style="border-color:#93c5fd; background:#eff6ff; color:#2563eb;" placeholder="複數晶片/備註"
+      <input class="tag-input" style="border-color:#93c5fd; background:#eff6ff; color:#2563eb;" placeholder="多晶片/備註"
         value="${escapeHtml(extraChip)}"
         data-chip="${escapeHtml(child.chipId)}"
         onchange="saveExtraChip(this)"
@@ -478,21 +400,21 @@ function renderKitten(child, extra='') {
   </div>`;
 }
 
-function renderOtherKitten(child, isMerged = false) {
+// ── 幼貓渲染（其他推定，含 TAG 輸入）────────────────────────
+function renderOtherKitten(child) {
   const tag = OVERRIDES.litterTags[child.chipId] || '';
   const extraChip = OVERRIDES.kittenExtraChips[child.chipId] || '';
   const deleteBtn = child.isCustom ? `<button style="background:var(--bad); border:none; padding:2px 6px; font-size:12px; float:right;" onclick="deleteCustomKitten('${escapeHtml(child.chipId)}')">刪除</button>` : '';
-  const redDot = isMerged ? ' <span style="color:red; font-size:14px;" title="推定子代併入相同生日PDF胎次">★</span>' : '';
   return `<div class="kitten">
     ${deleteBtn}
-    <b>${escapeHtml(child.chipId || '無晶片')}</b>${redDot}
-    <div>${child.name ? '名字：' + escapeHtml(child.name) : ''}</div>
-    <div class="meta">${child.sex ? '性別：' + escapeHtml(child.sex) + '｜' : ''}${escapeHtml(child.breed || '')}
-    <br/>生日：<b>${escapeHtml(OVERRIDES.kittenBirthDates[child.chipId] || child.date || '未知')}</b>${OVERRIDES.kittenBirthDates[child.chipId] ? ' <span class="badge warn" style="font-size:10px">已改生日</span>' : ''}
-    <br/>第一筆異動：${escapeHtml(child.firstRecordDate || '')}
-    <br/>狀態：${escapeHtml(child.status || '')}</div>
+    <b>${escapeHtml(child.chipId||'無晶片')}</b>
+    <div>${child.name?'名字：'+escapeHtml(child.name):''}</div>
+    <div class="meta">${child.sex?'性別：'+escapeHtml(child.sex)+'｜':''}${escapeHtml(child.breed||'')}
+    <br/>出生日：<b>${escapeHtml(OVERRIDES.kittenBirthDates[child.chipId] || child.date || '未知')}</b>${OVERRIDES.kittenBirthDates[child.chipId]?' <span class="badge warn" style="font-size:10px">已編輯</span>':''}
+    <br/>第一筆異動：${escapeHtml(child.firstRecordDate||'')}
+    <br/>狀態：${escapeHtml(child.status||'')}</div>
     <div class="tag-row">
-      <input class="tag-input" placeholder="晶片組別/同胎TAG（例如TAG=貓媽晶片+生產日期）"
+      <input class="tag-input" placeholder="貼胎次TAG（同TAG=同一胎）"
         value="${escapeHtml(tag)}"
         data-chip="${escapeHtml(child.chipId)}"
         onchange="saveLitterTag(this)"
@@ -500,7 +422,7 @@ function renderOtherKitten(child, isMerged = false) {
       />
     </div>
     <div class="tag-row">
-      <input class="tag-input" style="border-color:#93c5fd; background:#eff6ff; color:#2563eb;" placeholder="複數晶片/備註"
+      <input class="tag-input" style="border-color:#93c5fd; background:#eff6ff; color:#2563eb;" placeholder="多晶片/備註"
         value="${escapeHtml(extraChip)}"
         data-chip="${escapeHtml(child.chipId)}"
         onchange="saveExtraChip(this)"
@@ -510,7 +432,46 @@ function renderOtherKitten(child, isMerged = false) {
   </div>`;
 }
 
+async function saveExtraChip(input) {
+  const chip = input.dataset.chip;
+  const val = input.value.trim();
+  if (val) OVERRIDES.kittenExtraChips[chip] = val;
+  else delete OVERRIDES.kittenExtraChips[chip];
+  await saveOverrides();
+}
+
+async function saveLitterTag(input) {
+  const chip = input.dataset.chip;
+  const val = input.value.trim();
+  if (val) OVERRIDES.litterTags[chip] = val;
+  else delete OVERRIDES.litterTags[chip];
+  await saveOverrides();
+  renderDetail(); // 重新分組
+}
+
+// ── 同胎出生日期（非PDF群組）────────────────────────────────
+async function saveLitterGroupDate(input, chipIds) {
+  const val = input.value.trim();
+  const ids = JSON.parse(chipIds);
+  ids.forEach(chip => {
+    if (val) OVERRIDES.kittenBirthDates[chip] = val;
+    else delete OVERRIDES.kittenBirthDates[chip];
+  });
+  await saveOverrides();
+  renderDetail();
+}
+
+function getGroupDate(children) {
+  // 若群組內所有幼貓都有相同覆寫日期，顯示該日期；否則顯示空
+  const dates = children.map(c => OVERRIDES.kittenBirthDates[c.chipId]).filter(Boolean);
+  if (!dates.length) return '';
+  const allSame = dates.every(d => d === dates[0]);
+  return allSame ? dates[0] : '';
+}
+
+// ── 推定子代分組（TAG 優先）──────────────────────────────
 function groupOtherChildren(children, thresholdDays) {
+  // 分成有TAG和無TAG兩批
   const tagged = {}, noTag = [];
   children.forEach(child => {
     const tag = OVERRIDES.litterTags[child.chipId];
@@ -523,11 +484,13 @@ function groupOtherChildren(children, thresholdDays) {
   });
 
   const manualGroups = [];
+  // 1. 手動 TAG 群組（排前面）
   Object.entries(tagged).forEach(([tag, kids]) => {
     const dates = kids.map(k=>k.dateValue).filter(Boolean).sort();
     manualGroups.push({ isManual:true, tag, startDate:dates[0]||'', endDate:dates[dates.length-1]||'', children:kids });
   });
 
+  // 2. 抓出「完全同一天」的群組
   const dateMap = {};
   const reallyNoTag = [];
   noTag.forEach(child => {
@@ -542,12 +505,15 @@ function groupOtherChildren(children, thresholdDays) {
   const autoGroups = [];
   Object.entries(dateMap).forEach(([date, kids]) => {
      if (kids.length > 1) {
+         // 同一天有多隻，獨立成紅色框群組
          autoGroups.push({ isManual: false, isSameDate: true, startDate: date, endDate: date, children: kids });
      } else {
+         // 只有一隻，退回原本的時間分組邏輯
          reallyNoTag.push(kids[0]);
      }
   });
 
+  // 3. 無 TAG 且非同一天的自動時間分組
   const sorted = [...reallyNoTag].sort((a,b)=>String(a.dateValue).localeCompare(String(b.dateValue)));
   const thresholdGroups = [];
   for (const child of sorted) {
@@ -577,7 +543,7 @@ function hideCustomKittenForm() {
 }
 async function saveCustomKitten() {
   const chipId = document.getElementById('ckChipId').value.trim();
-  if (!chipId) return alert('?��??�為必填�?);
+  if (!chipId) return alert('晶片號為必填！');
   if (!OVERRIDES.customKittens[selectedChip]) OVERRIDES.customKittens[selectedChip] = [];
   OVERRIDES.customKittens[selectedChip].push({
     chipId,
@@ -586,7 +552,7 @@ async function saveCustomKitten() {
     breed: document.getElementById('ckBreed').value.trim(),
     dateValue: document.getElementById('ckDate').value,
     date: document.getElementById('ckDate').value,
-    status: '?��??��?',
+    status: '手動新增',
     firstRecordDate: '',
     isCustom: true
   });
@@ -595,7 +561,7 @@ async function saveCustomKitten() {
   renderList();
 }
 async function deleteCustomKitten(chipId) {
-  if (!confirm('確�?要刪?�這隻?��??��??��?�??�?)) return;
+  if (!confirm('確定要刪除這隻手動新增的子代嗎？')) return;
   const list = OVERRIDES.customKittens[selectedChip];
   if (list) {
     OVERRIDES.customKittens[selectedChip] = list.filter(k => k.chipId !== chipId);
@@ -604,99 +570,45 @@ async function deleteCustomKitten(chipId) {
   }
 }
 
-// ?�?� 詳細?�板 ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
+// ── 詳細面板 ──────────────────────────────────────────────
 function renderDetail() {
   const parent = rowsForMode().find(r => r.chipId === selectedChip);
   const detail = document.getElementById('detail');
-  if (!parent) { detail.innerHTML = `<div class="empty">請選?��???{modeLabel()}</div>`; return; }
+  if (!parent) { detail.innerHTML = `<div class="empty">請選擇一隻${modeLabel()}</div>`; return; }
   const thresholdDays = Number(document.getElementById('dayRange').value);
   const stat = parentStats(parent);
   const breed = getBreed(parent);
   
-  // ?�併?�本?�其他�?�???��??��??��?�?  const customKids = OVERRIDES.customKittens[parent.chipId] || [];
+  // 合併原本的其他子代與手動新增的子代
+  const customKids = OVERRIDES.customKittens[parent.chipId] || [];
   const mergedOther = [...parent.otherChildren, ...customKids];
-  const htmlPdfLitters = parent.pdfLitters.map(l => ({ ...l, kittens: [...l.kittens] }));
-  const htmlRemainingOther = [];
-  mergedOther.forEach(child => {
-    const bDate = OVERRIDES.kittenBirthDates[child.chipId] || child.dateValue;
-    const matchingPdfLitter = htmlPdfLitters.find(l => l.productionDate && l.productionDate === bDate);
-    if (matchingPdfLitter) {
-      child._isHtmlMergedFromOther = true;
-      matchingPdfLitter.kittens.push(child);
-    } else {
-      htmlRemainingOther.push(child);
-    }
-  });
-  const otherGroups = groupOtherChildren(htmlRemainingOther, thresholdDays);
+  const otherGroups = groupOtherChildren(mergedOther, thresholdDays);
 
-  if (recentOnly) {
-    const now = Date.now();
-    for (let i = htmlPdfLitters.length - 1; i >= 0; i--) {
-      const l = htmlPdfLitters[i];
-      const dates = [l.productionDate, ...l.kittens.map(k => k.dateValue)].filter(Boolean).map(d => new Date(d).getTime()).filter(t => !isNaN(t));
-      if (dates.length && now - Math.max(...dates) > THREE_YEARS_MS) {
-        htmlPdfLitters.splice(i, 1);
-      }
-    }
-    for (let i = otherGroups.length - 1; i >= 0; i--) {
-      const g = otherGroups[i];
-      const dates = g.children.map(c => OVERRIDES.kittenBirthDates[c.chipId] || c.dateValue).filter(Boolean).map(d => new Date(d).getTime()).filter(t => !isNaN(t));
-      if (dates.length && now - Math.max(...dates) > THREE_YEARS_MS) {
-        otherGroups.splice(i, 1);
-      }
-    }
-  }
-
-  // --- 計�??�年?��??��??�警??---
-  const allLitterDates = [];
-  htmlPdfLitters.forEach(l => {
-    if (l.productionDate && !isNaN(new Date(l.productionDate).getTime())) {
-      allLitterDates.push({ date: l.productionDate, type: 'pdf', obj: l });
-    }
-  });
-  otherGroups.forEach(g => {
-    const d = getGroupDate(g.children) || g.startDate;
-    if (d && !isNaN(new Date(d).getTime())) {
-      allLitterDates.push({ date: d, type: 'other', obj: g });
-    }
-  });
-  allLitterDates.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  for (let i = 1; i < allLitterDates.length; i++) {
-    const t1 = new Date(allLitterDates[i-1].date).getTime();
-    const t2 = new Date(allLitterDates[i].date).getTime();
-    if (t2 - t1 <= 183 * 24 * 3600 * 1000) {
-      allLitterDates[i].obj._warning = true;
-    }
-  }
-
-  const pdfHtml = htmlPdfLitters.length
-    ? htmlPdfLitters.map(l => `<div class="litter">
+  const pdfHtml = parent.pdfLitters.length
+    ? parent.pdfLitters.map(l => `<div class="litter">
         <div class="litterHead">
-          <div><b>�?${escapeHtml(l.litterNo)} ??/b> <span class="badge ok">PDF確�?</span>${l._warning ? ' <span class="badge" style="background:#fef2f2;color:#dc2626;font-weight:bold;">?��??�年?��???/span>' : ''}</div>
-          <div class="small">?�產�?{escapeHtml(l.productionDate||'?�填')}｜�?種�?${escapeHtml(l.matingDate||'?�填')}�?{partnerLabel()}�?{escapeHtml(l.partnerChipId||'?�填')}｜�?�??${l.kittens.length}</div>
+          <div><b>第 ${escapeHtml(l.litterNo)} 胎</b> <span class="badge ok">PDF確定</span></div>
+          <div class="small">生產：${escapeHtml(l.productionDate||'未填')}｜配種：${escapeHtml(l.matingDate||'未填')}｜${partnerLabel()}：${escapeHtml(l.partnerChipId||'未填')}｜子代：${l.kittens.length}</div>
         </div>
-        <div class="kittenGrid">${l.kittens.map(k => {
-          if (k._isHtmlMergedFromOther) return renderOtherKitten(k, true);
-          return renderKitten(k, `<br/>寵登?�?��?${escapeHtml(k.registrationStatus||'')}${k.status?'<br/>cat_family?�?��?'+escapeHtml(k.status):''}${k.firstRecordDate?'<br/>第�?筆異?��?'+escapeHtml(k.firstRecordDate):''}`);
-        }).join('')}</div>
+        <div class="kittenGrid">${l.kittens.map(k=>renderKitten(k,`<br/>寵登狀態：${escapeHtml(k.registrationStatus||'')}${k.status?'<br/>cat_family狀態：'+escapeHtml(k.status):''}${k.firstRecordDate?'<br/>第一筆異動：'+escapeHtml(k.firstRecordDate):''}`)).join('')}</div>
       </div>`).join('')
-    : `<div class="empty">�?{modeLabel()}沒�? PDF 確�??�次??/div>`;
+    : `<div class="empty">此${modeLabel()}沒有 PDF 確定胎次。</div>`;
 
   const otherHtml = otherGroups.length
     ? otherGroups.map((g, i) => {
         const autoIdx = otherGroups.filter((x,xi)=>!x.isManual&&xi<=i).length;
         let title, dateRange, extraClass = '';
         if (g.isManual) {
-            title = `<b>?�� ?��?標�?�?{escapeHtml(g.tag)}</b> <span class="badge manual">?��?綁�?</span>`;
-            dateRange = g.startDate ? `?��??�?��?${escapeHtml(g.startDate)} �?${escapeHtml(g.endDate)}` : '';
+            title = `<b>🏷 手動標記：${escapeHtml(g.tag)}</b> <span class="badge manual">手動綁定</span>`;
+            dateRange = g.startDate ? `原始區間：${escapeHtml(g.startDate)} ～ ${escapeHtml(g.endDate)}` : '';
             extraClass = 'manual-litter';
         } else if (g.isSameDate) {
-            title = `<b>?�� ?�日?��?�?${autoIdx} �?/b> <span class="badge" style="background:#fef2f2;color:#dc2626;">?�日?��?</span>`;
-            dateRange = `?��?�?{escapeHtml(g.startDate)}`;
+            title = `<b>🚨 同日推定第 ${autoIdx} 組</b> <span class="badge" style="background:#fef2f2;color:#dc2626;">同日出生</span>`;
+            dateRange = `日期：${escapeHtml(g.startDate)}`;
             extraClass = 'samedate-litter';
         } else {
-            title = `<b>?��??��?�?${autoIdx} �?/b> <span class="badge warn">cat_family</span>`;
-            dateRange = `?��??�?��?${escapeHtml(g.startDate||'?�知')} �?${escapeHtml(g.endDate||'?�知')}｜閾?��?${thresholdDays}天`;
+            title = `<b>其他推定第 ${autoIdx} 組</b> <span class="badge warn">cat_family</span>`;
+            dateRange = `原始區間：${escapeHtml(g.startDate||'未知')} ～ ${escapeHtml(g.endDate||'未知')}｜閾值：${thresholdDays}天`;
             extraClass = '';
         }
         
@@ -704,19 +616,20 @@ function renderDetail() {
         const chipIds = JSON.stringify(g.children.map(c => c.chipId));
         const matingInfo = g.children.map(c => OVERRIDES.kittenMatingInfo[c.chipId]).find(Boolean);
         const matingHtml = matingInfo 
-          ? `<span class="badge manual" style="margin-left:8px; background:#fff1f2; color:#be123c;">?�種?��?${escapeHtml(matingInfo.matingDate||'?�填')}�?{escapeHtml(matingInfo.partnerType||'')} ${escapeHtml(matingInfo.partnerChipId||'')}</span>`
+          ? `<span class="badge manual" style="margin-left:8px; background:#fff1f2; color:#be123c;">配種日：${escapeHtml(matingInfo.matingDate||'未填')}｜${escapeHtml(matingInfo.partnerType||'')} ${escapeHtml(matingInfo.partnerChipId||'')}</span>`
           : '';
 
         return `<div class="litter ${extraClass} other-litter">
           <div class="litterHead">
-            <div>${title} ${matingHtml}${g._warning ? ' <span class="badge" style="background:#fef2f2;color:#dc2626;font-weight:bold;">?��??�年?��???/span>' : ''}</div>
+            <div>${title} ${matingHtml}</div>
             <div class="litter-date-row">
-              <span class="small">${dateRange}｜�?�??${g.children.length}</span>
-              <button style="background:#fef3c7; color:#b45309; border:1px solid #f59e0b; padding:4px 8px; font-size:12px; border-radius:6px; cursor:pointer;" onclick="openMatingModal('${escapeHtml(chipIds)}')">?? 設�??�種</button>
-              <label class="litter-date-label">?? ?��??��???                <input type="date" class="litter-date-input"
+              <span class="small">${dateRange}｜子代：${g.children.length}</span>
+              <button style="background:#fef3c7; color:#b45309; border:1px solid #f59e0b; padding:4px 8px; font-size:12px; border-radius:6px; cursor:pointer;" onclick="openMatingModal('${escapeHtml(chipIds)}')">🔗 設定配種</button>
+              <label class="litter-date-label">📅 同胎出生日
+                <input type="date" class="litter-date-input"
                   value="${escapeHtml(groupDate)}"
                   onchange="saveLitterGroupDate(this, '${escapeHtml(chipIds)}')"
-                  title="設�?後�??�到此�??�?�幼�?
+                  title="設定後套用到此組所有幼貓"
                 />
               </label>
             </div>
@@ -724,51 +637,51 @@ function renderDetail() {
           <div class="kittenGrid">${g.children.map(renderOtherKitten).join('')}</div>
         </div>`;
       }).join('')
-    : `<div class="empty">PDF 外�??�符?�「第一筆為轉出?��??��??��?子代??/div>`;
+    : `<div class="empty">PDF 外沒有符合「第一筆為轉出」的其他推定子代。</div>`;
 
   detail.innerHTML = `
     <div class="panelTitle">
       <div>
         <h2>${modeLabel()} ${escapeHtml(parent.chipId)}</h2>
         <div class="small">
-          ${escapeHtml(breed||'?�種?�填')}
-          ${parent.birthDate?'｜�???'+escapeHtml(parent.birthDate):''}
+          ${escapeHtml(breed||'品種未填')}
+          ${parent.birthDate?'｜生日 '+escapeHtml(parent.birthDate):''}
           ${breedEditHtml(parent)}
         </div>
       </div>
       <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
         <div class="badges">
-          <span class="badge ok">PDF?�次 ${stat.pdfLitterCount}</span>
+          <span class="badge ok">PDF胎次 ${stat.pdfLitterCount}</span>
           <span class="badge ok">PDF子代 ${stat.pdfKittenCount}</span>
-          <span class="badge warn">?��? ${stat.otherKittenCount}</span>
-          <span class="badge">總�?�?${stat.totalKittenCount}</span>
+          <span class="badge warn">其他 ${stat.otherKittenCount}</span>
+          <span class="badge">總子代 ${stat.totalKittenCount}</span>
         </div>
-        <button style="background:#1d4ed8; border-color:#1e40af; padding:6px 14px; font-weight:bold; border-radius:8px; font-size:13px;" onclick="exportSingleCatExcel('${escapeHtml(parent.chipId)}')">?? ?�出繁�?紀??(Excel)</button>
+        <button style="background:#1d4ed8; border-color:#1e40af; padding:6px 14px; font-weight:bold; border-radius:8px; font-size:13px;" onclick="exportSingleCatExcel('${escapeHtml(parent.chipId)}')">📊 匯出繁殖紀錄 (Excel)</button>
       </div>
     </div>
-    <div class="section"><h3>PDF 確�??�次</h3>${pdfHtml}</div>
+    <div class="section"><h3>PDF 確定胎次</h3>${pdfHtml}</div>
     <div class="section">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h3 style="margin:0;">?��??��?子代（含多晶?�、�??��?業�??��??��?資�?�?/h3>
-        <button style="background:#f0fdf4; border:1px solid #22c55e; color:#15803d; border-radius:20px; padding:6px 12px; font-size:13px; font-weight:bold; cursor:pointer;" onclick="showCustomKittenForm()">???��??��?子代</button>
+        <h3 style="margin:0;">其他推定子代（含多晶片、紙本作業或手動新增資料）</h3>
+        <button style="background:#f0fdf4; border:1px solid #22c55e; color:#15803d; border-radius:20px; padding:6px 12px; font-size:13px; font-weight:bold; cursor:pointer;" onclick="showCustomKittenForm()">➕ 手動新增子代</button>
       </div>
       <div id="customKittenForm" style="display:none; background:#f0fdf4; border:1px dashed #22c55e; border-radius:12px; padding:16px; margin-bottom:14px;">
-        <h4 style="margin:0 0 10px; color:#15803d;">?��??��?子代</h4>
+        <h4 style="margin:0 0 10px; color:#15803d;">手動新增子代</h4>
         <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
-          <input id="ckChipId" placeholder="?��???(必填)" style="border-color:#86efac" />
-          <input id="ckName" placeholder="?��?" style="border-color:#86efac" />
-          <input id="ckSex" placeholder="?�別 (??�?" style="width:100px; border-color:#86efac" />
-          <input id="ckBreed" placeholder="?�種" style="border-color:#86efac" />
-          <input type="date" id="ckDate" title="?��??? style="border-color:#86efac" />
+          <input id="ckChipId" placeholder="晶片號 (必填)" style="border-color:#86efac" />
+          <input id="ckName" placeholder="名字" style="border-color:#86efac" />
+          <input id="ckSex" placeholder="性別 (公/母)" style="width:100px; border-color:#86efac" />
+          <input id="ckBreed" placeholder="品種" style="border-color:#86efac" />
+          <input type="date" id="ckDate" title="出生日" style="border-color:#86efac" />
         </div>
-        <button style="background:#22c55e; border-color:#22c55e; padding:8px 16px;" onclick="saveCustomKitten()">???��?子代</button>
-        <button class="tabButton" style="padding:8px 16px;" onclick="hideCustomKittenForm()">?��?</button>
+        <button style="background:#22c55e; border-color:#22c55e; padding:8px 16px;" onclick="saveCustomKitten()">✔ 儲存子代</button>
+        <button class="tabButton" style="padding:8px 16px;" onclick="hideCustomKittenForm()">取消</button>
       </div>
       ${otherHtml}
     </div>`;
 }
 
-// ?�?� ?�出 ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
+// ── 匯出 ──────────────────────────────────────────────────
 function exportCurrentJson() {
   const rows = getFilteredParents();
   const blob = new Blob([JSON.stringify({...DATA, [currentMode]: rows, currentMode, overrides: OVERRIDES}, null, 2)], {type:'application/json;charset=utf-8'});
@@ -788,12 +701,12 @@ function switchMode(nextMode) {
   renderList();
 }
 
-// ?�?� ?�隻貓咪 Excel ?�出 (ExcelJS) ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
+// ── 單隻貓咪 Excel 匯出 (ExcelJS) ────────────────────────────────
 function twYear(dateStr) {
   if (!dateStr) return '';
   const d = new Date(dateStr);
   if (isNaN(d.getTime())) return dateStr;
-  return `${d.getFullYear() - 1911}�?{String(d.getMonth() + 1).padStart(2,'0')}??{String(d.getDate()).padStart(2,'0')}?�`;
+  return `${d.getFullYear() - 1911}年${String(d.getMonth() + 1).padStart(2,'0')}月${String(d.getDate()).padStart(2,'0')}日`;
 }
 
 function buildCatWorksheet(workbook, chipId) {
@@ -806,9 +719,9 @@ function buildCatWorksheet(workbook, chipId) {
   const mergedOther = [...parent.otherChildren, ...customKids];
   const otherGroups = groupOtherChildren(mergedOther, thresholdDays);
 
-  const ws = workbook.addWorksheet(parent.chipId || '繁�?紀??);
+  const ws = workbook.addWorksheet(parent.chipId || '繁殖紀錄');
 
-  // 設�??�印?�面?�置：寬度自?�縮?�為一?��??�度?��?
+  // 設定列印版面配置：寬度自動縮放為一頁，長度自動
   ws.pageSetup.fitToPage = true;
   ws.pageSetup.fitToWidth = 1;
   ws.pageSetup.fitToHeight = 0;
@@ -818,48 +731,53 @@ function buildCatWorksheet(workbook, chipId) {
     header: 0.3, footer: 0.3
   };
 
-  // 設�?欄寬 (精確寬度)
+  // 設定欄寬 (精確寬度)
   ws.getColumn(1).width = 20.14;
   ws.getColumn(2).width = 12.29;
   ws.getColumn(3).width = 23;
   ws.getColumn(4).width = 8.43;
   ws.getColumn(5).width = 47.86;
 
-  // 表頭 Row 1：�?�?  ws.mergeCells('A1:E1');
+  // 表頭 Row 1：標題
+  ws.mergeCells('A1:E1');
   const titleCell = ws.getCell('A1');
-  titleCell.value = '?��?軟�??��?工�?�?;
+  titleCell.value = '創養軟體整合工作室';
   titleCell.font = { size: 18, bold: true };
   titleCell.alignment = { horizontal: 'center', vertical: 'middle' };
   ws.getRow(1).height = 40;
 
-  // 表頭 Row 2：日?��???  ws.mergeCells('A2:E2');
+  // 表頭 Row 2：日期區間
+  ws.mergeCells('A2:E2');
   const dateRangeCell = ws.getCell('A2');
-  dateRangeCell.value = '繁�??�詢?��??�?��??��???;
+  dateRangeCell.value = '繁殖查詢日期區間：無限制';
   dateRangeCell.font = { size: 12 };
   dateRangeCell.alignment = { horizontal: 'right', vertical: 'middle' };
 
-  // 表頭 Row 3：�??�、性別?��?�?  const isMale = currentMode === 'fathers';
+  // 表頭 Row 3：類別、性別、品種
+  const isMale = currentMode === 'fathers';
   const isFemale = currentMode === 'mothers';
   ws.mergeCells('A3:E3');
   const infoCell = ws.getCell('A3');
-  infoCell.value = `?��??�物類別：　?�犬 ?��??�?�?��??�物?�別：　${isMale?'??:'??}??${isFemale?'??:'??}母　?�?��??�種/?�種：　${breed}`;
+  infoCell.value = `特定動物類別：　☐犬 ■貓　　特定動物性別：　${isMale?'■':'☐'}公 ${isFemale?'■':'☐'}母　　特定品種/物種：　${breed}`;
   infoCell.font = { size: 12 };
   infoCell.alignment = { horizontal: 'left', vertical: 'middle' };
   ws.getRow(3).height = 25;
 
-  // 表頭 Row 4：出?�日??  ws.mergeCells('A4:E4');
+  // 表頭 Row 4：出生日期
+  ws.mergeCells('A4:E4');
   const bdateCell = ws.getCell('A4');
-  bdateCell.value = `?��??��?：　${twYear(parent.birthDate)}`;
+  bdateCell.value = `出生日期：　${twYear(parent.birthDate)}`;
   bdateCell.font = { size: 12 };
 
-  // 表頭 Row 5：晶?��?�?  ws.mergeCells('A5:E5');
+  // 表頭 Row 5：晶片號碼
+  ws.mergeCells('A5:E5');
   const chipCell = ws.getCell('A5');
-  chipCell.value = `寵物?��??��??�碼：　${parent.chipId}`;
+  chipCell.value = `寵物登記晶片號碼：　${parent.chipId}`;
   chipCell.font = { size: 12 };
   ws.getRow(5).height = 25;
 
-  // 資�?表頭 Row 6
-  const headers = ['?�次', '?�種?��?', '?�種之種??種�??�形', '?�產?��?', '幼�??�出?�形紀??];
+  // 資料表頭 Row 6
+  const headers = ['胎次', '配種日期', '配種之種公/種母情形', '生產日期', '幼畜產出情形紀錄'];
   const headerRow = ws.getRow(6);
   headerRow.height = 30;
   
@@ -872,7 +790,7 @@ function buildCatWorksheet(workbook, chipId) {
     cell.border = { top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'} };
   });
 
-  // 資�?寫入?��?
+  // 資料寫入函式
   let currentRow = 7;
   function addDataRow(col1, col2, col3, col4, col5) {
     const row = ws.getRow(currentRow);
@@ -888,22 +806,22 @@ function buildCatWorksheet(workbook, chipId) {
       cell.alignment = { wrapText: true, vertical: 'middle', horizontal: (i === 5 || i === 3) ? 'left' : 'center' };
       cell.font = { size: 12 };
     }
-    // 不設�?row.height，�? Excel 依�? wrapText ?��?調整高度
+    // 不設定 row.height，讓 Excel 依靠 wrapText 自動調整高度
     currentRow++;
   }
 
   const allLitters = [];
 
-  // ?��? PDF ?�次
+  // 整理 PDF 胎次
   parent.pdfLitters.forEach(l => {
     let mCount = 0, fCount = 0, total = l.kittens.length;
     let kidsText = l.kittens.map(k => {
-      if (k.sex === '??) mCount++;
-      else if (k.sex === '�?) fCount++;
-      return `${k.chipId}(已寵??`;
+      if (k.sex === '公') mCount++;
+      else if (k.sex === '母') fCount++;
+      return `${k.chipId}(已寵登)`;
     }).join('\n');
-    let summary = `?�出?�幼?�公${mCount}?�、�?${fCount}?��??��?${total}?��??�寵?�登記晶?��?碼�??�為：\n${kidsText}`;
-    let partnerInfo = l.partnerChipId ? `???�場  ??他場\n?��??�碼�?{l.partnerChipId}` : '';
+    let summary = `產出的幼畜公${mCount}隻、母${fCount}隻，共計${total}隻，其寵物登記晶片號碼分別為：\n${kidsText}`;
+    let partnerInfo = l.partnerChipId ? `☐ 本場  ■ 他場\n晶片號碼：${l.partnerChipId}` : '';
     
     allLitters.push({
       timestamp: new Date(l.productionDate).getTime() || Number.MAX_SAFE_INTEGER,
@@ -911,16 +829,16 @@ function buildCatWorksheet(workbook, chipId) {
     });
   });
 
-  // ?��??��??��??�次
+  // 整理其他推定胎次
   otherGroups.forEach((g, i) => {
     let mCount = 0, fCount = 0, total = g.children.length;
     let kidsText = g.children.map(k => {
-      if (k.sex === '??) mCount++;
-      else if (k.sex === '�?) fCount++;
+      if (k.sex === '公') mCount++;
+      else if (k.sex === '母') fCount++;
       const extra = OVERRIDES.kittenExtraChips[k.chipId] ? ` (${OVERRIDES.kittenExtraChips[k.chipId]})` : '';
-      return `${k.chipId||'?�晶??}${extra}`;
+      return `${k.chipId||'無晶片'}${extra}`;
     }).join('\n');
-    let summary = `?�出?�幼?�公${mCount}?�、�?${fCount}?��??��?${total}?��??�寵?�登記晶?��?碼�??�為：\n${kidsText}`;
+    let summary = `產出的幼畜公${mCount}隻、母${fCount}隻，共計${total}隻，其寵物登記晶片號碼分別為：\n${kidsText}`;
     const groupDate = getGroupDate(g.children) || g.startDate;
 
     const matingInfo = g.children.map(c => OVERRIDES.kittenMatingInfo[c.chipId]).find(Boolean);
@@ -929,9 +847,9 @@ function buildCatWorksheet(workbook, chipId) {
     if (matingInfo) {
       matingDateStr = twYear(matingInfo.matingDate);
       if (matingInfo.partnerChipId) {
-        partnerInfo = matingInfo.partnerType === '?�場' 
-          ? `???�場  ??他場\n?��??�碼�?{matingInfo.partnerChipId}` 
-          : `???�場  ??他場\n?��??�碼�?{matingInfo.partnerChipId}`;
+        partnerInfo = matingInfo.partnerType === '本場' 
+          ? `■ 本場  ☐ 他場\n晶片號碼：${matingInfo.partnerChipId}` 
+          : `☐ 本場  ■ 他場\n晶片號碼：${matingInfo.partnerChipId}`;
       }
     }
 
@@ -941,31 +859,33 @@ function buildCatWorksheet(workbook, chipId) {
     });
   });
 
-  // 依照?��??��??��?
+  // 依照日期先後排序
   allLitters.sort((a, b) => a.timestamp - b.timestamp);
 
-  // 依�?寫入 Excel，統一編�??�第X?��?  if (allLitters.length === 0) {
-    addDataRow("(?��?殖�???", "", "", "", "");
+  // 依序寫入 Excel，統一編號「第X胎」
+  if (allLitters.length === 0) {
+    addDataRow("(無繁殖紀錄)", "", "", "", "");
   } else {
     allLitters.forEach((item, index) => {
-      item.data[0] = `�?{index + 1}?�`;
+      item.data[0] = `第${index + 1}胎`;
       addDataRow(...item.data);
     });
   }
 
-  // ==== ?��?簽�??��?�?====
-  currentRow++; // ?��?行空??  const footerRowStr = currentRow;
+  // ==== 新增簽章與附註 ====
+  currentRow++; // 留一行空白
+  const footerRowStr = currentRow;
   ws.mergeCells(`A${footerRowStr}:C${footerRowStr}`);
   const footerCell = ws.getCell(`A${footerRowStr}`);
-  footerCell.value = OVERRIDES.footerText || '?��??�為?��??�出如�??�常請通知';
+  footerCell.value = OVERRIDES.footerText || '本紀錄為創軟產出如有異常請通知';
   footerCell.font = { size: Number(OVERRIDES.footerTextSize) || 14, bold: true };
   footerCell.alignment = { horizontal: 'left', vertical: 'middle' };
 
   function parseCellOrKeyword(posStr) {
-    if (posStr === '左�?' || posStr === 'top-left') return { row: 0.1, col: 0.1, isBottom: false };
-    if (posStr === '?��?' || posStr === 'top-right') return { row: 0.1, col: 3.5, isBottom: false };
-    if (posStr === '左�?(?��?底部)' || posStr === 'bottom-left') return { row: footerRowStr - 1 + 0.1, col: 0.1, isBottom: true };
-    if (posStr === '?��?(?��?底部)' || posStr === 'bottom-right') return { row: footerRowStr - 1 + 0.1, col: 3.5, isBottom: true };
+    if (posStr === '左上' || posStr === 'top-left') return { row: 0.1, col: 0.1, isBottom: false };
+    if (posStr === '右上' || posStr === 'top-right') return { row: 0.1, col: 3.5, isBottom: false };
+    if (posStr === '左下(動態底部)' || posStr === 'bottom-left') return { row: footerRowStr - 1 + 0.1, col: 0.1, isBottom: true };
+    if (posStr === '右下(動態底部)' || posStr === 'bottom-right') return { row: footerRowStr - 1 + 0.1, col: 3.5, isBottom: true };
     
     // Parse A1, B2 等自訂儲存格
     const match = String(posStr).toUpperCase().match(/^([A-Z]+)(\d+)$/);
@@ -982,14 +902,15 @@ function buildCatWorksheet(workbook, chipId) {
     return { row: 0.1, col: 3.5, isBottom: false };
   }
   
-  // 檢查?�否?�印章在下方，若?��??��?高度
-  const cPosInfo = parseCellOrKeyword(OVERRIDES.companyStampPos || '?��?');
-  const pPosInfo = parseCellOrKeyword(OVERRIDES.personalStampPos || '左�?');
+  // 檢查是否有印章在下方，若有才預留高度
+  const cPosInfo = parseCellOrKeyword(OVERRIDES.companyStampPos || '右上');
+  const pPosInfo = parseCellOrKeyword(OVERRIDES.personalStampPos || '左上');
   const hasBottomStamp = (OVERRIDES.companyStamp && cPosInfo.isBottom) || 
                          (OVERRIDES.personalStamp && pPosInfo.isBottom);
   ws.getRow(footerRowStr).height = hasBottomStamp ? Math.max(80, Number(OVERRIDES.companyStampSize) || 90, Number(OVERRIDES.personalStampSize) || 70) : 30;
   
-  let usedCoords = {}; // ?��??�止?�座標�???
+  let usedCoords = {}; // 用來防止同座標重疊
+
   function applyStamp(base64Data, size, posStr) {
     if (!base64Data) return;
     const cleanBase64 = base64Data.replace(/^data:image\/\w+;base64,/, "");
@@ -998,7 +919,8 @@ function buildCatWorksheet(workbook, chipId) {
     let info = parseCellOrKeyword(posStr);
     let key = `${info.row}_${info.col}`;
     while (usedCoords[key]) {
-       info.col += (size / 60) + 0.2; // 往?��???       key = `${info.row}_${info.col}`;
+       info.col += (size / 60) + 0.2; // 往右疊加
+       key = `${info.row}_${info.col}`;
     }
     usedCoords[key] = true;
 
@@ -1008,8 +930,8 @@ function buildCatWorksheet(workbook, chipId) {
     });
   }
 
-  applyStamp(OVERRIDES.companyStamp, Number(OVERRIDES.companyStampSize) || 90, OVERRIDES.companyStampPos || '?��?');
-  applyStamp(OVERRIDES.personalStamp, Number(OVERRIDES.personalStampSize) || 70, OVERRIDES.personalStampPos || '左�?');
+  applyStamp(OVERRIDES.companyStamp, Number(OVERRIDES.companyStampSize) || 90, OVERRIDES.companyStampPos || '右上');
+  applyStamp(OVERRIDES.personalStamp, Number(OVERRIDES.personalStampSize) || 70, OVERRIDES.personalStampPos || '左上');
   // ==========================
 }
 
@@ -1022,14 +944,14 @@ async function exportSingleCatExcel(chipId) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `繁�?紀?�_${currentMode==='mothers'?'�?:'??}_${chipId}.xlsx`;
+  a.download = `繁殖紀錄_${currentMode==='mothers'?'母':'公'}_${chipId}.xlsx`;
   a.click();
   URL.revokeObjectURL(url);
 }
 
 async function exportBatchCatsExcel() {
   const selectedArr = Array.from(selectedCats);
-  if (selectedArr.length === 0) return alert('請�??�選?��?一?��??��?');
+  if (selectedArr.length === 0) return alert('請先勾選至少一隻貓咪！');
   const workbook = new ExcelJS.Workbook();
   selectedArr.forEach(chipId => buildCatWorksheet(workbook, chipId));
   if (workbook.worksheets.length === 0) return;
@@ -1038,12 +960,12 @@ async function exportBatchCatsExcel() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `?�次繁�?紀?�_${currentMode==='mothers'?'�?:'??}_??{selectedArr.length}??xlsx`;
+  a.download = `批次繁殖紀錄_${currentMode==='mothers'?'母':'公'}_共${selectedArr.length}隻.xlsx`;
   a.click();
   URL.revokeObjectURL(url);
 }
 
-// ?�?� 資�????：�??�種子代注入對方親代 ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
+// ── 資料連動：將配種子代注入對方親代 ─────────────────────────
 function injectMatingInfoChildren() {
   const allParents = [...DATA.mothers, ...DATA.fathers];
   const parentMap = {};
@@ -1063,10 +985,10 @@ function injectMatingInfoChildren() {
                          partner.otherChildren.some(k => k.chipId === child.chipId);
           if (!exists) {
             const newChild = { ...child };
-            if (parent.sex === '�?) {
+            if (parent.sex === '母') {
               newChild.motherChipId = parent.chipId;
               newChild.fatherChipId = partnerId;
-            } else if (parent.sex === '??) {
+            } else if (parent.sex === '公') {
               newChild.fatherChipId = parent.chipId;
               newChild.motherChipId = partnerId;
             }
@@ -1078,7 +1000,7 @@ function injectMatingInfoChildren() {
   });
 }
 
-// ?�?� ?��????�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
+// ── 初始化 ────────────────────────────────────────────────
 async function init() {
   try {
     const [dataRes, overridesRes] = await Promise.all([
@@ -1089,14 +1011,14 @@ async function init() {
     DATA = await dataRes.json();
     if (overridesRes.ok) OVERRIDES = await overridesRes.json();
 
-    // 確�?結�?完整
+    // 確保結構完整
     if (!OVERRIDES.breedOverrides) OVERRIDES.breedOverrides = {};
     if (!OVERRIDES.litterTags) OVERRIDES.litterTags = {};
     if (!OVERRIDES.kittenBirthDates) OVERRIDES.kittenBirthDates = {};
     if (!OVERRIDES.kittenExtraChips) OVERRIDES.kittenExtraChips = {};
     if (!OVERRIDES.customKittens) OVERRIDES.customKittens = {};
     if (!OVERRIDES.kittenMatingInfo) OVERRIDES.kittenMatingInfo = {};
-    if (OVERRIDES.footerText === undefined) OVERRIDES.footerText = '?��??�為?��??�出如�??�常請通知';
+    if (OVERRIDES.footerText === undefined) OVERRIDES.footerText = '本紀錄為創軟產出如有異常請通知';
     if (!OVERRIDES.footerTextSize) OVERRIDES.footerTextSize = 14;
     if (!OVERRIDES.companyStampSize) OVERRIDES.companyStampSize = 90;
     if (!OVERRIDES.personalStampSize) OVERRIDES.personalStampSize = 70;
@@ -1105,13 +1027,13 @@ async function init() {
 
     injectMatingInfoChildren();
 
-    // 事件綁�?
+    // 事件綁定
     document.getElementById('motherTab').addEventListener('click', () => switchMode('mothers'));
     document.getElementById('fatherTab').addEventListener('click', () => switchMode('fathers'));
     document.getElementById('keyword').addEventListener('input', renderList);
     document.getElementById('sortMode').addEventListener('change', renderList);
     document.getElementById('dayRange').addEventListener('input', e => {
-      document.getElementById('dayText').textContent = e.target.value + '�?;
+      document.getElementById('dayText').textContent = e.target.value + '天';
       renderDetail();
     });
     document.getElementById('exportBtn').addEventListener('click', exportCurrentJson);
@@ -1120,33 +1042,32 @@ async function init() {
       recentOnly = !recentOnly;
       document.getElementById('recentToggle').classList.toggle('on', recentOnly);
       document.getElementById('recentToggle').innerHTML = recentOnly
-        ? '&#9711; 近�?�???
-        : '&#128337; 近�?�?;
+        ? '&#9711; 近三年 ✓'
+        : '&#128337; 近三年';
       selectedChip = null;
       renderList();
-      renderStats();
     });
 
-    // 首次渲�?
+    // 首次渲染
     renderStats();
     renderBreedFilter();
     renderList();
   } catch (err) {
-    document.getElementById('stats').innerHTML = `<div style="color:var(--bad);padding:16px;">資�?載入失�?�?{err.message}</div>`;
+    document.getElementById('stats').innerHTML = `<div style="color:var(--bad);padding:16px;">資料載入失敗：${err.message}</div>`;
     document.getElementById('parentList').innerHTML = '';
-    document.getElementById('detail').innerHTML = `<div class="empty">?��?????��?�?API，�?確�?伺�??�是?�正常�?行�?/div>`;
+    document.getElementById('detail').innerHTML = `<div class="empty">無法連線到後端 API，請確認伺服器是否正常運行。</div>`;
   }
 }
 
-// ?�?� 設�??�種對話�??�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
+// ── 設定配種對話框 ──────────────────────────────────────
 let currentMatingChipIds = [];
 function openMatingModal(chipIdsStr) {
   currentMatingChipIds = JSON.parse(chipIdsStr);
   const repChip = currentMatingChipIds[0];
-  const info = OVERRIDES.kittenMatingInfo[repChip] || { partnerChipId:'', partnerType:'?�場', matingDate:'' };
+  const info = OVERRIDES.kittenMatingInfo[repChip] || { partnerChipId:'', partnerType:'本場', matingDate:'' };
   
   document.getElementById('matingPartnerId').value = info.partnerChipId || '';
-  document.getElementById('matingPartnerType').value = info.partnerType || '?�場';
+  document.getElementById('matingPartnerType').value = info.partnerType || '本場';
   document.getElementById('matingDate').value = info.matingDate || '';
   document.getElementById('matingModal').style.display = 'flex';
 }
@@ -1173,19 +1094,19 @@ async function saveMatingModal() {
   await saveOverrides();
   closeMatingModal();
   
-  // ?�新?��?資�?以觸?��??
+  // 重新整理資料以觸發連動
   init(); 
 }
 
-// ?�?� 系統設�?對話�?(?��?上傳) ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
+// ── 系統設定對話框 (印章上傳) ────────────────────────
 function openSettingsModal() {
   document.getElementById('settingsModal').style.display = 'flex';
-  document.getElementById('footerTextInput').value = OVERRIDES.footerText || '?��??�為?��??�出如�??�常請通知';
+  document.getElementById('footerTextInput').value = OVERRIDES.footerText || '本紀錄為創軟產出如有異常請通知';
   document.getElementById('footerTextSizeInput').value = OVERRIDES.footerTextSize || 14;
   document.getElementById('companyStampSizeInput').value = OVERRIDES.companyStampSize || 90;
   document.getElementById('personalStampSizeInput').value = OVERRIDES.personalStampSize || 70;
-  document.getElementById('companyStampPosInput').value = OVERRIDES.companyStampPos || '?��?';
-  document.getElementById('personalStampPosInput').value = OVERRIDES.personalStampPos || '左�?';
+  document.getElementById('companyStampPosInput').value = OVERRIDES.companyStampPos || '右上';
+  document.getElementById('personalStampPosInput').value = OVERRIDES.personalStampPos || '左上';
   updateStampPreview('companyStamp');
   updateStampPreview('personalStamp');
 }
@@ -1228,93 +1149,92 @@ async function clearStamp(type) {
 init();
 </script>
 
-<!-- ?�種設�?對話�?-->
+<!-- 配種設定對話框 -->
 <div id="matingModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999; align-items:center; justify-content:center;">
   <div style="background:#fff; padding:24px; border-radius:14px; width:400px; max-width:90%; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
-    <h3 style="margin-top:0;">設�?群�??�種資�?</h3>
-    <p style="font-size:13px; color:#6b7280; margin-bottom:16px;">此設定�?套用?�該群�??��??�幼貓�?br/>設�??��?/母�?後�??��?幼�?也�??��??�現?��??��?紀?�中??/p>
+    <h3 style="margin-top:0;">設定群組配種資訊</h3>
+    <p style="font-size:13px; color:#6b7280; margin-bottom:16px;">此設定將套用至該群組的所有幼貓。<br/>設定公貓/母貓後，這些幼貓也會自動出現在對方的紀錄中。</p>
     
     <div style="margin-bottom:12px;">
-      <label style="display:block; font-size:13px; margin-bottom:4px; font-weight:bold;">對象來�?</label>
+      <label style="display:block; font-size:13px; margin-bottom:4px; font-weight:bold;">對象來源</label>
       <select id="matingPartnerType" style="width:100%;">
-        <option value="?�場">?�場</option>
+        <option value="本場">本場</option>
         <option value="他場">他場</option>
       </select>
     </div>
     
     <div style="margin-bottom:12px;">
-      <label style="display:block; font-size:13px; margin-bottom:4px; font-weight:bold;">?��??��??�碼</label>
-      <input id="matingPartnerId" type="text" placeholder="請輸?��?象晶?��?�? style="width:100%;" />
+      <label style="display:block; font-size:13px; margin-bottom:4px; font-weight:bold;">配對晶片號碼</label>
+      <input id="matingPartnerId" type="text" placeholder="請輸入對象晶片號碼" style="width:100%;" />
     </div>
 
     <div style="margin-bottom:20px;">
-      <label style="display:block; font-size:13px; margin-bottom:4px; font-weight:bold;">?�種?��?</label>
+      <label style="display:block; font-size:13px; margin-bottom:4px; font-weight:bold;">配種日期</label>
       <input id="matingDate" type="date" style="width:100%;" />
     </div>
 
     <div style="display:flex; justify-content:flex-end; gap:8px;">
-      <button style="background:#e5e7eb; color:#374151; border-color:#d1d5db;" onclick="closeMatingModal()">?��?</button>
-      <button style="background:#be123c; border-color:#be123c;" onclick="saveMatingModal()">?��?並�??</button>
+      <button style="background:#e5e7eb; color:#374151; border-color:#d1d5db;" onclick="closeMatingModal()">取消</button>
+      <button style="background:#be123c; border-color:#be123c;" onclick="saveMatingModal()">儲存並連動</button>
     </div>
   </div>
 </div>
 
-<!-- 系統設�?對話�?-->
+<!-- 系統設定對話框 -->
 <div id="settingsModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999; align-items:center; justify-content:center;">
   <div style="background:#fff; padding:24px; border-radius:14px; width:450px; max-width:90%; box-shadow:0 10px 25px rgba(0,0,0,0.2); max-height:90vh; overflow-y:auto;">
-    <h3 style="margin-top:0;">?��? 系統設�?</h3>
+    <h3 style="margin-top:0;">⚙️ 系統設定</h3>
     
     <div style="margin-bottom:16px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-        <label style="font-size:14px; font-weight:bold; margin:0;">?��??�表?�註?��?</label>
-        <div style="font-size:12px; color:#4b5563;">?��?大�?: <input type="number" id="footerTextSizeInput" style="width:50px; padding:2px 4px; font-size:12px;" /></div>
+        <label style="font-size:14px; font-weight:bold; margin:0;">自訂報表附註文字</label>
+        <div style="font-size:12px; color:#4b5563;">文字大小: <input type="number" id="footerTextSizeInput" style="width:50px; padding:2px 4px; font-size:12px;" /></div>
       </div>
-      <input id="footerTextInput" type="text" style="width:100%; font-size:13px; border-color:#d1d5db;" placeholder="例�?：本紀?�為?��??�出如�??�常請通知" />
+      <input id="footerTextInput" type="text" style="width:100%; font-size:13px; border-color:#d1d5db;" placeholder="例如：本紀錄為創軟產出如有異常請通知" />
     </div>
 
     <datalist id="stampPosOptions">
-      <option value="左�?"></option>
-      <option value="?��?"></option>
-      <option value="左�?(?��?底部)"></option>
-      <option value="?��?(?��?底部)"></option>
+      <option value="左上"></option>
+      <option value="右上"></option>
+      <option value="左下(動態底部)"></option>
+      <option value="右下(動態底部)"></option>
     </datalist>
 
     <div style="margin-bottom:16px; border:1px solid #e5e7eb; padding:12px; border-radius:8px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <label style="font-size:14px; font-weight:bold; margin:0;">?�司大�?</label>
+        <label style="font-size:14px; font-weight:bold; margin:0;">公司大章</label>
         <div style="font-size:12px; color:#4b5563;">
-          位置(輸入如A1): <input type="text" id="companyStampPosInput" list="stampPosOptions" style="width:100px; padding:2px 4px; font-size:12px; margin-right:4px;" placeholder="例�?: ?��? ??E1" />
-          ?�寬(px): <input type="number" id="companyStampSizeInput" style="width:50px; padding:2px 4px; font-size:12px;" />
+          位置(輸入如A1): <input type="text" id="companyStampPosInput" list="stampPosOptions" style="width:100px; padding:2px 4px; font-size:12px; margin-right:4px;" placeholder="例如: 右上 或 E1" />
+          長寬(px): <input type="number" id="companyStampSizeInput" style="width:50px; padding:2px 4px; font-size:12px;" />
         </div>
       </div>
       <input type="file" accept="image/png, image/jpeg" onchange="handleStampUpload(event, 'companyStamp')" style="margin-bottom:8px; font-size:12px;" />
       <div id="preview-companyStamp" style="min-height:60px; background:#f9fafb; border:1px dashed #d1d5db; display:flex; align-items:center; justify-content:center; border-radius:6px; padding:6px;">
         <span style="color:#9ca3af; font-size:12px;">尚未上傳</span>
       </div>
-      <button onclick="clearStamp('companyStamp')" style="margin-top:8px; font-size:12px; padding:4px 8px; background:#fee2e2; color:#ef4444; border:none; border-radius:4px; cursor:pointer;">清除大�?</button>
+      <button onclick="clearStamp('companyStamp')" style="margin-top:8px; font-size:12px; padding:4px 8px; background:#fee2e2; color:#ef4444; border:none; border-radius:4px; cursor:pointer;">清除大章</button>
     </div>
 
     <div style="margin-bottom:20px; border:1px solid #e5e7eb; padding:12px; border-radius:8px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <label style="font-size:14px; font-weight:bold; margin:0;">負責人�?�?/label>
+        <label style="font-size:14px; font-weight:bold; margin:0;">負責人小章</label>
         <div style="font-size:12px; color:#4b5563;">
-          位置(輸入如A1): <input type="text" id="personalStampPosInput" list="stampPosOptions" style="width:100px; padding:2px 4px; font-size:12px; margin-right:4px;" placeholder="例�?: 左�? ??A1" />
-          ?�寬(px): <input type="number" id="personalStampSizeInput" style="width:50px; padding:2px 4px; font-size:12px;" />
+          位置(輸入如A1): <input type="text" id="personalStampPosInput" list="stampPosOptions" style="width:100px; padding:2px 4px; font-size:12px; margin-right:4px;" placeholder="例如: 左上 或 A1" />
+          長寬(px): <input type="number" id="personalStampSizeInput" style="width:50px; padding:2px 4px; font-size:12px;" />
         </div>
       </div>
       <input type="file" accept="image/png, image/jpeg" onchange="handleStampUpload(event, 'personalStamp')" style="margin-bottom:8px; font-size:12px;" />
       <div id="preview-personalStamp" style="min-height:60px; background:#f9fafb; border:1px dashed #d1d5db; display:flex; align-items:center; justify-content:center; border-radius:6px; padding:6px;">
         <span style="color:#9ca3af; font-size:12px;">尚未上傳</span>
       </div>
-      <button onclick="clearStamp('personalStamp')" style="margin-top:8px; font-size:12px; padding:4px 8px; background:#fee2e2; color:#ef4444; border:none; border-radius:4px; cursor:pointer;">清除小�?</button>
+      <button onclick="clearStamp('personalStamp')" style="margin-top:8px; font-size:12px; padding:4px 8px; background:#fee2e2; color:#ef4444; border:none; border-radius:4px; cursor:pointer;">清除小章</button>
     </div>
 
     <div style="display:flex; justify-content:flex-end; gap:8px;">
-      <button style="background:#2563eb; border-color:#2563eb;" onclick="closeSettingsModal()">完�?</button>
+      <button style="background:#2563eb; border-color:#2563eb;" onclick="closeSettingsModal()">完成</button>
     </div>
   </div>
 </div>
 
 </body>
 </html>
-
